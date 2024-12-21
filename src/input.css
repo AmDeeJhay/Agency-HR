@@ -10,12 +10,12 @@
     display: block;
     margin-top: 1px;
     right: 0;
-    background: white;
+    background: black;
     transition: width 1s ease;
 }
   
 .nav-link:hover::after {
     width: 100%;
     left: 0;
-    background: white;
+    background: black;
 }
