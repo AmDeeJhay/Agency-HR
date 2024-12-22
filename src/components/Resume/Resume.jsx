@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
+import { FaUser, FaCalendarAlt, FaGlobe, FaMapMarkerAlt, FaHome } from 'react-icons/fa';
+import Select from 'react-select';
+import countryList from 'react-select-country-list';
 
 const ResumePage = () => {
   const [status, setStatus] = useState({
     personalDetails: 'pending',
     contactDetails: 'pending',
     workDetails: 'pending',
+    experienceDetails: 'pending',
   });
 
   const [currentSection, setCurrentSection] = useState('personalDetails');
@@ -13,6 +17,7 @@ const ResumePage = () => {
     personalDetails: {},
     contactDetails: {},
     workDetails: {},
+    experienceDetails: {},
   });
 
   const handleNext = (section) => {
@@ -24,6 +29,8 @@ const ResumePage = () => {
       setCurrentSection('contactDetails');
     } else if (section === 'contactDetails') {
       setCurrentSection('workDetails');
+    } else if (section === 'workDetails') {
+      setCurrentSection('experienceDetails');
     }
   };
 
@@ -38,13 +45,46 @@ const ResumePage = () => {
     }));
   };
 
+  const handleCountryChange = (selectedOption) => {
+    setFormData((prev) => ({
+      ...prev,
+      personalDetails: {
+        ...prev.personalDetails,
+        country: selectedOption,
+        state: null, // Reset state when country changes
+      },
+    }));
+  };
+
+  const handleStateChange = (selectedOption) => {
+    setFormData((prev) => ({
+      ...prev,
+      personalDetails: {
+        ...prev.personalDetails,
+        state: selectedOption,
+      },
+    }));
+  };
+
+  const isSectionCompleted = (section) => {
+    const sectionData = formData[section];
+    return Object.values(sectionData).every((value) => value !== '');
+  };
+
+  const countryOptions = countryList().getData();
+  const stateOptions = [
+    { value: 'state1', label: 'State 1' },
+    { value: 'state2', label: 'State 2' },
+    // Add more state options as needed
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 flex">
       {/* Sidebar */}
       <Sidebar status={status} />
 
       {/* Main Content */}
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-8 ml-48">
         <header className="flex justify-between items-center mb-6">
           <h2 className="text-lg font-bold">Create Your Resume</h2>
         </header>
@@ -53,35 +93,103 @@ const ResumePage = () => {
           {/* Form Section */}
           {currentSection === 'personalDetails' && (
             <div>
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Personal Details</h3>
+              <h3 className="text-sm font-semibold text-black font-poppins mb-4">Personal Details</h3>
               <form className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Full Name</label>
-                  <input
-                    type="text"
-                    name="fullName"
-                    value={formData.personalDetails.fullName || ''}
-                    onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      <FaUser className="inline mr-2" /> First Name
+                    </label>
+                    <input
+                      type="text"
+                      name="firstName"
+                      value={formData.personalDetails.firstName || ''}
+                      onChange={handleChange}
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      <FaUser className="inline mr-2" /> Last Name
+                    </label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={formData.personalDetails.lastName || ''}
+                      onChange={handleChange}
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      <FaCalendarAlt className="inline mr-2" /> Date of Birth
+                    </label>
+                    <input
+                      type="date"
+                      name="dob"
+                      value={formData.personalDetails.dob || ''}
+                      onChange={handleChange}
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      <FaGlobe className="inline mr-2" /> Country
+                    </label>
+                    <Select
+                      options={countryOptions}
+                      value={formData.personalDetails.country}
+                      onChange={handleCountryChange}
+                      className="mt-1"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      <FaMapMarkerAlt className="inline mr-2" /> State/Province
+                    </label>
+                    <Select
+                      options={stateOptions} // Placeholder options
+                      value={formData.personalDetails.state}
+                      onChange={handleStateChange}
+                      className="mt-1"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      <FaHome className="inline mr-2" /> Address
+                    </label>
+                    <input
+                      type="text"
+                      name="address"
+                      value={formData.personalDetails.address || ''}
+                      onChange={handleChange}
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
-                  <input
-                    type="date"
-                    name="dob"
-                    value={formData.personalDetails.dob || ''}
-                    onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={() => handleNext('personalDetails')}
-                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
-                >
-                  Save & Next
-                </button>
+                {isSectionCompleted('personalDetails') ? (
+                  <button
+                    type="button"
+                    onClick={() => handleNext('personalDetails')}
+                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => handleNext('personalDetails')}
+                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                  >
+                    Save
+                  </button>
+                )}
               </form>
             </div>
           )}
@@ -97,6 +205,7 @@ const ResumePage = () => {
                     name="email"
                     value={formData.contactDetails.email || ''}
                     onChange={handleChange}
+                    required
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
@@ -107,16 +216,27 @@ const ResumePage = () => {
                     name="phone"
                     value={formData.contactDetails.phone || ''}
                     onChange={handleChange}
+                    required
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
-                <button
-                  type="button"
-                  onClick={() => handleNext('contactDetails')}
-                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
-                >
-                  Save & Next
-                </button>
+                {isSectionCompleted('contactDetails') ? (
+                  <button
+                    type="button"
+                    onClick={() => handleNext('contactDetails')}
+                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => handleNext('contactDetails')}
+                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                  >
+                    Save
+                  </button>
+                )}
               </form>
             </div>
           )}
@@ -132,6 +252,7 @@ const ResumePage = () => {
                     name="companyName"
                     value={formData.workDetails.companyName || ''}
                     onChange={handleChange}
+                    required
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
@@ -142,16 +263,27 @@ const ResumePage = () => {
                     name="jobTitle"
                     value={formData.workDetails.jobTitle || ''}
                     onChange={handleChange}
+                    required
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
-                <button
-                  type="button"
-                  onClick={() => handleNext('workDetails')}
-                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
-                >
-                  Save & Next
-                </button>
+                {isSectionCompleted('workDetails') ? (
+                  <button
+                    type="button"
+                    onClick={() => handleNext('workDetails')}
+                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => handleNext('workDetails')}
+                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                  >
+                    Save
+                  </button>
+                )}
               </form>
             </div>
           )}
