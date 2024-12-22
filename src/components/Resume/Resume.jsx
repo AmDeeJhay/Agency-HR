@@ -34,6 +34,16 @@ const ResumePage = () => {
     }
   };
 
+  const handlePrevious = (section) => {
+    if (section === 'contactDetails') {
+      setCurrentSection('personalDetails');
+    } else if (section === 'workDetails') {
+      setCurrentSection('contactDetails');
+    } else if (section === 'experienceDetails') {
+      setCurrentSection('workDetails');
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -87,6 +97,9 @@ const ResumePage = () => {
       <main className="flex-1 p-8 ml-48">
         <header className="flex justify-between items-center mb-6">
           <h2 className="text-lg font-bold">Create Your Resume</h2>
+          <div className={`text-sm font-semibold ${isSectionCompleted(currentSection) ? 'text-green-500' : 'text-gray-500'}`}>
+            {isSectionCompleted(currentSection) ? 'Completed' : 'Pending'}
+          </div>
         </header>
 
         <div className="bg-white shadow-md rounded-lg p-6">
@@ -173,23 +186,25 @@ const ResumePage = () => {
                     />
                   </div>
                 </div>
-                {isSectionCompleted('personalDetails') ? (
-                  <button
-                    type="button"
-                    onClick={() => handleNext('personalDetails')}
-                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
-                  >
-                    Next
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => handleNext('personalDetails')}
-                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
-                  >
-                    Save
-                  </button>
-                )}
+                <div className="flex justify-start mt-4">
+                  {isSectionCompleted('personalDetails') ? (
+                    <button
+                      type="button"
+                      onClick={() => handleNext('personalDetails')}
+                      className="bg-black text-white px-4 py-2 rounded-md"
+                    >
+                      Next
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="bg-black text-white px-4 py-2 rounded-md"
+                      disabled
+                    >
+                      Next
+                    </button>
+                  )}
+                </div>
               </form>
             </div>
           )}
@@ -220,23 +235,32 @@ const ResumePage = () => {
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
-                {isSectionCompleted('contactDetails') ? (
+                <div className="flex justify-between mt-4">
                   <button
                     type="button"
-                    onClick={() => handleNext('contactDetails')}
-                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                    onClick={() => handlePrevious('contactDetails')}
+                    className="bg-gray-500 text-white px-4 py-2 rounded-md"
                   >
-                    Next
+                    Previous
                   </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => handleNext('contactDetails')}
-                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
-                  >
-                    Save
-                  </button>
-                )}
+                  {isSectionCompleted('contactDetails') ? (
+                    <button
+                      type="button"
+                      onClick={() => handleNext('contactDetails')}
+                      className="bg-black text-white px-4 py-2 rounded-md"
+                    >
+                      Next
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleNext('contactDetails')}
+                      className="bg-black text-white px-4 py-2 rounded-md"
+                    >
+                      Save
+                    </button>
+                  )}
+                </div>
               </form>
             </div>
           )}
@@ -267,23 +291,32 @@ const ResumePage = () => {
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
-                {isSectionCompleted('workDetails') ? (
+                <div className="flex justify-between mt-4">
                   <button
                     type="button"
-                    onClick={() => handleNext('workDetails')}
-                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                    onClick={() => handlePrevious('workDetails')}
+                    className="bg-gray-500 text-white px-4 py-2 rounded-md"
                   >
-                    Next
+                    Previous
                   </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => handleNext('workDetails')}
-                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
-                  >
-                    Save
-                  </button>
-                )}
+                  {isSectionCompleted('workDetails') ? (
+                    <button
+                      type="button"
+                      onClick={() => handleNext('workDetails')}
+                      className="bg-black text-white px-4 py-2 rounded-md"
+                    >
+                      Next
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleNext('workDetails')}
+                      className="bg-black text-white px-4 py-2 rounded-md"
+                    >
+                      Save
+                    </button>
+                  )}
+                </div>
               </form>
             </div>
           )}
