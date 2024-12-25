@@ -10,33 +10,33 @@ const CreateCoverLetter = () => {
   // }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white px-4 py-8">
-      <h1 className="form-header text-4xl font-bold text-center text-blue-400 mb-8">
+    <div className="min-h-screen bg-gray-100 text-white px-4 py-8">
+      <h1 className="form-header text-3xl md:text-4xl font-bold text-center text-black mb-8">
         Create a Professional Cover Letter
       </h1>
-      <div className="form-container bg-gray-800 p-8 rounded-lg shadow-lg max-w-5xl mx-auto">
+      <div className="form-container bg-white p-8 rounded-lg shadow-lg max-w-5xl mx-auto">
         <form className="space-y-6">
           {/* Personal Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-gray-300 text-sm font-medium mb-1" htmlFor="full-name">
+              <label className="text-black block text-sm font-medium mb-1" htmlFor="full-name">
                 Full Name
               </label>
               <input
                 type="text"
                 id="full-name"
-                className="w-full px-4 py-2 rounded-md text-black"
+                className="w-full px-4 py-2 rounded-md text-black border border-black"
                 placeholder="Enter your full name"
               />
             </div>
             <div>
-              <label className="block text-gray-300 text-sm font-medium mb-1" htmlFor="email">
+              <label className="text-black block text-sm font-medium mb-1" htmlFor="email">
                 Email Address
               </label>
               <input
                 type="email"
                 id="email"
-                className="w-full px-4 py-2 rounded-md text-black"
+                className="w-full px-4 py-2 rounded-md text-black border border-black "
                 placeholder="Enter your email"
               />
             </div>
@@ -44,58 +44,58 @@ const CreateCoverLetter = () => {
 
           {/* Employer Details */}
           <div>
-            <label className="block text-gray-300 text-sm font-medium mb-1" htmlFor="employer-name">
+            <label className="text-black block text-sm font-medium mb-1" htmlFor="employer-name">
               Employer's Name
             </label>
             <input
               type="text"
               id="employer-name"
-              className="w-full px-4 py-2 rounded-md text-black"
+              className="w-full px-4 py-2 rounded-md text-black border border-black"
               placeholder="Enter the employer's name"
             />
           </div>
           <div>
-            <label className="block text-gray-300 text-sm font-medium mb-1" htmlFor="employer-company">
+            <label className="text-black block text-sm font-medium mb-1" htmlFor="employer-company">
               Employer's Company Name
             </label>
             <input
               type="text"
               id="employer-company"
-              className="w-full px-4 py-2 rounded-md text-black"
+              className="w-full px-4 py-2 rounded-md text-black border border-black"
               placeholder="Enter the company name"
             />
           </div>
 
           {/* Cover Letter Details */}
           <div>
-            <label className="block text-gray-300 text-sm font-medium mb-1" htmlFor="job-title">
+            <label className="text-black block text-sm font-medium mb-1" htmlFor="job-title">
               Job Title
             </label>
             <input
               type="text"
               id="job-title"
-              className="w-full px-4 py-2 rounded-md text-black"
+              className="w-full px-4 py-2 rounded-md text-black border border-black"
               placeholder="Enter the job title you are applying for"
             />
           </div>
           <div>
-            <label className="block text-gray-300 text-sm font-medium mb-1" htmlFor="introduction">
+            <label className="text-black block text-sm font-medium mb-1" htmlFor="introduction">
               Introduction (Opening Paragraph)
             </label>
             <textarea
               id="introduction"
-              className="w-full px-4 py-2 rounded-md text-black"
+              className="w-full px-4 py-2 rounded-md text-black border border-black"
               rows="3"
               placeholder="Briefly introduce yourself and your interest in the job"
             ></textarea>
           </div>
           <div>
-            <label className="block text-gray-300 text-sm font-medium mb-1" htmlFor="skills">
+            <label className="text-black block text-sm font-medium mb-1" htmlFor="skills">
               Key Skills or Experiences
             </label>
             <textarea
               id="skills"
-              className="w-full px-4 py-2 rounded-md text-black"
+              className="w-full px-4 py-2 rounded-md text-black border border-black"
               rows="4"
               placeholder="Highlight key skills or experiences relevant to the job"
             ></textarea>
@@ -103,12 +103,12 @@ const CreateCoverLetter = () => {
 
           {/* Closing Statement */}
           <div>
-            <label className="block text-gray-300 text-sm font-medium mb-1" htmlFor="closing">
+            <label className="text-black block text-sm font-medium mb-1" htmlFor="closing">
               Closing Statement
             </label>
             <textarea
               id="closing"
-              className="w-full px-4 py-2 rounded-md text-black"
+              className="w-full px-4 py-2 rounded-md text-black border border-black"
               rows="3"
               placeholder="Add a closing paragraph thanking the employer and expressing enthusiasm"
             ></textarea>
@@ -117,7 +117,7 @@ const CreateCoverLetter = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md font-medium text-lg">
+            className="w-full bg-gray-500 hover:bg-black text-white py-2 rounded-md font-medium text-lg">
             Generate Cover Letter
           </button>
         </form>

@@ -3,7 +3,7 @@ import { FaCheck } from 'react-icons/fa';
 
 const Sidebar = ({ status }) => {
   return (
-    <div className="bg-white text-black w-48 min-h-screen p-3 flex flex-col items-center fixed">
+    <div className="bg-white text-black w-48 min-h-screen p-3  flex-col items-center fixed hidden md:flex">
       <h2 className="text-base font-semibold text-black font-poppins mb-5 mt-24 ">Progress</h2>
       <div className="space-y-6 ml-3">
         {/* Step 1: Personal Details */}
