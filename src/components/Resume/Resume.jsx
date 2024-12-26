@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
-import { FaUser, FaCalendarAlt, FaGlobe, FaMapMarkerAlt, FaHome, FaPhone, FaEnvelope, FaPlus, FaTrash, FaLink, FaBold, FaItalic, FaUnderline, FaListOl, FaAlignLeft, FaAlignCenter, FaAlignRight } from 'react-icons/fa';
+import { FaUser, FaCalendarAlt, FaGlobe, FaMapMarkerAlt, FaHome, FaPhone, FaEnvelope, FaPlus, FaTrash, FaLink, FaMinus } from 'react-icons/fa';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
 
@@ -45,9 +45,41 @@ const ResumePage = () => {
   const [formData, setFormData] = useState({
     personalDetails: {},
     contactDetails: {},
-    workDetails: {},
+    workDetails: [{}],
     experienceDetails: {},
   });
+
+  const [showExperience, setShowExperience] = useState([true]); // State to toggle visibility of experiences
+
+  const handleAddExperience = () => {
+    setFormData((prev) => ({
+      ...prev,
+      workDetails: [...prev.workDetails, {}],
+    }));
+    setShowExperience((prev) => [...prev, true]);
+  };
+
+  const toggleExperienceVisibility = (index) => {
+    setShowExperience((prev) =>
+      prev.map((show, i) => (i === index ? !show : show))
+    );
+  };
+
+  const handleChange = (e, index) => {
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      const updatedWorkDetails = [...prev.workDetails];
+      updatedWorkDetails[index] = {
+        ...updatedWorkDetails[index],
+        [name]: value,
+      };
+      return {
+        ...prev,
+        workDetails: updatedWorkDetails,
+      };
+    });
+  };
+
 
   const [socialLinks, setSocialLinks] = useState([]);
   const [showSocialOptions, setShowSocialOptions] = useState(false);
@@ -79,17 +111,6 @@ const ResumePage = () => {
     } else if (section === 'experienceDetails') {
       setCurrentSection('workDetails');
     }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [currentSection]: {
-        ...prev[currentSection],
-        [name]: value,
-      },
-    }));
   };
 
   const handleCountryChange = (selectedOption) => {
@@ -337,192 +358,212 @@ const ResumePage = () => {
             </div>
           )}
 
+          
+          {/* Form Section */}
           {currentSection === 'workDetails' && (
             <div>
               <h3 className="text-xl font-bold text-gray-800 mb-4">Professional Experience</h3>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      Job Title
-                    </label>
-                    <input
-                      type="text"
-                      name="jobTitle"
-                      value={formData.workDetails.jobTitle || ''}
-                      onChange={handleChange}
-                      required
-                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
+              {formData.workDetails.map((experience, index) => (
+                <div key={index}>
+                  <div className="flex justify-between items-center mb-4">
+                    <h4 className="text-lg font-semibold">Experience {index + 1}</h4>
+                    <button
+                      type="button"
+                      onClick={() => toggleExperienceVisibility(index)}
+                      className="text-black"
+                    >
+                      {showExperience[index] ? <FaMinus /> : <FaPlus />}
+                    </button>
                   </div>
-                  <div>
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      Employer
-                    </label>
-                    <input
-                      type="text"
-                      name="employer"
-                      value={formData.workDetails.employer || ''}
-                      onChange={handleChange}
-                      required
-                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                  <div className="flex items-center">
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      <FaLink className="inline mr-2" /> Company URL
-                    </label>
-                    <input
-                      type="text"
-                      name="companyUrl"
-                      value={formData.workDetails.companyUrl || ''}
-                      onChange={handleChange}
-                      required
-                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      City
-                    </label>
-                    <input
-                      type="text"
-                      name="city"
-                      value={formData.workDetails.city || ''}
-                      onChange={handleChange}
-                      required
-                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      Country
-                    </label>
-                    <Select
-                      options={countryOptions}
-                      value={formData.workDetails.country}
-                      onChange={(selectedOption) => setFormData((prev) => ({
-                        ...prev,
-                        workDetails: {
-                          ...prev.workDetails,
-                          country: selectedOption,
-                        },
-                      }))}
-                      className="mt-1"
-                      required
-                    />
-                  </div>
+                  {showExperience[index] && (
+                    <form className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block font-medium font-poppins text-black text-xs">
+                            Job Title
+                          </label>
+                          <input
+                            type="text"
+                            name="jobTitle"
+                            value={experience.jobTitle || ''}
+                            onChange={(e) => handleChange(e, index)}
+                            required
+                            className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          />
+                        </div>
+                        <div>
+                          <label className="block font-medium font-poppins text-black text-xs">
+                            Employer
+                          </label>
+                          <input
+                            type="text"
+                            name="employer"
+                            value={experience.employer || ''}
+                            onChange={(e) => handleChange(e, index)}
+                            required
+                            className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          />
+                        </div>
+                        <div className="flex items-center">
+                          <label className="block font-medium font-poppins text-black text-xs">
+                            <FaLink className="inline mr-2" /> Company URL
+                          </label>
+                          <input
+                            type="text"
+                            name="companyUrl"
+                            value={experience.companyUrl || ''}
+                            onChange={(e) => handleChange(e, index)}
+                            required
+                            className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          />
+                        </div>
+                        <div>
+                          <label className="block font-medium font-poppins text-black text-xs">
+                            City
+                          </label>
+                          <input
+                            type="text"
+                            name="city"
+                            value={experience.city || ''}
+                            onChange={(e) => handleChange(e, index)}
+                            required
+                            className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          />
+                        </div>
+                        <div>
+                          <label className="block font-medium font-poppins text-black text-xs">
+                            Country
+                          </label>
+                          <Select
+                            options={countryOptions}
+                            value={experience.country}
+                            onChange={(selectedOption) =>
+                              handleChange(
+                                { target: { name: 'country', value: selectedOption } },
+                                index
+                              )
+                            }
+                            className="mt-1"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                          <label className="block font-medium font-poppins text-black text-xs">
+                            Start Date
+                          </label>
+                          <div className="flex gap-2">
+                            <Select
+                              options={monthOptions}
+                              value={experience.startMonth}
+                              onChange={(selectedOption) =>
+                                handleChange(
+                                  { target: { name: 'startMonth', value: selectedOption } },
+                                  index
+                                )
+                              }
+                              className="mt-1"
+                              placeholder="Month"
+                              required
+                            />
+                            <Select
+                              options={yearOptions}
+                              value={experience.startYear}
+                              onChange={(selectedOption) =>
+                                handleChange(
+                                  { target: { name: 'startYear', value: selectedOption } },
+                                  index
+                                )
+                              }
+                              className="mt-1"
+                              placeholder="Year"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block font-medium font-poppins text-black text-xs">
+                            End Date
+                          </label>
+                          <div className="flex gap-2">
+                            <Select
+                              options={monthOptions}
+                              value={experience.endMonth}
+                              onChange={(selectedOption) =>
+                                handleChange(
+                                  { target: { name: 'endMonth', value: selectedOption } },
+                                  index
+                                )
+                              }
+                              className="mt-1"
+                              placeholder="Month"
+                              required
+                            />
+                            <Select
+                              options={yearOptions}
+                              value={experience.endYear}
+                              onChange={(selectedOption) =>
+                                handleChange(
+                                  { target: { name: 'endYear', value: selectedOption } },
+                                  index
+                                )
+                              }
+                              className="mt-1"
+                              placeholder="Year"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-4">
+                        <div className="flex items-center mb-2">
+                          <h3 className="text-sm font-semibold text-black font-poppins mb-4">Description</h3>
+                          {/* <div className="flex ml-2 space-x-2">
+                            <FaBold className="cursor-pointer" />
+                            <FaItalic className="cursor-pointer" />
+                            <FaUnderline className="cursor-pointer" />
+                            <FaListOl className="cursor-pointer" />
+                            <FaAlignLeft className="cursor-pointer" />
+                            <FaAlignCenter className="cursor-pointer" />
+                            <FaAlignRight className="cursor-pointer" />
+                          </div> */}
+                        </div>
+                        <textarea
+                          name="description"
+                          value={experience.description || ''}
+                          onChange={(e) => handleChange(e, index)}
+                          required
+                          className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                      </div>
+                    </form>
+                  )}
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                  <div>
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      Start Date
-                    </label>
-                    <div className="flex gap-2">
-                      <Select
-                        options={monthOptions}
-                        value={formData.workDetails.startMonth}
-                        onChange={(selectedOption) => setFormData((prev) => ({
-                          ...prev,
-                          workDetails: {
-                            ...prev.workDetails,
-                            startMonth: selectedOption,
-                          },
-                        }))}
-                        className="mt-1"
-                        placeholder="Month"
-                        required
-                      />
-                      <Select
-                        options={yearOptions}
-                        value={formData.workDetails.startYear}
-                        onChange={(selectedOption) => setFormData((prev) => ({
-                          ...prev,
-                          workDetails: {
-                            ...prev.workDetails,
-                            startYear: selectedOption,
-                          },
-                        }))}
-                        className="mt-1"
-                        placeholder="Year"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      End Date
-                    </label>
-                    <div className="flex gap-2">
-                      <Select
-                        options={monthOptions}
-                        value={formData.workDetails.endMonth}
-                        onChange={(selectedOption) => setFormData((prev) => ({
-                          ...prev,
-                          workDetails: {
-                            ...prev.workDetails,
-                            endMonth: selectedOption,
-                          },
-                        }))}
-                        className="mt-1"
-                        placeholder="Month"
-                        required
-                      />
-                      <Select
-                        options={yearOptions}
-                        value={formData.workDetails.endYear}
-                        onChange={(selectedOption) => setFormData((prev) => ({
-                          ...prev,
-                          workDetails: {
-                            ...prev.workDetails,
-                            endYear: selectedOption,
-                          },
-                        }))}
-                        className="mt-1"
-                        placeholder="Year"
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-4">
-                  <div className="flex items-center mb-2">
-                    <h3 className="text-sm font-semibold text-black font-poppins mb-4">Description</h3>
-                    <div className="flex ml-2 space-x-2">
-                      <FaBold className="cursor-pointer" />
-                      <FaItalic className="cursor-pointer" />
-                      <FaUnderline className="cursor-pointer" />
-                      <FaListOl className="cursor-pointer" />
-                      <FaAlignLeft className="cursor-pointer" />
-                      <FaAlignCenter className="cursor-pointer" />
-                      <FaAlignRight className="cursor-pointer" />
-                    </div>
-                  </div>
-                  <textarea
-                    name="description"
-                    value={formData.workDetails.description || ''}
-                    onChange={handleChange}
-                    required
-                    className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-                <div className="flex justify-between mt-4">
-                  <button
-                    type="button"
-                    onClick={() => handlePrevious('workDetails')}
-                    className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleNext('workDetails')}
-                    className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs"
-                  >
-                    Next
-                  </button>
-                </div>
-              </form>
+              ))}
+              <div className="flex justify-between mt-4">
+                <button
+                  type="button"
+                  onClick={() => handlePrevious('workDetails')}
+                  className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs"
+                >
+                  Previous
+                </button>
+                <button
+                  type="button"
+                  onClick={handleAddExperience}
+                  className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs flex items-center"
+                >
+                  <FaPlus className="mr-2" /> Professional Experience
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleNext('workDetails')}
+                  className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs"
+                >
+                  Next
+                </button>
+              </div>
             </div>
           )}
         </div>
