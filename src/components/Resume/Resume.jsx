@@ -1,8 +1,37 @@
 import React, { useState } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
-import { FaUser, FaCalendarAlt, FaGlobe, FaMapMarkerAlt, FaHome } from 'react-icons/fa';
+import { FaUser, FaCalendarAlt, FaGlobe, FaMapMarkerAlt, FaHome, FaPhone, FaEnvelope, FaPlus, FaTrash, FaLink, FaBold, FaItalic, FaUnderline, FaListOl, FaAlignLeft, FaAlignCenter, FaAlignRight } from 'react-icons/fa';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
+
+const socialOptions = [
+  { value: 'twitter', label: 'Twitter' },
+  { value: 'linkedin', label: 'LinkedIn' },
+  { value: 'github', label: 'Github' },
+  { value: 'dribbble', label: 'Dribbble' },
+  { value: 'behance', label: 'Behance' },
+  // Add more social options as needed
+];
+
+const monthOptions = [
+  { value: 'January', label: 'January' },
+  { value: 'February', label: 'February' },
+  { value: 'March', label: 'March' },
+  { value: 'April', label: 'April' },
+  { value: 'May', label: 'May' },
+  { value: 'June', label: 'June' },
+  { value: 'July', label: 'July' },
+  { value: 'August', label: 'August' },
+  { value: 'September', label: 'September' },
+  { value: 'October', label: 'October' },
+  { value: 'November', label: 'November' },
+  { value: 'December', label: 'December' },
+];
+
+const yearOptions = Array.from({ length: 50 }, (_, i) => {
+  const year = new Date().getFullYear() - i;
+  return { value: year, label: year };
+});
 
 const ResumePage = () => {
   const [status, setStatus] = useState({
@@ -20,11 +49,19 @@ const ResumePage = () => {
     experienceDetails: {},
   });
 
+  const [socialLinks, setSocialLinks] = useState([]);
+  const [showSocialOptions, setShowSocialOptions] = useState(false);
+
   const handleNext = (section) => {
-    setStatus((prev) => ({
-      ...prev,
-      [section]: 'completed',
-    }));
+    if (isSectionCompleted(section)) {
+      setStatus((prev) => ({
+        ...prev,
+        [section]: 'completed',
+      }));
+    } else {
+      alert('Please fill all the fields.');
+      return;
+    }
     if (section === 'personalDetails') {
       setCurrentSection('contactDetails');
     } else if (section === 'contactDetails') {
@@ -79,6 +116,15 @@ const ResumePage = () => {
   const isSectionCompleted = (section) => {
     const sectionData = formData[section];
     return Object.values(sectionData).every((value) => value !== '');
+  };
+
+  const handleAddSocialLink = (selectedOption) => {
+    setSocialLinks((prev) => [...prev, selectedOption]);
+    setShowSocialOptions(false);
+  };
+
+  const handleRemoveSocialLink = (index) => {
+    setSocialLinks((prev) => prev.filter((_, i) => i !== index));
   };
 
   const countryOptions = countryList().getData();
@@ -187,23 +233,13 @@ const ResumePage = () => {
                   </div>
                 </div>
                 <div className="flex justify-start mt-4">
-                  {isSectionCompleted('personalDetails') ? (
-                    <button
-                      type="button"
-                      onClick={() => handleNext('personalDetails')}
-                      className="bg-black text-white px-4 py-2 rounded-md"
-                    >
-                      Next
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      className="bg-black text-white px-4 py-2 rounded-md"
-                      disabled
-                    >
-                      Next
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleNext('personalDetails')}
+                    className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs"
+                  >
+                    Next
+                  </button>
                 </div>
               </form>
             </div>
@@ -211,55 +247,91 @@ const ResumePage = () => {
 
           {currentSection === 'contactDetails' && (
             <div>
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Contact Details</h3>
+              <h3 className="text-sm font-semibold text-black font-poppins mb-4">Contact Details</h3>
               <form className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.contactDetails.email || ''}
-                    onChange={handleChange}
-                    required
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      <FaPhone className="inline mr-2" /> Phone
+                    </label>
+                    <input
+                      type="text"
+                      name="phone"
+                      value={formData.contactDetails.phone || ''}
+                      onChange={handleChange}
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      <FaEnvelope className="inline mr-2" /> Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.contactDetails.email || ''}
+                      onChange={handleChange}
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Phone Number</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.contactDetails.phone || ''}
-                    onChange={handleChange}
-                    required
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
+                <div className="mt-6">
+                  <div className="flex items-center mb-4">
+                    <h3 className="text-sm font-semibold text-black font-poppins mb-4">Social Links</h3>
+                    <FaPlus
+                      className="ml-2 mb-4 text-black cursor-pointer"
+                      onClick={() => setShowSocialOptions(!showSocialOptions)}
+                    />
+                  </div>
+                  {showSocialOptions && (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {socialOptions.map((option) => (
+                        <button
+                          key={option.value}
+                          type="button"
+                          onClick={() => handleAddSocialLink(option)}
+                          className="bg-gray-200 hover:bg-gray-300 text-black font-poppins px-3 py-1 rounded-md text-xs"
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {socialLinks.map((link, index) => (
+                    <div key={index} className="flex items-center mb-4">
+                      <input
+                        type="text"
+                        name={link.value}
+                        placeholder={`Enter your ${link.label} URL`}
+                        value={formData.contactDetails[link.value] || ''}
+                        onChange={handleChange}
+                        required
+                        className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                      <FaTrash
+                        className="ml-2 text-red-500 cursor-pointer"
+                        onClick={() => handleRemoveSocialLink(index)}
+                      />
+                    </div>
+                  ))}
                 </div>
                 <div className="flex justify-between mt-4">
                   <button
                     type="button"
                     onClick={() => handlePrevious('contactDetails')}
-                    className="bg-gray-500 text-white px-4 py-2 rounded-md"
+                    className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-5 py-2 rounded-3xl text-xs"
                   >
                     Previous
                   </button>
-                  {isSectionCompleted('contactDetails') ? (
-                    <button
-                      type="button"
-                      onClick={() => handleNext('contactDetails')}
-                      className="bg-black text-white px-4 py-2 rounded-md"
-                    >
-                      Next
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => handleNext('contactDetails')}
-                      className="bg-black text-white px-4 py-2 rounded-md"
-                    >
-                      Save
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleNext('contactDetails')}
+                    className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs"
+                  >
+                    Next
+                  </button>
                 </div>
               </form>
             </div>
@@ -267,55 +339,188 @@ const ResumePage = () => {
 
           {currentSection === 'workDetails' && (
             <div>
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Work Details</h3>
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Professional Experience</h3>
               <form className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Company Name</label>
-                  <input
-                    type="text"
-                    name="companyName"
-                    value={formData.workDetails.companyName || ''}
-                    onChange={handleChange}
-                    required
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      Job Title
+                    </label>
+                    <input
+                      type="text"
+                      name="jobTitle"
+                      value={formData.workDetails.jobTitle || ''}
+                      onChange={handleChange}
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      Employer
+                    </label>
+                    <input
+                      type="text"
+                      name="employer"
+                      value={formData.workDetails.employer || ''}
+                      onChange={handleChange}
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div className="flex items-center">
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      <FaLink className="inline mr-2" /> Company URL
+                    </label>
+                    <input
+                      type="text"
+                      name="companyUrl"
+                      value={formData.workDetails.companyUrl || ''}
+                      onChange={handleChange}
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      name="city"
+                      value={formData.workDetails.city || ''}
+                      onChange={handleChange}
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      Country
+                    </label>
+                    <Select
+                      options={countryOptions}
+                      value={formData.workDetails.country}
+                      onChange={(selectedOption) => setFormData((prev) => ({
+                        ...prev,
+                        workDetails: {
+                          ...prev.workDetails,
+                          country: selectedOption,
+                        },
+                      }))}
+                      className="mt-1"
+                      required
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Job Title</label>
-                  <input
-                    type="text"
-                    name="jobTitle"
-                    value={formData.workDetails.jobTitle || ''}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      Start Date
+                    </label>
+                    <div className="flex gap-2">
+                      <Select
+                        options={monthOptions}
+                        value={formData.workDetails.startMonth}
+                        onChange={(selectedOption) => setFormData((prev) => ({
+                          ...prev,
+                          workDetails: {
+                            ...prev.workDetails,
+                            startMonth: selectedOption,
+                          },
+                        }))}
+                        className="mt-1"
+                        placeholder="Month"
+                        required
+                      />
+                      <Select
+                        options={yearOptions}
+                        value={formData.workDetails.startYear}
+                        onChange={(selectedOption) => setFormData((prev) => ({
+                          ...prev,
+                          workDetails: {
+                            ...prev.workDetails,
+                            startYear: selectedOption,
+                          },
+                        }))}
+                        className="mt-1"
+                        placeholder="Year"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block font-medium font-poppins text-black text-xs">
+                      End Date
+                    </label>
+                    <div className="flex gap-2">
+                      <Select
+                        options={monthOptions}
+                        value={formData.workDetails.endMonth}
+                        onChange={(selectedOption) => setFormData((prev) => ({
+                          ...prev,
+                          workDetails: {
+                            ...prev.workDetails,
+                            endMonth: selectedOption,
+                          },
+                        }))}
+                        className="mt-1"
+                        placeholder="Month"
+                        required
+                      />
+                      <Select
+                        options={yearOptions}
+                        value={formData.workDetails.endYear}
+                        onChange={(selectedOption) => setFormData((prev) => ({
+                          ...prev,
+                          workDetails: {
+                            ...prev.workDetails,
+                            endYear: selectedOption,
+                          },
+                        }))}
+                        className="mt-1"
+                        placeholder="Year"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <div className="flex items-center mb-2">
+                    <h3 className="text-sm font-semibold text-black font-poppins mb-4">Description</h3>
+                    <div className="flex ml-2 space-x-2">
+                      <FaBold className="cursor-pointer" />
+                      <FaItalic className="cursor-pointer" />
+                      <FaUnderline className="cursor-pointer" />
+                      <FaListOl className="cursor-pointer" />
+                      <FaAlignLeft className="cursor-pointer" />
+                      <FaAlignCenter className="cursor-pointer" />
+                      <FaAlignRight className="cursor-pointer" />
+                    </div>
+                  </div>
+                  <textarea
+                    name="description"
+                    value={formData.workDetails.description || ''}
                     onChange={handleChange}
                     required
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
                 <div className="flex justify-between mt-4">
                   <button
                     type="button"
                     onClick={() => handlePrevious('workDetails')}
-                    className="bg-gray-500 text-white px-4 py-2 rounded-md"
+                    className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs"
                   >
                     Previous
                   </button>
-                  {isSectionCompleted('workDetails') ? (
-                    <button
-                      type="button"
-                      onClick={() => handleNext('workDetails')}
-                      className="bg-black text-white px-4 py-2 rounded-md"
-                    >
-                      Next
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => handleNext('workDetails')}
-                      className="bg-black text-white px-4 py-2 rounded-md"
-                    >
-                      Save
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleNext('workDetails')}
+                    className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs"
+                  >
+                    Next
+                  </button>
                 </div>
               </form>
             </div>
@@ -327,3 +532,5 @@ const ResumePage = () => {
 };
 
 export default ResumePage;
+                
+
