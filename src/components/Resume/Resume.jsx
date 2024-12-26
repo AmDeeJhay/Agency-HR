@@ -50,6 +50,7 @@ const ResumePage = () => {
   });
 
   const [showExperience, setShowExperience] = useState([true]); // State to toggle visibility of experiences
+  const [showUrlInput, setShowUrlInput] = useState([false]); 
 
   const handleAddExperience = () => {
     setFormData((prev) => ({
@@ -61,6 +62,12 @@ const ResumePage = () => {
 
   const toggleExperienceVisibility = (index) => {
     setShowExperience((prev) =>
+      prev.map((show, i) => (i === index ? !show : show))
+    );
+  };
+
+  const toggleUrlInputVisibility = (index) => {
+    setShowUrlInput((prev) =>
       prev.map((show, i) => (i === index ? !show : show))
     );
   };
@@ -405,17 +412,23 @@ const ResumePage = () => {
                           />
                         </div>
                         <div className="flex items-center">
-                          <label className="block font-medium font-poppins text-black text-xs">
-                            <FaLink className="inline mr-2" /> Company URL
-                          </label>
-                          <input
-                            type="text"
-                            name="companyUrl"
-                            value={experience.companyUrl || ''}
-                            onChange={(e) => handleChange(e, index)}
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                          />
+                          <button
+                            type="button"
+                            onClick={() => toggleUrlInputVisibility(index)}
+                            className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins px-3 py-2 rounded-2xl text-xs flex items-center"
+                          >
+                            <FaLink className="mr-1 font-poppins font-bold text-sm " /> Link
+                          </button>
+                          {showUrlInput[index] && (
+                            <input
+                              type="text"
+                              name="companyUrl"
+                              value={experience.companyUrl || ''}
+                              onChange={(e) => handleChange(e, index)}
+                              required
+                              className="mt-1 ml-1 block w-full px-2 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            />
+                          )}
                         </div>
                         <div>
                           <label className="block font-medium font-poppins text-black text-xs">
@@ -552,7 +565,7 @@ const ResumePage = () => {
                 <button
                   type="button"
                   onClick={handleAddExperience}
-                  className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs flex items-center"
+                  className="bg-white hover:bg-gray-50 border border-black hover:text-black text-black font-poppins  px-6 py-3 rounded-3xl text-xs flex items-center"
                 >
                   <FaPlus className="mr-2" /> Professional Experience
                 </button>
