@@ -26,7 +26,7 @@ const Sidebar = ({ status }) => {
           </div>
           <div className="absolute ml-3 transform -translate-x-1/2 top-full h-6 border-l-2 border-black"></div>
         </div>
-        {/* Step 3: Work Details */}
+        {/* Step 3: Professional Experience */}
         <div className="relative flex items-center">
           <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center font-semibold ${status.workDetails === 'completed' ? 'bg-green-500' : 'bg-black'}`}>
             {status.workDetails === 'completed' ? <FaCheck className="text-white" /> : ''}
@@ -36,10 +36,10 @@ const Sidebar = ({ status }) => {
           </div>
           <div className="absolute ml-3 transform -translate-x-1/2 top-full h-6 border-l-2 border-black"></div>
         </div>
-        {/* Step 4: Work Experience */}
+        {/* Step 4: Skills */}
         <div className="relative flex items-center">
-          <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center font-semibold ${status.experienceDetails === 'completed' ? 'bg-green-500' : 'bg-black'}`}>
-            {status.experienceDetails === 'completed' ? <FaCheck className="text-white" /> : ''}
+          <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center font-semibold ${status.skillsDetails === 'completed' ? 'bg-green-500' : 'bg-black'}`}>
+            {status.skillsDetails === 'completed' ? <FaCheck className="text-white" /> : ''}
           </div>
           <div className="ml-3">
             <h3 className="text-xs text-black font-poppins font-semibold">Skills</h3>
