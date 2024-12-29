@@ -89,12 +89,15 @@ const ResumePage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 flex">
+    <div className="h-screen bg-gray-50 text-gray-900 flex flex-1">
       {/* Sidebar */}
+      <div className='flex-[.2]'>
       <Sidebar status={status} />
 
+      </div>
+
       {/* Main Content */}
-      <main className="flex-1 p-8 ml-0 md:ml-48">
+      <main className="flex-[.7] p-8 ml-0 md:ml-48">
         <header className="flex justify-between items-center mb-6">
           <h2 className="text-lg font-bold">Create Your Resume</h2>
           <div className={`text-sm font-semibold ${isSectionCompleted(currentSection) ? 'text-green-500' : 'text-gray-500'}`}>

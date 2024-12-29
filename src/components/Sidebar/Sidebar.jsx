@@ -1,50 +1,44 @@
-import React from 'react';
-import { FaCheck } from 'react-icons/fa';
+import React from "react";
+import { FaCheck } from "react-icons/fa";
+import { FaPerson, FaBookOpen, FaBriefcase, FaToolbox } from "react-icons/fa6";
 
 const Sidebar = ({ status }) => {
+  const details = [
+    { text: "Personal", icon: <FaPerson />, key: "personalDetails" },
+    { text: "Contact", icon: <FaBookOpen />, key: "contactDetails" },
+    { text: "Work", icon: <FaBriefcase />, key: "workDetails" },
+    { text: "Experience", icon: <FaToolbox />, key: "experienceDetails" },
+  ];
+
   return (
-    <div className="bg-white text-black w-48 min-h-screen p-3  flex-col items-center fixed hidden md:flex">
-      <h2 className="text-base font-semibold text-black font-poppins mb-5 mt-24 ">Progress</h2>
-      <div className="space-y-6 ml-3">
-        {/* Step 1: Personal Details */}
-        <div className="relative flex items-center">
-          <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center font-semibold ${status.personalDetails === 'completed' ? 'bg-green-500' : 'bg-black'}`}>
-            {status.personalDetails === 'completed' ? <FaCheck className="text-white"/> : ''}
+    <div className="bg-white text-black min-h-screen p-3 flex flex-col items-center fixed">
+      <h2 className="text-sm md:text-base font-semibold text-black font-poppins mb-5 mt-24">
+        Progress
+      </h2>
+      <div className="space-y-6 w-full">
+        {details.map((item, index) => (
+          <div key={index} className="relative flex items-center">
+            {/* Status Indicator */}
+            <div
+              className={`flex-shrink-0 md:w-6 w-4 md:h-6 h-4 rounded-full flex items-center justify-center font-semibold ${
+                status[item.key] === "completed" ? "bg-green-500" : "bg-black"
+              }`}
+            >
+              {status[item.key] === "completed" && <FaCheck className="text-white text-xs md:text-base" />}
+            </div>
+            {/* Text or Icon based on screen size */}
+            <div className="ml-3 hidden sm:block">
+              <h3 className="text-xs text-black font-poppins font-semibold">
+                {item.text}
+              </h3>
+            </div>
+            <div className="ml-3 sm:hidden">{item.icon}</div>
+            {/* Connector Line */}
+            {index !== details.length - 1 && (
+              <div className="absolute ml-2 md:ml-3 transform -translate-x-1/2 top-full h-6 border-l-2 border-black"></div>
+            )}
           </div>
-          <div className="ml-3">
-            <h3 className="text-xs text-black font-poppins font-semibold">Personal</h3>
-          </div>
-          <div className="absolute ml-3 transform -translate-x-1/2 top-full h-6 border-l-2 border-black"></div>
-        </div>
-        {/* Step 2: Contact Details */}
-        <div className="relative flex items-center">
-          <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center font-semibold ${status.contactDetails === 'completed' ? 'bg-green-500' : 'bg-black'}`}>
-            {status.contactDetails === 'completed' ? <FaCheck /> : ''}
-          </div>
-          <div className="ml-3">
-            <h3 className="text-xs text-black font-poppins font-semibold">Contact</h3>
-          </div>
-          <div className="absolute ml-3 transform -translate-x-1/2 top-full h-6 border-l-2 border-black"></div>
-        </div>
-        {/* Step 3: Work Details */}
-        <div className="relative flex items-center">
-          <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center font-semibold ${status.workDetails === 'completed' ? 'bg-green-500' : 'bg-black'}`}>
-            {status.workDetails === 'completed' ? <FaCheck /> : ''}
-          </div>
-          <div className="ml-3">
-            <h3 className="text-xs text-black font-poppins font-semibold">Work</h3>
-          </div>
-          <div className="absolute ml-3 transform -translate-x-1/2 top-full h-6 border-l-2 border-black"></div>
-        </div>
-        {/* Step 4: Work Experience */}
-        <div className="relative flex items-center">
-          <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center font-semibold ${status.experienceDetails === 'completed' ? 'bg-green-500' : 'bg-black'}`}>
-            {status.experienceDetails === 'completed' ? <FaCheck /> : ''}
-          </div>
-          <div className="ml-3">
-            <h3 className="text-xs text-black font-poppins font-semibold">Experience</h3>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
