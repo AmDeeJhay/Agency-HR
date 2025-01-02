@@ -11,7 +11,7 @@ const Sidebar = ({ status }) => {
   ];
 
   return (
-    <div className="bg-white text-black min-h-screen p-3 flex flex-col items-center fixed">
+    <div className="bg-white text-black min-h-screen p-3 flex flex-col items-center fixed w-36 mr-5 border-r-8">
       <h2 className="text-sm md:text-base font-semibold text-black font-poppins mb-5 mt-24">
         Progress
       </h2>

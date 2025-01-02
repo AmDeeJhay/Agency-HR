@@ -24,10 +24,10 @@ const Home = () => {
 
       {/* Call to Action Section */}
       <div className="mt-8 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-        <button className="cta-button bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 text-xs rounded-3xl">
+        <button className="cta-button bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs">
           Get Started
         </button>
-        <button className="cta-button bg-transparent text-black border border-black hover:bg-white hover:text-black px-6 py-3 font-poppins text-xs rounded-3xl">
+        <button className="cta-button bg-transparent text-black border border-black hover:bg-white hover:text-black px-6 py-3 font-poppins rounded-3xl text-xs">
           Learn More
         </button>
       </div>
