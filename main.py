@@ -1,12 +1,7 @@
-def should_serve_customer(customer_age, on_break, time):
-    if(customer_age < 21):
-        return False
-    if(time < 5 or time > 10):
-        return False
-    if (on_break == True):
-        return False
-    return True
+def count_down(start, end):
+    total = 0
+    for i in range(start, end, -1):
+        total += 1 + i
+        print(sum)
 
-serve = should_serve_customer(21, False, 9)
-
-print(serve)
+print(count_down(0, 7))

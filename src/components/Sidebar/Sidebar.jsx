@@ -5,13 +5,14 @@ import { FaPerson, FaBookOpen, FaBriefcase, FaToolbox } from "react-icons/fa6";
 const Sidebar = ({ status }) => {
   const details = [
     { text: "Personal", icon: <FaPerson />, key: "personalDetails" },
+    { text: "Objective", icon: <FaBookOpen />, key: "objectiveDetails" },
     { text: "Contact", icon: <FaBookOpen />, key: "contactDetails" },
     { text: "Work", icon: <FaBriefcase />, key: "workDetails" },
     { text: "Experience", icon: <FaToolbox />, key: "experienceDetails" },
   ];
-
+  
   return (
-    <div className="bg-white text-black min-h-screen p-3 flex flex-col items-center fixed w-36 mr-5 border-r-8">
+    <div className="bg-white text-black h-screen p-3 flex flex-col items-center fixed w-36 mr-5 border-b-8 border-red-950 border-r-8">
       <h2 className="text-sm md:text-base font-semibold text-black font-poppins mb-5 mt-24">
         Progress
       </h2>
@@ -28,7 +29,7 @@ const Sidebar = ({ status }) => {
             </div>
             {/* Text or Icon based on screen size */}
             <div className="ml-3 hidden sm:block">
-              <h3 className="text-xs text-black font-poppins font-semibold">
+              <h3 className="text-xs text-black font-poppins font-semibold uppercase">
                 {item.text}
               </h3>
             </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
-import ResumePreview from "./ResumePreview"
+import ResumePreview from "./ResumePreview";
 import {
   FaUser,
   FaGlobe,
@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import Select from "react-select";
 import countryList from "react-select-country-list";
+import { ObjectiveDetailsForm, PersonalDetailsForm } from "../Form";
 
 const socialOptions = [
   { value: "twitter", label: "Twitter" },
@@ -69,21 +70,27 @@ const yearOptions = Array.from({ length: 50 }, (_, i) => {
   const year = new Date().getFullYear() - i;
   return { value: year, label: year };
 });
-
+const SECTIONS = [
+  "personalDetails",
+  "objectiveDetails", // New section is included seamlessly
+  "contactDetails",
+  "workDetails",
+  "skills",
+];
 const ResumePage = () => {
-  const [status, setStatus] = useState({
-    personalDetails: "pending",
-    contactDetails: "pending",
-    workDetails: "pending",
-    skillsDetails: "pending",
-  });
+  const [status, setStatus] = useState(
+    SECTIONS.reduce((acc, section) => {
+      acc[section] = "pending";
+      return acc;
+    }, {})
+  );
 
-  const [currentSection, setCurrentSection] = useState("personalDetails");
+  const [currentSection, setCurrentSection] = useState(SECTIONS[0]);
   const [formData, setFormData] = useState({
     personalDetails: {},
+    objectiveDetails: {},
     contactDetails: {},
     workDetails: [{}],
-    experienceDetails: {},
     skills: [],
   });
 
@@ -174,42 +181,70 @@ const ResumePage = () => {
   const [socialLinks, setSocialLinks] = useState([]);
   const [showSocialOptions, setShowSocialOptions] = useState(false);
 
-  const handleNext = (section) => {
-    if (isSectionCompleted(section)) {
+  const handleNext = () => {
+    const currentIndex = SECTIONS.indexOf(currentSection);
+
+    if (isSectionCompleted(currentSection)) {
       setStatus((prev) => ({
         ...prev,
-        [section]: "completed",
+        [currentSection]: isSectionCompleted(currentSection) ? "completed" : "pending",
       }));
+
+      if (currentIndex < SECTIONS.length - 1) {
+        setCurrentSection(SECTIONS[currentIndex + 1]);
+      } else {
+        // Final step, e.g., show modal
+        console.log("All sections completed");
+      }
     } else {
       alert("Please fill all the fields.");
-      return;
-    }
-    if (section === "personalDetails") {
-      setCurrentSection("contactDetails");
-    } else if (section === "contactDetails") {
-      setCurrentSection("workDetails");
-    } else if (section === "workDetails") {
-      setCurrentSection("skills");
-    } else if (section === "skills") {
-      setStatus((prev) => ({
-        ...prev,
-        skillsDetails: "completed",
-      }));
-      setShowModal(true);
     }
   };
 
-  const handlePrevious = (section) => {
-    if (section === "contactDetails") {
-      setCurrentSection("personalDetails");
-    } else if (section === "workDetails") {
-      setCurrentSection("contactDetails");
-    } else if (section === "skillsDetails") {
-      setCurrentSection("workDetails");
-    } else if (section === "skills") {
-      setCurrentSection("skillsDetails");
+  const handlePrevious = () => {
+    const currentIndex = SECTIONS.indexOf(currentSection);
+
+    if (currentIndex > 0) {
+      setCurrentSection(SECTIONS[currentIndex - 1]);
     }
   };
+  // const handleNext = (section) => {
+  //   if (isSectionCompleted(section)) {
+  //     setStatus((prev) => ({
+  //       ...prev,
+  //       [section]: "completed",
+  //     }));
+  //   } else {
+  //     alert("Please fill all the fields.");
+  //     return;
+  //   }
+  //   if (section === "personalDetails") {
+  //     setCurrentSection("contactDetails");
+  //   } else if (section === "contactDetails") {
+  //     setCurrentSection("workDetails");
+  //   } else if (section === "workDetails") {
+  //     setCurrentSection("skills");
+  //   } else if (section === "skills") {
+  //     setStatus((prev) => ({
+  //       ...prev,
+  //       skillsDetails: "completed",
+  //     }));
+  //     setShowModal(true);
+  //   }
+  // };
+
+  // const handlePrevious = (section) => {
+  //   console.log(section);
+  //   if (section === "contactDetails") {
+  //     setCurrentSection(() => "personalDetails");
+  //   } else if (section === "workDetails") {
+  //     setCurrentSection("contactDetails");
+  //   } else if (section === "skillsDetails") {
+  //     setCurrentSection("workDetails");
+  //   } else if (section === "skills") {
+  //     setCurrentSection("skillsDetails");
+  //   }
+  // };
 
   const handleCountryChange = (selectedOption) => {
     setFormData((prev) => ({
@@ -256,12 +291,12 @@ const ResumePage = () => {
   return (
     <div className="h-screen bg-gray-50 text-gray-900 flex flex-1">
       {/* Sidebar */}
-      <div className="w-36">
+      <div className="w-36 ">
         <Sidebar status={status} />
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 ml-0 bg-gray-500 overflow-x-scroll max-h-screen">
+      <main className="flex-1 p-8 ml-0 bg-gray-500 overflow-y-scroll max-h-[95vh]">
         <header className="flex justify-between items-center mb-6">
           <h2 className="text-base font-bold font-poppins ml-6 mt-1">
             Create Your Resume
@@ -280,6 +315,23 @@ const ResumePage = () => {
         <div className="bg-white shadow-md rounded-lg w-full p-8 overflow-auto">
           {/* Form Section */}
           {currentSection === "personalDetails" && (
+            <PersonalDetailsForm
+              data={formData.personalDetails}
+              handleChange={handleChange}
+              handleNext={handleNext}
+            />
+          )}
+
+          {currentSection === "objectiveDetails" && (
+            <ObjectiveDetailsForm
+              data={formData.personalDetails}
+              handleChange={handleChange}
+              handleNext={handleNext}
+              handlePrevious={handlePrevious}
+            />
+          )}
+
+          {/* {currentSection === "personalDetails" && (
             <div>
               <h3 className="text-sm font-semibold text-black font-poppins mb-4">
                 Personal Details
@@ -312,6 +364,7 @@ const ResumePage = () => {
                       className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                   </div>
+                  
                   <div>
                     <label className="block font-medium font-poppins text-black text-xs">
                       <FaGlobe className="inline mr-2" /> Country
@@ -361,7 +414,7 @@ const ResumePage = () => {
                 </div>
               </form>
             </div>
-          )}
+          )} */}
 
           {currentSection === "contactDetails" && (
             <div>
@@ -819,11 +872,11 @@ const ResumePage = () => {
         </div>
       )}
 
-      <div className="w-1/2 border-l">
+      <div className="w-1/2 border-l-8 max-h-[95vh] overflow-scroll">
         <ResumePreview
           formData={formData}
           // selectedTemplate={selectedTemplate}
-          scale={0.7} // Adjust scale to fit the preview window
+          scale={0.8} // Adjust scale to fit the preview window
         />
       </div>
     </div>
