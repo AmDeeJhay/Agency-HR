@@ -6,11 +6,12 @@ const Sidebar = ({ status }) => {
   const details = [
     { text: "Personal", icon: <FaPerson />, key: "personalDetails" },
     { text: "Objective", icon: <FaBookOpen />, key: "objectiveDetails" },
+    { text: "Experience", icon: <FaBookOpen />, key: "experienceDetails" },
     { text: "Contact", icon: <FaBookOpen />, key: "contactDetails" },
     { text: "Work", icon: <FaBriefcase />, key: "workDetails" },
     { text: "Experience", icon: <FaToolbox />, key: "experienceDetails" },
   ];
-  
+
   return (
     <div className="bg-white text-black h-screen p-3 flex flex-col items-center fixed w-36 mr-5 border-b-8 border-red-950 border-r-8">
       <h2 className="text-sm md:text-base font-semibold text-black font-poppins mb-5 mt-24">

@@ -97,7 +97,243 @@ export const formConfig = {
   ],
 };
 
-const ObjectiveDetailsForm = ({ data, handleChange, handleNext, handlePrevious }) => {
+const ExperienceDetailsForm = ({
+  data,
+  handleChange,
+  handleNext,
+  handlePrevious,
+}) => {
+  const [experiences, setExperiences] = useState(
+    data.experienceDetails || [
+      {
+        companyName: "",
+        jobTitle: "",
+        startDate: "",
+        endDate: "",
+        responsibilities: [""],
+      },
+    ]
+  );
+  console.log("exper", data.experienceDetails);
+
+  const handleExperienceChange = (index, field, value) => {
+    const updatedExperiences = [...experiences];
+    updatedExperiences[index][field] = value;
+    setExperiences(updatedExperiences);
+
+    // Update the parent state
+    handleChange({
+      target: { name: "experienceDetails", value: updatedExperiences },
+    });
+  };
+
+  const handleAddExperience = () => {
+    setExperiences([
+      ...experiences,
+      {
+        companyName: "",
+        jobTitle: "",
+        startDate: "",
+        endDate: "",
+        responsibilities: [""],
+      },
+    ]);
+  };
+
+  const handleRemoveExperience = (index) => {
+    const updatedExperiences = experiences.filter((_, i) => i !== index);
+    setExperiences(updatedExperiences);
+
+    // Update the parent state
+    handleChange({
+      target: { name: "experienceDetails", value: updatedExperiences },
+    });
+  };
+
+  const handleResponsibilityChange = (expIndex, respIndex, value) => {
+    const updatedExperiences = [...experiences];
+    if (!Array.isArray(updatedExperiences[expIndex].responsibilities)) {
+      updatedExperiences[expIndex].responsibilities = [value];
+    } else {
+      updatedExperiences[expIndex].responsibilities[respIndex] = value;
+    }
+    setExperiences(updatedExperiences);
+    handleChange({
+      target: { name: "experienceDetails", value: updatedExperiences },
+    });
+  };
+
+  const addResponsibility = (expIndex) => {
+    const updatedExperiences = [...experiences];
+    if (!Array.isArray(updatedExperiences[expIndex].responsibilities)) {
+      updatedExperiences[expIndex].responsibilities = [""];
+    } else {
+      updatedExperiences[expIndex].responsibilities.push("");
+    }
+    setExperiences(updatedExperiences);
+  };
+
+  const removeResponsibility = (expIndex, respIndex) => {
+    const updatedExperiences = [...experiences];
+    updatedExperiences[expIndex].responsibilities.splice(respIndex, 1);
+    setExperiences(updatedExperiences);
+    handleChange({
+      target: { name: "experienceDetails", value: updatedExperiences },
+    });
+  };
+
+  return (
+    <div>
+      <h3 className="text-sm font-semibold text-black font-poppins mb-4">
+        Work Experience
+      </h3>
+      <form className="space-y-4">
+        <div className="grid grid-cols-1 gap-6">
+          {experiences.map((experience, index) => (
+            <div
+              key={index}
+              className="border p-4 rounded-lg shadow-sm relative"
+            >
+              <h4 className="text-xs font-bold text-gray-700 mb-2">
+                Experience {index + 1}
+              </h4>
+
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  label="Job Title"
+                  name="jobTitle"
+                  value={experience.jobTitle}
+                  onChange={(e) =>
+                    handleExperienceChange(index, "jobTitle", e.target.value)
+                  }
+                  placeholder="Enter job title"
+                />
+                <FormField
+                  label="Company Name"
+                  name="companyName"
+                  value={experience.companyName}
+                  onChange={(e) =>
+                    handleExperienceChange(index, "companyName", e.target.value)
+                  }
+                  placeholder="Enter company name"
+                />
+                <FormField
+                  label="Start Date"
+                  name="startDate"
+                  type="date"
+                  value={experience.startDate}
+                  onChange={(e) =>
+                    handleExperienceChange(index, "startDate", e.target.value)
+                  }
+                  placeholder="Enter start date"
+                />
+                <FormField
+                  label="End Date"
+                  name="endDate"
+                  value={experience.endDate}
+                  type="date"
+                  onChange={(e) =>
+                    handleExperienceChange(index, "endDate", e.target.value)
+                  }
+                  placeholder="Enter end date"
+                />
+              </div>
+              {/* <div className="mt-4">
+                  <FormField
+                    label="Your Experience"
+                    name="responsibilities"
+                    value={experience.responsibilities}
+                    onChange={(e) =>
+                      handleExperienceChange(index, "responsibilities", e.target.value)
+                    }
+                    placeholder="Describe your role and achievements"
+                  />
+                </div> */}
+
+              <div className="mt-4 space-y-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Your Experience
+                </label>
+                {
+                  experience.responsibilities.map((resp, respIndex) => (
+                    <div
+                      key={respIndex}
+                      className="flex items-start gap-2 mb-2"
+                    >
+                      <div className="flex-grow">
+                        <div className="relative">
+                          <textarea
+                            value={resp}
+                            onChange={(e) =>
+                              handleResponsibilityChange(
+                                index,
+                                respIndex,
+                                e.target.value
+                              )
+                            }
+                            className="w-full p-2 border rounded-lg min-h-[80px] mb-2"
+                            placeholder="Describe your responsibility..."
+                          />
+                        </div>
+                      </div>
+                      {experience.responsibilities.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            removeResponsibility(index, respIndex)
+                          }
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                <button
+                  type="button"
+                  onClick={() => addResponsibility(index)}
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center gap-2"
+                >
+                  <span>Add</span>
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handleRemoveExperience(index)}
+                className="absolute top-2 right-2 text-red-500 text-xs"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex justify-start mt-2">
+          <button
+            type="button"
+            onClick={handleAddExperience}
+            className="bg-gray-200 hover:bg-gray-300 border border-gray-400 text-black font-poppins px-4 py-2 rounded-lg text-xs"
+          >
+            Add New Experience
+          </button>
+        </div>
+
+        <div className="flex justify-between mt-4">
+          <Button onClick={() => handlePrevious()} text="Previous" />
+          <Button onClick={() => handleNext()} text="Next" />
+        </div>
+      </form>
+    </div>
+  );
+};
+
+const ObjectiveDetailsForm = ({
+  data,
+  handleChange,
+  handleNext,
+  handlePrevious,
+}) => {
   const [bullets, setBullets] = useState(data.bullets || ["", "", ""]); // Initialize with three bullets
 
   // Add a new bullet field
@@ -122,6 +358,7 @@ const ObjectiveDetailsForm = ({ data, handleChange, handleNext, handlePrevious }
       </h3>
       <form className="space-y-4">
         <div className="grid grid-cols-1 gap-6">
+          {console.log({ data })}
           {/* Target Job Title */}
           <FormField
             label="Target Job Title"
@@ -218,13 +455,21 @@ const PersonalDetailsForm = ({ data, handleChange, handleNext }) => {
   );
 };
 
-const FormField = ({ label, name, value, onChange, icon, placeholder }) => (
+const FormField = ({
+  label,
+  name,
+  value,
+  onChange,
+  icon,
+  placeholder,
+  type,
+}) => (
   <div>
     <label className="flex place-items-center gap-2 font-medium font-poppins text-black text-xs">
       {icon} {label}
     </label>
     <input
-      type="text"
+      type={type || "text"}
       name={name}
       value={value}
       onChange={onChange}
@@ -260,4 +505,4 @@ const Button = ({ text, onClick }) => (
   </button>
 );
 
-export { PersonalDetailsForm, ObjectiveDetailsForm };
+export { PersonalDetailsForm, ObjectiveDetailsForm, ExperienceDetailsForm };

@@ -15,7 +15,7 @@ import {
 } from "react-icons/fa";
 import Select from "react-select";
 import countryList from "react-select-country-list";
-import { ObjectiveDetailsForm, PersonalDetailsForm } from "../Form";
+import { ExperienceDetailsForm, ObjectiveDetailsForm, PersonalDetailsForm } from "../Form";
 
 const socialOptions = [
   { value: "twitter", label: "Twitter" },
@@ -72,7 +72,8 @@ const yearOptions = Array.from({ length: 50 }, (_, i) => {
 });
 const SECTIONS = [
   "personalDetails",
-  "objectiveDetails", // New section is included seamlessly
+  "objectiveDetails", 
+  "experienceDetails",
   "contactDetails",
   "workDetails",
   "skills",
@@ -89,6 +90,7 @@ const ResumePage = () => {
   const [formData, setFormData] = useState({
     personalDetails: {},
     objectiveDetails: {},
+    experienceDetails: {},
     contactDetails: {},
     workDetails: [{}],
     skills: [],
@@ -155,6 +157,7 @@ const ResumePage = () => {
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
+    console.log({name, value})
     if (currentSection === "workDetails") {
       setFormData((prev) => {
         const updatedWorkDetails = [...prev.workDetails];
@@ -167,7 +170,14 @@ const ResumePage = () => {
           workDetails: updatedWorkDetails,
         };
       });
-    } else {
+    } else if (name === "experienceDetails") {
+      // Special case for experienceDetails (handle as an array)
+      setFormData((prev) => ({
+        ...prev,
+        experienceDetails: value, // Directly set the array
+      }));
+    }
+    else {
       setFormData((prev) => ({
         ...prev,
         [currentSection]: {
@@ -324,7 +334,15 @@ const ResumePage = () => {
 
           {currentSection === "objectiveDetails" && (
             <ObjectiveDetailsForm
-              data={formData.personalDetails}
+              data={formData.objectiveDetails}
+              handleChange={handleChange}
+              handleNext={handleNext}
+              handlePrevious={handlePrevious}
+            />
+          )}
+          {currentSection === "experienceDetails" && (
+            <ExperienceDetailsForm
+              data={formData.experienceDetails}
               handleChange={handleChange}
               handleNext={handleNext}
               handlePrevious={handlePrevious}
@@ -872,6 +890,7 @@ const ResumePage = () => {
         </div>
       )}
 
+{console.log('preview',formData)}
       <div className="w-1/2 border-l-8 max-h-[95vh] overflow-scroll">
         <ResumePreview
           formData={formData}

@@ -21,6 +21,15 @@ export const defaultData = {
       responsibilities: ["Your responsibilities"],
     },
   ],
+  experienceDetails: [
+    {
+      jobTitle: "Job Title",
+      companyName: "Company Name",
+      startDate: "",
+      endDate: "",
+      responsibilities: ["Your responsibilities"],
+    },
+  ],
   education: [
     {
       degree: "Your Degree",
@@ -45,17 +54,22 @@ const ProfessionalBlueTemplate = ({ formData }) => {
       ...defaultData.objectiveDetails,
       ...(formData?.objectiveDetails || {}),
     },
+    experienceDetails: Array.isArray(formData?.experienceDetails)
+    ? formData.experienceDetails
+    : defaultData.experienceDetails || [],
   };
 
+  console.log('templates',formData)
   const {
     personalDetails,
     objectiveDetails,
-    experience,
+    experienceDetails,
     education,
     skills,
     interests,
   } = resumeData;
 
+console.log('res', experienceDetails)
   return (
     <div className="">
       <div className="text-center mb-8">
@@ -69,7 +83,7 @@ const ProfessionalBlueTemplate = ({ formData }) => {
       </div>
 
       <div className="mb-6">
-        <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase">
+        <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase text-blue-600">
           {objectiveDetails.jobTitle} Summary
         </h2>
         <ul className="list-disc pl-6">
@@ -82,22 +96,29 @@ const ProfessionalBlueTemplate = ({ formData }) => {
       </div>
 
       <div className="mb-6">
-        <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase">
-          Experience
+        <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase text-blue-600">
+          Employment & Experience
         </h2>
-        {experience.map((job, index) => (
+        {experienceDetails.map((job, index) => (
           <div key={index} className="mb-4">
-            <div className="flex justify-between items-center">
-              <div className="font-bold">{job.title}</div>
-              <div className="text-gray-600">{job.dateRange}</div>
+            <div className="flex justify-between">
+              <div className="font-bold capitalize">{job.jobTitle}</div>
+              <div className="text-gray-600 italic">
+                {job.startDate} - {job.endDate}
+                </div>
             </div>
-            <div className="font-bold mb-2">{job.company}</div>
+            <div className="font-bold">{job.companyName}</div>
             <ul className="list-disc pl-6">
               {job.responsibilities.map((resp, idx) => (
-                <li key={idx} className="mb-2">
+                <li key={idx}>
                   {resp}
                 </li>
               ))}
+              {/* .map((resp, idx) => (
+                <li key={idx} className="mb-2">
+                  {resp}
+                </li>
+              ))} */}
             </ul>
           </div>
         ))}
