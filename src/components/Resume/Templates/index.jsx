@@ -13,14 +13,6 @@ export const defaultData = {
     jobTitle: "Job Title",
     bullets: ["Bullet Text", "Bullet Text", "Bullet Text"],
   },
-  experience: [
-    {
-      title: "Job Title",
-      company: "Company Name",
-      dateRange: "2020 - Present",
-      responsibilities: ["Your responsibilities"],
-    },
-  ],
   experienceDetails: [
     {
       jobTitle: "Job Title",
@@ -30,11 +22,13 @@ export const defaultData = {
       responsibilities: ["Your responsibilities"],
     },
   ],
-  education: [
+  educationDetails: [
     {
-      degree: "Your Degree",
-      school: "School Name",
-      dateRange: "2016 - 2020",
+      course: "Your Degree/Course",
+      schoolName: "School Name",
+      startDate: "",
+      endDate: "",
+      desc: [""],
     },
   ],
   skills: ["Skill 1", "Skill 2", "Skill 3"],
@@ -55,21 +49,24 @@ const ProfessionalBlueTemplate = ({ formData }) => {
       ...(formData?.objectiveDetails || {}),
     },
     experienceDetails: Array.isArray(formData?.experienceDetails)
-    ? formData.experienceDetails
-    : defaultData.experienceDetails || [],
+      ? formData.experienceDetails
+      : defaultData.experienceDetails || [],
+    educationDetails: Array.isArray(formData?.educationDetails.educationDetails)
+      ? formData.educationDetails.educationDetails
+      : defaultData.educationDetails || [],
   };
 
-  console.log('templates',formData)
+  console.log("templates", formData);
   const {
     personalDetails,
     objectiveDetails,
     experienceDetails,
-    education,
+    educationDetails,
     skills,
     interests,
   } = resumeData;
 
-console.log('res', experienceDetails)
+  console.log("res", experienceDetails);
   return (
     <div className="">
       <div className="text-center mb-8">
@@ -105,14 +102,12 @@ console.log('res', experienceDetails)
               <div className="font-bold capitalize">{job.jobTitle}</div>
               <div className="text-gray-600 italic">
                 {job.startDate} - {job.endDate}
-                </div>
+              </div>
             </div>
             <div className="font-bold">{job.companyName}</div>
             <ul className="list-disc pl-6">
               {job.responsibilities.map((resp, idx) => (
-                <li key={idx}>
-                  {resp}
-                </li>
+                <li key={idx}>{resp}</li>
               ))}
               {/* .map((resp, idx) => (
                 <li key={idx} className="mb-2">
@@ -124,18 +119,25 @@ console.log('res', experienceDetails)
         ))}
       </div>
 
-      {education && education.length > 0 && (
+      {educationDetails && educationDetails.length > 0 && (
         <div className="mb-6">
           <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase">
             Education
           </h2>
-          {education.map((edu, index) => (
+          {educationDetails.map((edu, index) => (
             <div key={index} className="mb-4">
               <div className="flex justify-between items-center">
-                <div className="font-bold">{edu.degree}</div>
-                <div className="text-gray-600">{edu.dateRange}</div>
+                <div className="font-bold">{edu.course}</div>
+                <div className="text-gray-600 italic">
+                  {edu.startDate} - {edu.endDate}
+                </div>
               </div>
-              <div>{edu.school}</div>
+              <div>{edu.schoolName}</div>
+              <ul className="list-disc italic">
+                {edu.desc.map((resp, idx) => (
+                  <p key={idx}>{resp}</p>
+                ))}
+              </ul>
             </div>
           ))}
         </div>

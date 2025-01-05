@@ -7,6 +7,8 @@ const Sidebar = ({ status }) => {
     { text: "Personal", icon: <FaPerson />, key: "personalDetails" },
     { text: "Objective", icon: <FaBookOpen />, key: "objectiveDetails" },
     { text: "Experience", icon: <FaBookOpen />, key: "experienceDetails" },
+    { text: "Education", icon: <FaToolbox />, key: "educationDetails" },
+    { text: "Skills", icon: <FaToolbox />, key: "skillDetails" },
     { text: "Contact", icon: <FaBookOpen />, key: "contactDetails" },
     { text: "Work", icon: <FaBriefcase />, key: "workDetails" },
     { text: "Experience", icon: <FaToolbox />, key: "experienceDetails" },

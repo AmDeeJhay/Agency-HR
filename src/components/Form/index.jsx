@@ -97,6 +97,237 @@ export const formConfig = {
   ],
 };
 
+
+const EducationDetailsForm = ({
+  data,
+  handleChange,
+  handleNext,
+  handlePrevious,
+}) => {
+  const [education, setEducation] = useState(
+    data.educationDetails || [
+      {
+        schoolName: "",
+        course: "",
+        startDate: "",
+        endDate: "",
+        desc: [""],
+      },
+    ]
+  );
+
+  const handleSchoolChange = (index, field, value) => {
+    const updatedSchool = [...education];
+    updatedSchool[index][field] = value;
+    setEducation(updatedSchool);
+
+    // Update the parent state
+    handleChange({
+      target: { name: "educationDetails", value: updatedSchool },
+    });
+  };
+
+  const handleAddSchool = () => {
+    setEducation([
+      ...education,
+      {
+        schoolName: "",
+        course: "",
+        startDate: "",
+        endDate: "",
+        desc: [""],
+      },
+    ]);
+  };
+
+  const handleRemoveSchool = (index) => {
+    const updatedSchool = education.filter((_, i) => i !== index);
+    setEducation(updatedSchool);
+
+    // Update the parent state
+    handleChange({
+      target: { name: "educationDetails", value: updatedSchool },
+    });
+  };
+
+  const handleDescChange = (expIndex, respIndex, value) => {
+    const updatedSchool = [...education];
+    if (!Array.isArray(updatedSchool[expIndex].desc)) {
+      updatedSchool[expIndex].desc = [value];
+    } else {
+      updatedSchool[expIndex].desc[respIndex] = value;
+    }
+    setEducation(updatedSchool);
+    handleChange({
+      target: { name: "educationDetails", value: updatedSchool },
+    });
+  };
+
+  const addDesc = (expIndex) => {
+    const updatedSchool = [...education];
+    if (!Array.isArray(updatedSchool[expIndex].desc)) {
+      updatedSchool[expIndex].desc = [""];
+    } else {
+      updatedSchool[expIndex].desc.push("");
+    }
+    setEducation(updatedSchool);
+  };
+
+  const removeDesc = (expIndex, respIndex) => {
+    const updatedSchool = [...education];
+    updatedSchool[expIndex].desc.splice(respIndex, 1);
+    setEducation(updatedSchool);
+    handleChange({
+      target: { name: "educationDetails", value: updatedSchool },
+    });
+  };
+
+  return (
+    <div>
+      <h3 className="text-sm font-semibold text-black font-poppins mb-4">
+        Education
+      </h3>
+      <form className="space-y-4">
+        <div className="grid grid-cols-1 gap-6">
+          {education.map((education, index) => (
+            <div
+              key={index}
+              className="border p-4 rounded-lg shadow-sm relative"
+            >
+              <h4 className="text-xs font-bold text-gray-700 mb-2">
+                School {index + 1}
+              </h4>
+
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  label="School Name"
+                  name="schoolName"
+                  value={education.schoolName}
+                  onChange={(e) =>
+                    handleSchoolChange(index, "schoolName", e.target.value)
+                  }
+                  placeholder="School Name"
+                />
+                <FormField
+                  label="Degree/Course"
+                  name="course"
+                  value={education.course}
+                  onChange={(e) =>
+                    handleSchoolChange(index, "course", e.target.value)
+                  }
+                  placeholder="Degree/Course"
+                />
+                <FormField
+                  label="Start Date"
+                  name="startDate"
+                  type="date"
+                  value={education.startDate}
+                  onChange={(e) =>
+                    handleSchoolChange(index, "startDate", e.target.value)
+                  }
+                  placeholder="Enter start date"
+                />
+                <FormField
+                  label="End Date"
+                  name="endDate"
+                  value={education.endDate}
+                  type="date"
+                  onChange={(e) =>
+                    handleSchoolChange(index, "endDate", e.target.value)
+                  }
+                  placeholder="Enter end date"
+                />
+              </div>
+              {/* <div className="mt-4">
+                  <FormField
+                    label="Your Experience"
+                    name="responsibilities"
+                    value={experience.responsibilities}
+                    onChange={(e) =>
+                      handleExperienceChange(index, "responsibilities", e.target.value)
+                    }
+                    placeholder="Describe your role and achievements"
+                  />
+                </div> */}
+
+              <div className="mt-4 space-y-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  {"Decription (optional):"}
+                </label>
+                {
+                  education.desc.map((resp, respIndex) => (
+                    <div
+                      key={respIndex}
+                      className="flex items-start gap-2 mb-2"
+                    >
+                      <div className="flex-grow">
+                        <div className="relative">
+                          <textarea
+                            value={resp}
+                            onChange={(e) =>
+                                handleDescChange(
+                                index,
+                                respIndex,
+                                e.target.value
+                              )
+                            }
+                            className="w-full p-2 border rounded-lg min-h-[70px] mb-2"
+                            placeholder="Insert text here..."
+                          />
+                        </div>
+                      </div>
+                      {education.desc.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            removeDesc(index, respIndex)
+                          }
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                <button
+                  type="button"
+                  onClick={() => addDesc(index)}
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center gap-2"
+                >
+                  <span>Add</span>
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handleRemoveSchool(index)}
+                className="absolute top-2 right-2 text-red-500 text-xs"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex justify-start mt-2">
+          <button
+            type="button"
+            onClick={handleAddSchool}
+            className="bg-gray-200 hover:bg-gray-300 border border-gray-400 text-black font-poppins px-4 py-2 rounded-lg text-xs"
+          >
+            Add New School
+          </button>
+        </div>
+
+        <div className="flex justify-between mt-4">
+          <Button onClick={() => handlePrevious()} text="Previous" />
+          <Button onClick={() => handleNext()} text="Next" />
+        </div>
+      </form>
+    </div>
+  );
+};
+
 const ExperienceDetailsForm = ({
   data,
   handleChange,
@@ -271,7 +502,7 @@ const ExperienceDetailsForm = ({
                                 e.target.value
                               )
                             }
-                            className="w-full p-2 border rounded-lg min-h-[80px] mb-2"
+                            className="w-full p-2 border rounded-lg min-h-[70px] mb-2"
                             placeholder="Describe your responsibility..."
                           />
                         </div>
@@ -505,4 +736,4 @@ const Button = ({ text, onClick }) => (
   </button>
 );
 
-export { PersonalDetailsForm, ObjectiveDetailsForm, ExperienceDetailsForm };
+export { PersonalDetailsForm, ObjectiveDetailsForm, ExperienceDetailsForm, EducationDetailsForm };

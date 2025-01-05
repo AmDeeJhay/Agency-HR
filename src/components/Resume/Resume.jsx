@@ -15,7 +15,7 @@ import {
 } from "react-icons/fa";
 import Select from "react-select";
 import countryList from "react-select-country-list";
-import { ExperienceDetailsForm, ObjectiveDetailsForm, PersonalDetailsForm } from "../Form";
+import { EducationDetailsForm, ExperienceDetailsForm, ObjectiveDetailsForm, PersonalDetailsForm } from "../Form";
 
 const socialOptions = [
   { value: "twitter", label: "Twitter" },
@@ -74,6 +74,7 @@ const SECTIONS = [
   "personalDetails",
   "objectiveDetails", 
   "experienceDetails",
+  "educationDetails",
   "contactDetails",
   "workDetails",
   "skills",
@@ -91,6 +92,8 @@ const ResumePage = () => {
     personalDetails: {},
     objectiveDetails: {},
     experienceDetails: {},
+    educationDetails: {},
+    educationDetails: {},
     contactDetails: {},
     workDetails: [{}],
     skills: [],
@@ -157,7 +160,6 @@ const ResumePage = () => {
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
-    console.log({name, value})
     if (currentSection === "workDetails") {
       setFormData((prev) => {
         const updatedWorkDetails = [...prev.workDetails];
@@ -340,6 +342,7 @@ const ResumePage = () => {
               handlePrevious={handlePrevious}
             />
           )}
+
           {currentSection === "experienceDetails" && (
             <ExperienceDetailsForm
               data={formData.experienceDetails}
@@ -349,6 +352,15 @@ const ResumePage = () => {
             />
           )}
 
+{currentSection === "educationDetails" && (
+            <EducationDetailsForm
+              data={formData.educationDetails}
+              handleChange={handleChange}
+              handleNext={handleNext}
+              handlePrevious={handlePrevious}
+            />
+          )}
+          
           {/* {currentSection === "personalDetails" && (
             <div>
               <h3 className="text-sm font-semibold text-black font-poppins mb-4">
