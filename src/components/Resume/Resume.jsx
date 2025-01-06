@@ -68,8 +68,18 @@ const ResumePage = () => {
 
   const [currentSection, setCurrentSection] = useState('personalDetails');
   const [formData, setFormData] = useState({
-    personalDetails: {},
-    contactDetails: {},
+    personalDetails: {
+      firstName: '',
+      lastName: '',
+      country: '',
+      state: '',
+      address: '',
+    },
+    contactDetails: {
+      phonenumber: '',
+      email: '',
+      sociallinks: 'github linkedin twitter dribble behance',
+    },
     workDetails: [{}],
     experienceDetails: {},
     skills: [],
@@ -102,7 +112,7 @@ const ResumePage = () => {
   const handleDeleteSkill = (index) => {
     setFormData((prev) => {
       const updatedSkills = prev.skills.filter((_, i) => i !== index);
-      return {
+      return { 
         ...prev,
         skills: updatedSkills,
       };
@@ -751,6 +761,17 @@ const ResumePage = () => {
           </div>
         </div>
       )}
+
+      {/* Preview Section */}
+      <div className="w-1/2 pl-4 border-l border-gray-300">
+            <h3 className="text-sm font-semibold text-black font-poppins mb-4">Resume Preview</h3>
+            <div className="bg-gray-100 p-4 rounded-md shadow-sm">
+              <h4 className="text-lg font-bold">{formData.personalDetails.firstName} {formData.personalDetails.lastName}</h4>
+              <p className="text-sm">{formData.personalDetails.phoneNumber}</p>
+              <p className="text-sm">{formData.personalDetails.email}</p>
+              {/* Add other sections as needed */}
+            </div>
+          </div>
     </div>
   );
 };
