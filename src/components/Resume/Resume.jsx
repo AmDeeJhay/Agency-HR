@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import ResumePreview from "./ResumePreview";
 import {
-  FaUser,
-  FaGlobe,
-  FaMapMarkerAlt,
-  FaHome,
+  // FaUser,
+  // FaGlobe,
+  // FaMapMarkerAlt,
+  // FaHome,
   FaPhone,
   FaEnvelope,
   FaPlus,
@@ -87,8 +87,19 @@ const ResumePage = () => {
 
   const [currentSection, setCurrentSection] = useState(SECTIONS[0]);
   const [formData, setFormData] = useState({
-    personalDetails: {},
-    contactDetails: {},
+    personalDetails: {
+      firstName: '',
+      lastName: '',
+      country: '',
+      state: '',
+      address: '',
+    },
+    contactDetails: {
+      phonenumber: '',
+      email: '',
+      sociallinks: 'github linkedin twitter dribble behance',
+    },
+    objectiveDetails: {},
     workDetails: [{}],
     skills: [],
   });
@@ -709,15 +720,6 @@ const ResumePage = () => {
                           <h3 className="text-sm font-semibold text-black font-poppins mb-4">
                             Description
                           </h3>
-                          {/* <div className="flex ml-2 space-x-2">
-                            <FaBold className="cursor-pointer" />
-                            <FaItalic className="cursor-pointer" />
-                            <FaUnderline className="cursor-pointer" />
-                            <FaListOl className="cursor-pointer" />
-                            <FaAlignLeft className="cursor-pointer" />
-                            <FaAlignCenter className="cursor-pointer" />
-                            <FaAlignRight className="cursor-pointer" />
-                          </div> */}
                         </div>
                         <textarea
                           name="description"
@@ -870,6 +872,14 @@ const ResumePage = () => {
           </div>
         </div>
       )}
+
+      <div className="w-1/2 border-l-8 max-h-[95vh] overflow-scroll">
+        <ResumePreview
+          formData={formData}
+          // selectedTemplate={selectedTemplate}
+          scale={0.8} // Adjust scale to fit the preview window
+        />
+      </div>
     </div>
   );
 };

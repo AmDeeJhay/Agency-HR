@@ -1,4 +1,5 @@
-import React from "react";
+// import React from "react";
+import PropTypes from "prop-types";
 import { FaCheck } from "react-icons/fa";
 import { FaPerson, FaBookOpen, FaBriefcase, FaToolbox } from "react-icons/fa6";
 
@@ -10,7 +11,7 @@ const Sidebar = ({ status }) => {
     { text: "Work", icon: <FaBriefcase />, key: "workDetails" },
     { text: "Experience", icon: <FaToolbox />, key: "experienceDetails" },
   ];
-  
+
   return (
     <div className="bg-white text-black h-screen p-3 flex flex-col items-center fixed w-36 mr-5 border-b-8 border-red-950 border-r-8">
       <h2 className="text-sm md:text-base font-semibold text-black font-poppins mb-5 mt-24">
@@ -27,22 +28,21 @@ const Sidebar = ({ status }) => {
             >
               {status[item.key] === "completed" && <FaCheck className="text-white text-xs md:text-base" />}
             </div>
-            {/* Text or Icon based on screen size */}
-            <div className="ml-3 hidden sm:block">
-              <h3 className="text-xs text-black font-poppins font-semibold uppercase">
-                {item.text}
-              </h3>
+            {/* Icon and Text */}
+            <div className="ml-2 flex items-center">
+              {item.icon}
+              <span className="ml-2 text-xs md:text-sm font-poppins">{item.text}</span>
             </div>
-            <div className="ml-3 sm:hidden">{item.icon}</div>
-            {/* Connector Line */}
-            {index !== details.length - 1 && (
-              <div className="absolute ml-2 md:ml-3 transform -translate-x-1/2 top-full h-6 border-l-2 border-black"></div>
-            )}
           </div>
         ))}
       </div>
     </div>
   );
+};
+
+// Define prop types
+Sidebar.propTypes = {
+  status: PropTypes.object.isRequired, // Adjust the shape as needed
 };
 
 export default Sidebar;

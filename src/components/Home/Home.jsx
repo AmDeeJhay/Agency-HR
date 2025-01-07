@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+// import { useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 // import siriGif from './path/to/siri.gif'; // Update with the correct path to the GIF
 
