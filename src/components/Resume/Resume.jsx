@@ -15,7 +15,7 @@ import {
 } from "react-icons/fa";
 import Select from "react-select";
 import countryList from "react-select-country-list";
-import { EducationDetailsForm, ExperienceDetailsForm, ObjectiveDetailsForm, PersonalDetailsForm } from "../Form";
+import { EducationDetailsForm, ExperienceDetailsForm, ObjectiveDetailsForm, PersonalDetailsForm, SkillsForm } from "../Form";
 
 const socialOptions = [
   { value: "twitter", label: "Twitter" },
@@ -75,6 +75,7 @@ const SECTIONS = [
   "objectiveDetails", 
   "experienceDetails",
   "educationDetails",
+  "skillsDetails",
   "contactDetails",
   "workDetails",
   "skills",
@@ -93,7 +94,7 @@ const ResumePage = () => {
     objectiveDetails: {},
     experienceDetails: {},
     educationDetails: {},
-    educationDetails: {},
+    skillsDetails: {},
     contactDetails: {},
     workDetails: [{}],
     skills: [],
@@ -355,6 +356,15 @@ const ResumePage = () => {
 {currentSection === "educationDetails" && (
             <EducationDetailsForm
               data={formData.educationDetails}
+              handleChange={handleChange}
+              handleNext={handleNext}
+              handlePrevious={handlePrevious}
+            />
+          )}
+
+{currentSection === "skillsDetails" && (
+            <SkillsForm
+              data={formData.skillsDetails}
               handleChange={handleChange}
               handleNext={handleNext}
               handlePrevious={handlePrevious}

@@ -6,7 +6,6 @@ import Resume from './components/Resume/Resume';
 import Cover from './components/Cover-Letter/Cover-Letter';
 import Chat from './components/Chats/Chat';
 import Footer from './components/Footer/Footer';
-import Demo from './components/Demo';
 
 function App() {
   return (
@@ -19,7 +18,6 @@ function App() {
             <Route path="/resume" element={<Resume />} />
             <Route path="/cover-letter" element={<Cover />} />
             <Route path="/chat" element={<Chat />} />
-            <Route path="/demo" element={<Demo />} />
             {/* Add more routes here as needed */}
           </Routes>
         </main>

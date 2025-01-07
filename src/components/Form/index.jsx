@@ -97,6 +97,86 @@ export const formConfig = {
   ],
 };
 
+const SkillsForm = ({ data, handleChange, handleNext, handlePrevious }) => {
+  const [education, setEducation] = useState(
+    data.skillsDetails || [""]
+  );
+
+  const handleDescChange = (index, value) => {
+    const updatedEducation = [...education];
+    updatedEducation[index] = value;
+    setEducation(updatedEducation);
+    handleChange({
+      target: { name: "skillsDetails", value: updatedEducation },
+    });
+  };
+
+  const addDesc = () => {
+    const updatedEducation = [...education, ""];
+    setEducation(updatedEducation);
+    handleChange({
+      target: { name: "skillsDetails", value: updatedEducation },
+    });
+  };
+
+  const removeDesc = (index) => {
+    const updatedEducation = education.filter((_, i) => i !== index);
+    setEducation(updatedEducation);
+    handleChange({
+      target: { name: "skillsDetails", value: updatedEducation },
+    });
+  };
+
+  return (
+    <div>
+      <h3 className="text-sm font-semibold text-black font-poppins mb-4">
+        Your Skills
+      </h3>
+      <form className="space-y-4">
+        <div className="grid grid-cols-1 gap-2">
+          <div className="border p-4 rounded-lg shadow-sm relative">
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Add New Skill
+              </label>
+              {education.map((skill, index) => (
+                <div key={index} className="flex items-start gap-2 mb-2">
+                  <input
+                    value={skill}
+                    onChange={(e) => handleDescChange(index, e.target.value)}
+                    className="w-full p-2 border rounded-lg min-h-[40px]"
+                    placeholder="Insert skill here..."
+                  />
+                  {education.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeDesc(index)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addDesc}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg"
+              >
+                Add Skill
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-between mt-4">
+          <Button onClick={handlePrevious} text="Previous" />
+          <Button onClick={handleNext} text="Next" />
+        </div>
+      </form>
+    </div>
+  );
+};
 
 const EducationDetailsForm = ({
   data,
@@ -736,4 +816,4 @@ const Button = ({ text, onClick }) => (
   </button>
 );
 
-export { PersonalDetailsForm, ObjectiveDetailsForm, ExperienceDetailsForm, EducationDetailsForm };
+export { PersonalDetailsForm, ObjectiveDetailsForm, ExperienceDetailsForm, EducationDetailsForm, SkillsForm };

@@ -31,7 +31,7 @@ export const defaultData = {
       desc: [""],
     },
   ],
-  skills: ["Skill 1", "Skill 2", "Skill 3"],
+  skillDetails: ["Skill 1", "Skill 2", "Skill 3"],
   interests: "Your interests and hobbies",
 };
 
@@ -54,6 +54,9 @@ const ProfessionalBlueTemplate = ({ formData }) => {
     educationDetails: Array.isArray(formData?.educationDetails.educationDetails)
       ? formData.educationDetails.educationDetails
       : defaultData.educationDetails || [],
+      skillsDetails: Array.isArray(formData?.skillsDetails.skillsDetails)
+      ? formData.skillsDetails.skillsDetails
+      : defaultData.skillsDetails || [],
   };
 
   console.log("templates", formData);
@@ -62,7 +65,7 @@ const ProfessionalBlueTemplate = ({ formData }) => {
     objectiveDetails,
     experienceDetails,
     educationDetails,
-    skills,
+    skillsDetails,
     interests,
   } = resumeData;
 
@@ -148,14 +151,17 @@ const ProfessionalBlueTemplate = ({ formData }) => {
           Skills
         </h2>
         <div className="flex flex-wrap gap-2">
-          {skills.map((skill, index) => (
+          {skillsDetails.map((skill, index) => {
+            
+            if(skill !== "") return (
+            
             <div
               key={index}
               className="bg-blue-50 text-blue-600 px-4 py-1 rounded-full text-sm"
             >
               {skill}
             </div>
-          ))}
+          )})}
         </div>
       </div>
 
