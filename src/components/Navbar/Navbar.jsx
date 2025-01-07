@@ -1,10 +1,10 @@
-import Hamburger from "hamburger-react";
-import React, { useState, useEffect } from "react";
+// import { Hamburger } from "hamburger-react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [IsOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const links = [
     { id: 1, text: "Home", to: "/" },
@@ -33,7 +33,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`bg-white shadow-md text-black  flex items-center justify-between px-4 py-5 sm:py-8 transition-all duration-3 z-50 ${
+      className={`bg-white shadow-md text-black  flex items-center justify-between px-5 py-2 sm:py-4 transition-all duration-3 z-50 ${
         isScrolled ? "fixed top-0 left-0 w-full z-50" : ""
       }`}
     >
@@ -46,7 +46,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/"
-              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-sm"
+              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-xs"
             >
               Home
             </Link>
@@ -54,7 +54,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/resume"
-              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-sm"
+              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-xs"
             >
               Create Resume
             </Link>
@@ -62,7 +62,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/cover-letter"
-              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-sm"
+              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-xs"
             >
               Cover Letter
             </Link>
@@ -70,7 +70,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/chat"
-              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-sm"
+              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-xs"
             >
               Chat
             </Link>
@@ -101,7 +101,7 @@ const Navbar = () => {
 
           <div
             className={`fixed top-0 left-0 h-full w-64 bg-white text-white transform ${
-              IsOpen ? "translate-x-0" : "-translate-x-full"
+              isOpen ? "translate-x-0" : "-translate-x-full"
             } transition-transform duration-300 ease-in-out sm:hidden`}
           >
             <div className="p-4 flex justify-end items-center">
@@ -127,7 +127,7 @@ const Navbar = () => {
             </ul>
           </div>
 
-          {IsOpen && (
+          {isOpen && (
             <div
               onClick={toggleDrawer}
               className="fixed inset-0 bg-black bg-opacity-50 sm:hidden -z-50"

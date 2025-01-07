@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import ResumePreview from "./ResumePreview";
 import {
-  FaUser,
-  FaGlobe,
-  FaMapMarkerAlt,
-  FaHome,
+  // FaUser,
+  // FaGlobe,
+  // FaMapMarkerAlt,
+  // FaHome,
   FaPhone,
   FaEnvelope,
   FaPlus,
@@ -90,12 +90,19 @@ const ResumePage = () => {
 
   const [currentSection, setCurrentSection] = useState(SECTIONS[0]);
   const [formData, setFormData] = useState({
-    personalDetails: {},
+    personalDetails: {
+      firstName: '',
+      lastName: '',
+      country: '',
+      state: '',
+      address: '',
+    },
+    contactDetails: {
+      phonenumber: '',
+      email: '',
+      sociallinks: 'github linkedin twitter dribble behance',
+    },
     objectiveDetails: {},
-    experienceDetails: {},
-    educationDetails: {},
-    skillsDetails: {},
-    contactDetails: {},
     workDetails: [{}],
     skills: [],
   });
@@ -126,7 +133,7 @@ const ResumePage = () => {
   const handleDeleteSkill = (index) => {
     setFormData((prev) => {
       const updatedSkills = prev.skills.filter((_, i) => i !== index);
-      return {
+      return { 
         ...prev,
         skills: updatedSkills,
       };
@@ -750,15 +757,6 @@ const ResumePage = () => {
                           <h3 className="text-sm font-semibold text-black font-poppins mb-4">
                             Description
                           </h3>
-                          {/* <div className="flex ml-2 space-x-2">
-                            <FaBold className="cursor-pointer" />
-                            <FaItalic className="cursor-pointer" />
-                            <FaUnderline className="cursor-pointer" />
-                            <FaListOl className="cursor-pointer" />
-                            <FaAlignLeft className="cursor-pointer" />
-                            <FaAlignCenter className="cursor-pointer" />
-                            <FaAlignRight className="cursor-pointer" />
-                          </div> */}
                         </div>
                         <textarea
                           name="description"
