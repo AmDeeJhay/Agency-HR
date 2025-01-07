@@ -46,7 +46,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/"
-              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-sm"
+              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-xs"
             >
               Home
             </Link>
@@ -54,7 +54,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/resume"
-              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-sm"
+              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-xs"
             >
               Create Resume
             </Link>
@@ -62,7 +62,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/cover-letter"
-              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-sm"
+              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-xs"
             >
               Cover Letter
             </Link>
@@ -70,7 +70,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/chat"
-              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-sm"
+              className=" nav-link relative cursor-pointer text-black font-semibold font-poppins text-xs"
             >
               Chat
             </Link>
