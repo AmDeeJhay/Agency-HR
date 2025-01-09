@@ -8,6 +8,7 @@ const defaultData = {
     email: "email@example.com",
     phone: "(123) 456-7890",
     linkedIn: "linkedin.com/in/yourprofile"
+   
   },
   summary: ["Your professional summary"],
   experience: [{
@@ -35,7 +36,7 @@ const Demo = ({ data = defaultData }) => {
       <p>{mergedData.personalInfo.email}</p>
       <p>{mergedData.personalInfo.phone}</p>
       <p>{mergedData.personalInfo.linkedIn}</p>
-      <h2>Summary</h2>
+      <h2></h2>
       <ul>
         {mergedData.summary.map((item, index) => (
           <li key={index}>{item}</li>

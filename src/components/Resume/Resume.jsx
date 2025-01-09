@@ -90,18 +90,20 @@ const ResumePage = () => {
     personalDetails: {
       firstName: '',
       lastName: '',
-      country: '',
-      state: '',
-      address: '',
+      email: '',
+      phone: '',
+      linkedin: '',
     },
     contactDetails: {
-      phonenumber: '',
-      email: '',
-      sociallinks: 'github linkedin twitter dribble behance',
     },
-    objectiveDetails: {},
-    workDetails: [{}],
-    skills: [],
+    objectiveDetails: {
+    },
+    workDetails: [{
+
+    }],
+    skills: [
+
+    ],
   });
 
   const handleAddSkill = (selectedOption) => {
@@ -301,17 +303,17 @@ const ResumePage = () => {
   return (
     <div className="h-screen bg-gray-50 text-gray-900 flex flex-1">
       {/* Sidebar */}
-      <div className="w-36 ">
+      <div className="w-36">
         <Sidebar status={status} />
       </div>
-
+      
       {/* Main Content */}
-      <main className="flex-1 p-8 ml-0 bg-gray-500 overflow-y-scroll max-h-[95vh]">
+      <main className="flex-1 p-8 ml-0 bg-gray-50 overflow-y-scroll max-h-[95vh]">
         <header className="flex justify-between items-center mb-6">
-          <h2 className="text-base font-bold font-poppins ml-6 mt-1">
+          <h2 className="text-sm font-semibold font-poppins ml-6 mt-1">
             Create Your Resume
           </h2>
-          <div
+          {/* <div
             className={`text-sm font-semibold ${
               isSectionCompleted(currentSection)
                 ? "text-green-500"
@@ -319,7 +321,7 @@ const ResumePage = () => {
             }`}
           >
             {isSectionCompleted(currentSection) ? "Completed" : "Pending"}
-          </div>
+          </div> */}
         </header>
 
         <div className="bg-white shadow-md rounded-lg w-full p-8 overflow-auto">

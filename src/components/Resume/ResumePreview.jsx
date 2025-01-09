@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Search, ZoomIn, ZoomOut, RotateCw } from "lucide-react";
 import { ProfessionalBlueTemplate } from "./Templates";
 
