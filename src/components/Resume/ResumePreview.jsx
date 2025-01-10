@@ -1,21 +1,19 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ZoomIn, ZoomOut } from "lucide-react";
 import { ProfessionalBlueTemplate } from "./Templates";
 
 const ResumePreview = ({ formData, selectedTemplate, scale = 1 }) => {
-    const {personalDetails} = formData
-  // A4 dimensions in pixels (assuming 96 DPI)
-  // A4 is 210mm × 297mm, which is approximately 794px × 1123px
   const A4_WIDTH = 794;
   const A4_HEIGHT = 1123;
 
+  const contentRef = useRef(null)
 //   Zoom
 const [previewScale, setPreviewScale] = useState(0.5);
-// const [previewRotation, setPreviewRotation] = useState(0);
+const [previewRotation, setPreviewRotation] = useState(0);
 
 const handleZoomIn = () => setPreviewScale(scale => Math.min(scale + 0.1, 1));
 const handleZoomOut = () => setPreviewScale(scale => Math.max(scale - 0.1, 0.3));
-// const handleRotate = () => setPreviewRotation(rotation => (rotation + 90) % 360);
+const handleRotate = () => setPreviewRotation(rotation => (rotation + 90) % 360);
 
   return (
     <div className="flex-1 relative bg-gray-100 overflow-hidden">
@@ -24,7 +22,10 @@ const handleZoomOut = () => setPreviewScale(scale => Math.max(scale - 0.1, 0.3))
         <button className="p-2 hover:bg-gray-100 rounded-full">
           <ZoomIn className="w-5 h-5" onClick={handleZoomIn}/>
         </button>
-        <button className="p-2 hover:bg-gray-100 rounded-full" onClick={handleZoomOut}>
+        <button
+          className="p-2 hover:bg-gray-100 rounded-full"
+          onClick={handleZoomOut}
+        >
           <ZoomOut className="w-5 h-5" />
         </button>
         {/* <button className="p-2 hover:bg-gray-100 rounded-full">
@@ -35,41 +36,86 @@ const handleZoomOut = () => setPreviewScale(scale => Math.max(scale - 0.1, 0.3))
         </button> */}
       </div>
 
-      {/* A4 Paper Preview */}
-      <div className="w-full h-full overflow-auto p-8 flex items-center justify-center">
+      {/* Resume Preview Area */}
+      <div className="w-full h-full overflow-auto p-8">
         <div
-          className="bg-white shadow-lg transform-gpu"
           style={{
-            width: `${A4_WIDTH * scale}px`,
-            height: `${A4_HEIGHT * scale}px`,
-            transform: `scale(${scale})`,
+            transform: `scale(${previewScale}) rotate(${previewRotation}deg)`,
             transformOrigin: "center top",
             transition: "transform 0.2s ease",
           }}
+          ref={contentRef}
         >
-          {/* Resume Content */}
-          <div className="w-full h-full p-12 overflow-hidden">
+          <style>
+            {`
+              @media print {
+                @page {
+                  size: A4;
+                  margin: 0;
+                }
+                body {
+                  margin: 0;
+                  padding: 0;
+                }
+                .page-break {
+                  break-after: page;
+                  page-break-after: always;
+                }
+                .no-break {
+                  break-inside: avoid;
+                  page-break-inside: avoid;
+                }
+              }
+
+              .resume-content {
+                column-count: 1;
+                column-fill: auto;
+                column-gap: 0;
+              }
+
+              .section {
+                break-inside: avoid;
+                page-break-inside: avoid;
+              }
+            `}
+          </style>
+
+          {/* <div className="resume-content" ref={contentRef}> */}
+          {/* {splitIntoPages( */}
+          <ResumePage pageNumber={1} totalPages={1}>
+            {/* <div className="w-full h-full"> */}
             <ProfessionalBlueTemplate formData={formData} />
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
-            optio possimus voluptatum nulla aspernatur deserunt reprehenderit
-            nemo excepturi esse sunt hic dolore natus magni quibusdam eos, id
-            eius minus porro!
-            {/* {selectedTemplate === 'template1' && (
-              <ProfessionalTemplate formData={formData} />
-            )}
-            {selectedTemplate === 'template2' && (
-              <ModernTemplate formData={formData} />
-            )}
-            {selectedTemplate === 'template3' && (
-              <ClassicTemplate formData={formData} />
-            )} */}
-          </div>
+
+            {/* </div> */}
+          </ResumePage>
+          {/* )} */}
+          {/* </div> */}
         </div>
       </div>
     </div>
   );
 };
 
+const ResumePage = ({ children, pageNumber, totalPages }) => {
+  return (
+    <div
+      className="bg-white shadow-lg mx-auto relative mb-8 last:mb-0"
+      style={{
+        width: "794px", // A4 width
+        minHeight: "1123px", // A4 height
+        padding: "48px",
+      }}
+    >
+      <div
+        className="absolute top-4 right-4 text-gray-400 text-sm"
+        style={{ userSelect: "none" }}
+      >
+        Page {pageNumber} of {totalPages}
+      </div>
+      <div className="h-full">{children}</div>
+    </div>
+  );
+};
 // Example template component
 // const ProfessionalTemplate = ({ formData }) => {
 //   const { personalDetails, contactDetails, workDetails, skills } = formData;

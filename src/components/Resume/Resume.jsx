@@ -15,7 +15,13 @@ import {
 } from "react-icons/fa";
 import Select from "react-select";
 import countryList from "react-select-country-list";
-import { ObjectiveDetailsForm, PersonalDetailsForm } from "../Form";
+import {
+  EducationDetailsForm,
+  ExperienceDetailsForm,
+  ObjectiveDetailsForm,
+  PersonalDetailsForm,
+  SkillsForm,
+} from "../Form";
 
 const socialOptions = [
   { value: "twitter", label: "Twitter" },
@@ -72,7 +78,10 @@ const yearOptions = Array.from({ length: 50 }, (_, i) => {
 });
 const SECTIONS = [
   "personalDetails",
-  "objectiveDetails", // New section is included seamlessly
+  "objectiveDetails",
+  "experienceDetails",
+  "educationDetails",
+  "skillsDetails",
   "contactDetails",
   "workDetails",
   "skills",
@@ -94,6 +103,9 @@ const ResumePage = () => {
       phone: '',
       linkedin: '',
     },
+    educationDetails: {},
+    experienceDetails: {},
+    skillsDetails: {},
     contactDetails: {
     },
     objectiveDetails: {
@@ -132,7 +144,7 @@ const ResumePage = () => {
   const handleDeleteSkill = (index) => {
     setFormData((prev) => {
       const updatedSkills = prev.skills.filter((_, i) => i !== index);
-      return { 
+      return {
         ...prev,
         skills: updatedSkills,
       };
@@ -179,6 +191,12 @@ const ResumePage = () => {
           workDetails: updatedWorkDetails,
         };
       });
+    } else if (name === "experienceDetails") {
+      // Special case for experienceDetails (handle as an array)
+      setFormData((prev) => ({
+        ...prev,
+        experienceDetails: value, // Directly set the array
+      }));
     } else {
       setFormData((prev) => ({
         ...prev,
@@ -199,7 +217,9 @@ const ResumePage = () => {
     if (isSectionCompleted(currentSection)) {
       setStatus((prev) => ({
         ...prev,
-        [currentSection]: isSectionCompleted(currentSection) ? "completed" : "pending",
+        [currentSection]: isSectionCompleted(currentSection)
+          ? "completed"
+          : "pending",
       }));
 
       if (currentIndex < SECTIONS.length - 1) {
@@ -245,6 +265,7 @@ const ResumePage = () => {
 
   const isSectionCompleted = (section) => {
     const sectionData = formData[section];
+    console.log("sectionData",sectionData)
     return Object.values(sectionData).every((value) => value !== "");
   };
 
@@ -286,13 +307,42 @@ const ResumePage = () => {
             <PersonalDetailsForm
               data={formData.personalDetails}
               handleChange={handleChange}
+              handleCountryChange={handleCountryChange}
+              handleStateChange={handleStateChange}
               handleNext={handleNext}
             />
           )}
 
           {currentSection === "objectiveDetails" && (
             <ObjectiveDetailsForm
-              data={formData.personalDetails}
+              data={formData.objectiveDetails}
+              handleChange={handleChange}
+              handleNext={handleNext}
+              handlePrevious={handlePrevious}
+            />
+          )}
+
+          {currentSection === "experienceDetails" && (
+            <ExperienceDetailsForm
+              data={formData.experienceDetails}
+              handleChange={handleChange}
+              handleNext={handleNext}
+              handlePrevious={handlePrevious}
+            />
+          )}
+
+          {currentSection === "educationDetails" && (
+            <EducationDetailsForm
+              data={formData.educationDetails}
+              handleChange={handleChange}
+              handleNext={handleNext}
+              handlePrevious={handlePrevious}
+            />
+          )}
+
+          {currentSection === "skillsDetails" && (
+            <SkillsForm
+              data={formData.skillsDetails}
               handleChange={handleChange}
               handleNext={handleNext}
               handlePrevious={handlePrevious}
@@ -747,11 +797,12 @@ const ResumePage = () => {
         </div>
       )}
 
+      {console.log("preview", formData)}
       <div className="w-1/2 border-l-8 max-h-[95vh] overflow-scroll">
         <ResumePreview
           formData={formData}
           // selectedTemplate={selectedTemplate}
-          scale={0.8} // Adjust scale to fit the preview window
+          scale={1} // Adjust scale to fit the preview window
         />
       </div>
     </div>

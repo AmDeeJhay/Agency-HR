@@ -12,8 +12,11 @@ const Sidebar = ({ status }) => {
   ];
 
   return (
-    <div className="bg-white text-black h-screen p-2 flex flex-col items-center fixed w-36 border-r-2 border-gray-200">
-      <div className="space-y-5 w-full">
+    <div className="text-black h-screen p-3 flex flex-col items-center fixed w-40 mr-5 border-r-2 bg-gray-50">
+      <h2 className="text-sm md:text-base font-semibold text-black font-poppins mb-5 mt-24">
+        Progress
+      </h2>
+      <div className="space-y-6 w-full">
         {details.map((item, index) => (
           <div key={index} className="relative flex items-center mb-4 mt-24 ">
             {/* Icon and Text */}
