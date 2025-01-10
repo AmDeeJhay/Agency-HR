@@ -19,7 +19,6 @@ function App() {
             <Route path="/resume" element={<Resume />} />
             <Route path="/cover-letter" element={<Cover />} />
             <Route path="/chat" element={<Chat />} />
-            {/* Add more routes here as needed */}
           </Routes>
         </main>
         <Footer />

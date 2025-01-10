@@ -96,13 +96,7 @@ const ResumePage = () => {
 
   const [currentSection, setCurrentSection] = useState(SECTIONS[0]);
   const [formData, setFormData] = useState({
-    personalDetails: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      linkedin: '',
-    },
+    personalDetails: {},
     educationDetails: {},
     experienceDetails: {},
     skillsDetails: {},
@@ -240,7 +234,7 @@ const ResumePage = () => {
       setCurrentSection(SECTIONS[currentIndex - 1]);
     }
   };
- 
+
 
   const handleCountryChange = (selectedOption) => {
     setFormData((prev) => ({
@@ -265,7 +259,7 @@ const ResumePage = () => {
 
   const isSectionCompleted = (section) => {
     const sectionData = formData[section];
-    console.log("sectionData",sectionData)
+    console.log("sectionData", sectionData)
     return Object.values(sectionData).every((value) => value !== "");
   };
 
@@ -291,14 +285,14 @@ const ResumePage = () => {
       <div className="w-36">
         <Sidebar status={status} />
       </div>
-      
+
       {/* Main Content */}
       <main className="flex-1 p-8 ml-0 bg-gray-50 overflow-y-scroll max-h-[95vh]">
         <header className="flex justify-between items-center mb-6">
           <h2 className="text-sm font-semibold font-poppins ml-6 mt-1">
             Create Your Resume
           </h2>
-         
+
         </header>
 
         <div className="bg-white shadow-md rounded-lg w-full p-8 overflow-auto">
@@ -349,7 +343,7 @@ const ResumePage = () => {
             />
           )}
 
-          
+
           {/* {currentSection === "contactDetails" && (
             <div>
               <h3 className="text-sm font-semibold text-black font-poppins mb-4">
@@ -802,7 +796,7 @@ const ResumePage = () => {
         <ResumePreview
           formData={formData}
           // selectedTemplate={selectedTemplate}
-          scale={1} // Adjust scale to fit the preview window
+          scale={2} // Adjust scale to fit the preview window
         />
       </div>
     </div>
