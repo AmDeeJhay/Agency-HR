@@ -269,14 +269,14 @@ const ResumePage = () => {
     return Object.values(sectionData).every((value) => value !== "");
   };
 
-  const handleAddSocialLink = (selectedOption) => {
-    setSocialLinks((prev) => [...prev, selectedOption]);
-    setShowSocialOptions(false);
-  };
+  // const handleAddSocialLink = (selectedOption) => {
+  //   setSocialLinks((prev) => [...prev, selectedOption]);
+  //   setShowSocialOptions(false);
+  // };
 
-  const handleRemoveSocialLink = (index) => {
-    setSocialLinks((prev) => prev.filter((_, i) => i !== index));
-  };
+  // const handleRemoveSocialLink = (index) => {
+  //   setSocialLinks((prev) => prev.filter((_, i) => i !== index));
+  // };
 
   const countryOptions = countryList().getData();
   const stateOptions = [
@@ -350,7 +350,7 @@ const ResumePage = () => {
           )}
 
           
-          {currentSection === "contactDetails" && (
+          {/* {currentSection === "contactDetails" && (
             <div>
               <h3 className="text-sm font-semibold text-black font-poppins mb-4">
                 Contact Details
@@ -444,10 +444,10 @@ const ResumePage = () => {
                 </div>
               </form>
             </div>
-          )}
+          )} */}
 
           {/* Form Section */}
-          {currentSection === "workDetails" && (
+          {/* {currentSection === "workDetails" && (
             <div>
               <h3 className="text-xl font-bold text-gray-800 mb-4">
                 Professional Experience
@@ -681,9 +681,9 @@ const ResumePage = () => {
                 </button>
               </div>
             </div>
-          )}
+          )} */}
 
-          {currentSection === "skills" && (
+          {/* {currentSection === "skills" && (
             <div>
               <h3 className="text-xl font-bold text-gray-800 mb-4">
                 Create Skills
@@ -773,7 +773,7 @@ const ResumePage = () => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </main>
 

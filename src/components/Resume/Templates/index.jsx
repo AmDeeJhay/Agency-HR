@@ -1,5 +1,3 @@
-import React from "react";
-
 // Sample default formData
 export const defaultData = {
   personalDetails: {
@@ -7,10 +5,12 @@ export const defaultData = {
     lastName: "LastName",
     email: "email@example.com",
     phone: "(123) 456-7890",
-    linkedin: "linkedin.com/in/yourprofile",
-    github: "github.com/yourprofile",
-    address: "youraddress"
-  },
+    country: "",
+    state: "",
+    address: "",
+    linkedin: "linkedin.com/in/yourprofile"
+    
+  }, 
   objectiveDetails: {
     jobTitle: "Job Title",
     bullets: ["Bullet Text", "Bullet Text", "Bullet Text"],
@@ -108,11 +108,11 @@ const ProfessionalBlueTemplate = ({ formData, pageNumber }) => {
   };
 
   return (
-    <div className="resume-container text-xs">
+    <div className="resume-container text-base">
       {/* Header Section */}
       <section className="resume-section page-section">
-        <div className="text-center">
-          <h1 className="text-xl text-blue-600 font-bold uppercase mb-2">
+        <div className="text-center mb-10">
+          <h1 className="text-2xl text-black font-poppins font-semibold uppercase mb-2">
             {personalDetails.firstName} {personalDetails.lastName}
           </h1>
           <div className="text-gray-600 flex justify-between border-b-2 border-black">

@@ -16,7 +16,7 @@ const handleZoomOut = () => setPreviewScale(scale => Math.max(scale - 0.1, 0.3))
 const handleRotate = () => setPreviewRotation(rotation => (rotation + 90) % 360);
 
   return (
-    <div className="flex-1 relative bg-gray-100 overflow-hidden">
+    <div className="flex-1 relative bg-gray-50 overflow-hidden">
       {/* Preview Controls */}
       <div className="fixed right-9 bottom-3 transform -translate-x-1/2 flex items-center gap-2 bg-white rounded-lg shadow-lg p-2 z-10">
         <button className="p-2 hover:bg-gray-100 rounded-full">
