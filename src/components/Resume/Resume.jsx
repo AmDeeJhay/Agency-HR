@@ -97,28 +97,16 @@ const ResumePage = () => {
   const [currentSection, setCurrentSection] = useState(SECTIONS[0]);
   const [formData, setFormData] = useState({
     personalDetails: {
-<<<<<<< HEAD
-      country: "",
-      state: "",
-      address: "",
-=======
       firstName: '',
       lastName: '',
       email: '',
       phone: '',
       linkedin: '',
->>>>>>> ecf84369465b38bf8010b78f32efcd1a53bc9800
     },
     educationDetails: {},
     experienceDetails: {},
     skillsDetails: {},
     contactDetails: {
-<<<<<<< HEAD
-      phonenumber: "",
-      email: "",
-      sociallinks: "github linkedin twitter dribble behance",
-=======
->>>>>>> ecf84369465b38bf8010b78f32efcd1a53bc9800
     },
     objectiveDetails: {
     },
@@ -305,11 +293,7 @@ const ResumePage = () => {
       </div>
       
       {/* Main Content */}
-<<<<<<< HEAD
-      <main className="flex-1 pl-9 p-4 ml-0 overflow-y-scroll max-h-[95vh]">
-=======
       <main className="flex-1 p-8 ml-0 bg-gray-50 overflow-y-scroll max-h-[95vh]">
->>>>>>> ecf84369465b38bf8010b78f32efcd1a53bc9800
         <header className="flex justify-between items-center mb-6">
           <h2 className="text-sm font-semibold font-poppins ml-6 mt-1">
             Create Your Resume

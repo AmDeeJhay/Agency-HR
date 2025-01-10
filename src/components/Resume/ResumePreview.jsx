@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ZoomIn, ZoomOut } from "lucide-react";
 import { ProfessionalBlueTemplate } from "./Templates";
 
@@ -6,13 +6,14 @@ const ResumePreview = ({ formData, selectedTemplate, scale = 1 }) => {
   const A4_WIDTH = 794;
   const A4_HEIGHT = 1123;
 
+  const contentRef = useRef(null)
 //   Zoom
 const [previewScale, setPreviewScale] = useState(0.5);
-// const [previewRotation, setPreviewRotation] = useState(0);
+const [previewRotation, setPreviewRotation] = useState(0);
 
 const handleZoomIn = () => setPreviewScale(scale => Math.min(scale + 0.1, 1));
 const handleZoomOut = () => setPreviewScale(scale => Math.max(scale - 0.1, 0.3));
-// const handleRotate = () => setPreviewRotation(rotation => (rotation + 90) % 360);
+const handleRotate = () => setPreviewRotation(rotation => (rotation + 90) % 360);
 
   return (
     <div className="flex-1 relative bg-gray-100 overflow-hidden">
