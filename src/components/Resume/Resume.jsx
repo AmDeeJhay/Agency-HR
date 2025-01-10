@@ -97,21 +97,37 @@ const ResumePage = () => {
   const [currentSection, setCurrentSection] = useState(SECTIONS[0]);
   const [formData, setFormData] = useState({
     personalDetails: {
+<<<<<<< HEAD
       country: "",
       state: "",
       address: "",
+=======
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      linkedin: '',
+>>>>>>> ecf84369465b38bf8010b78f32efcd1a53bc9800
     },
     educationDetails: {},
     experienceDetails: {},
     skillsDetails: {},
     contactDetails: {
+<<<<<<< HEAD
       phonenumber: "",
       email: "",
       sociallinks: "github linkedin twitter dribble behance",
+=======
+>>>>>>> ecf84369465b38bf8010b78f32efcd1a53bc9800
     },
-    objectiveDetails: {},
-    workDetails: [{}],
-    skills: [],
+    objectiveDetails: {
+    },
+    workDetails: [{
+
+    }],
+    skills: [
+
+    ],
   });
 
   const handleAddSkill = (selectedOption) => {
@@ -236,43 +252,7 @@ const ResumePage = () => {
       setCurrentSection(SECTIONS[currentIndex - 1]);
     }
   };
-  // const handleNext = (section) => {
-  //   if (isSectionCompleted(section)) {
-  //     setStatus((prev) => ({
-  //       ...prev,
-  //       [section]: "completed",
-  //     }));
-  //   } else {
-  //     alert("Please fill all the fields.");
-  //     return;
-  //   }
-  //   if (section === "personalDetails") {
-  //     setCurrentSection("contactDetails");
-  //   } else if (section === "contactDetails") {
-  //     setCurrentSection("workDetails");
-  //   } else if (section === "workDetails") {
-  //     setCurrentSection("skills");
-  //   } else if (section === "skills") {
-  //     setStatus((prev) => ({
-  //       ...prev,
-  //       skillsDetails: "completed",
-  //     }));
-  //     setShowModal(true);
-  //   }
-  // };
-
-  // const handlePrevious = (section) => {
-  //   console.log(section);
-  //   if (section === "contactDetails") {
-  //     setCurrentSection(() => "personalDetails");
-  //   } else if (section === "workDetails") {
-  //     setCurrentSection("contactDetails");
-  //   } else if (section === "skillsDetails") {
-  //     setCurrentSection("workDetails");
-  //   } else if (section === "skills") {
-  //     setCurrentSection("skillsDetails");
-  //   }
-  // };
+ 
 
   const handleCountryChange = (selectedOption) => {
     setFormData((prev) => ({
@@ -320,25 +300,21 @@ const ResumePage = () => {
   return (
     <div className="h-screen bg-gray-50 text-gray-900 flex flex-1">
       {/* Sidebar */}
-      <div className="w-36 ">
+      <div className="w-36">
         <Sidebar status={status} />
       </div>
-
+      
       {/* Main Content */}
+<<<<<<< HEAD
       <main className="flex-1 pl-9 p-4 ml-0 overflow-y-scroll max-h-[95vh]">
+=======
+      <main className="flex-1 p-8 ml-0 bg-gray-50 overflow-y-scroll max-h-[95vh]">
+>>>>>>> ecf84369465b38bf8010b78f32efcd1a53bc9800
         <header className="flex justify-between items-center mb-6">
-          <h2 className="text-base font-bold font-poppins ml-6 mt-1">
+          <h2 className="text-sm font-semibold font-poppins ml-6 mt-1">
             Create Your Resume
           </h2>
-          <div
-            className={`text-sm font-semibold ${
-              isSectionCompleted(currentSection)
-                ? "text-green-500"
-                : "text-gray-500"
-            }`}
-          >
-            {isSectionCompleted(currentSection) ? "Completed" : "Pending"}
-          </div>
+         
         </header>
 
         <div className="bg-white shadow-md rounded-lg w-full p-8 overflow-auto">
@@ -389,91 +365,7 @@ const ResumePage = () => {
             />
           )}
 
-          {/* {currentSection === "personalDetails" && (
-            <div>
-              <h3 className="text-sm font-semibold text-black font-poppins mb-4">
-                Personal Details
-              </h3>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 gap-6">
-                  <div>
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      <FaUser className="inline mr-2" /> First Name
-                    </label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      value={formData.personalDetails.firstName || ""}
-                      onChange={handleChange}
-                      required
-                      className="mt-1 text-black block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      <FaUser className="inline mr-2" /> Last Name
-                    </label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={formData.personalDetails.lastName || ""}
-                      onChange={handleChange}
-                      required
-                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      <FaGlobe className="inline mr-2" /> Country
-                    </label>
-                    <Select
-                      options={countryOptions}
-                      value={formData.personalDetails.country}
-                      onChange={handleCountryChange}
-                      className="mt-1"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      <FaMapMarkerAlt className="inline mr-2" /> State/Province
-                    </label>
-                    <Select
-                      options={stateOptions} // Placeholder options
-                      value={formData.personalDetails.state}
-                      onChange={handleStateChange}
-                      className="mt-1"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      <FaHome className="inline mr-2" /> Address
-                    </label>
-                    <input
-                      type="text"
-                      name="address"
-                      value={formData.personalDetails.address || ""}
-                      onChange={handleChange}
-                      required
-                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-start mt-4">
-                  <button
-                    type="button"
-                    onClick={() => handleNext("personalDetails")}
-                    className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs"
-                  >
-                    Next
-                  </button>
-                </div>
-              </form>
-            </div>
-          )} */}
-
+          
           {currentSection === "contactDetails" && (
             <div>
               <h3 className="text-sm font-semibold text-black font-poppins mb-4">

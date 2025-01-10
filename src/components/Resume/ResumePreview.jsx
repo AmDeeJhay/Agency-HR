@@ -1,77 +1,25 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Search, ZoomIn, ZoomOut, RotateCw } from "lucide-react";
+import { useState } from "react";
+import { ZoomIn, ZoomOut } from "lucide-react";
 import { ProfessionalBlueTemplate } from "./Templates";
 
 const ResumePreview = ({ formData, selectedTemplate, scale = 1 }) => {
   const A4_WIDTH = 794;
   const A4_HEIGHT = 1123;
 
-  const [previewScale, setPreviewScale] = useState(0.5);
-  const [previewRotation, setPreviewRotation] = useState(0);
-  const contentRef = useRef(null);
-  const [totalPages, setTotalPages] = useState(1);
+//   Zoom
+const [previewScale, setPreviewScale] = useState(0.5);
+// const [previewRotation, setPreviewRotation] = useState(0);
 
-  const handleZoomIn = () =>
-    setPreviewScale((scale) => Math.min(scale + 0.1, 1));
-  const handleZoomOut = () =>
-    setPreviewScale((scale) => Math.max(scale - 0.1, 0.3));
-  const handleRotate = () =>
-    setPreviewRotation((rotation) => (rotation + 90) % 360);
-
-  const calculatePages = (contentHeight) => {
-    return Math.ceil(contentHeight / A4_HEIGHT);
-  };
-
-  useEffect(() => {
-    if (contentRef.current) {
-      const pages = calculatePages(contentRef.current.scrollHeight);
-      setTotalPages(pages);
-    }
-  }, [formData]);
-
-  const splitIntoPages = (content) => {
-    const pages = [];
-    for (let i = 0; i < totalPages; i++) {
-      pages.push(
-        <div
-          key={i}
-          className="bg-white shadow-lg mx-auto relative mb-8 last:mb-0"
-          style={{
-            width: `${A4_WIDTH}px`,
-            height: `${A4_HEIGHT}px`,
-            padding: "48px",
-            breakAfter: "page",
-          }}
-        >
-          <div
-            className="absolute top-4 right-4 text-gray-400 text-sm"
-            style={{ userSelect: "none" }}
-          >
-            Page {i + 1} of {totalPages}
-          </div>
-          <div
-            style={{
-              transform: `translateY(${-i * A4_HEIGHT}px)`,
-              transformOrigin: "top left",
-            }}
-          >
-            {content}
-          </div>
-        </div>
-      );
-    }
-    return pages;
-  };
+const handleZoomIn = () => setPreviewScale(scale => Math.min(scale + 0.1, 1));
+const handleZoomOut = () => setPreviewScale(scale => Math.max(scale - 0.1, 0.3));
+// const handleRotate = () => setPreviewRotation(rotation => (rotation + 90) % 360);
 
   return (
     <div className="flex-1 relative bg-gray-100 overflow-hidden">
       {/* Preview Controls */}
-      <div className="fixed right-1/4 bottom-3 transform -translate-x-1/2 flex items-center gap-2 bg-white rounded-lg shadow-lg p-2 z-10">
-        <button
-          className="p-2 hover:bg-gray-100 rounded-full"
-          onClick={handleZoomIn}
-        >
-          <ZoomIn className="w-5 h-5" />
+      <div className="fixed right-9 bottom-3 transform -translate-x-1/2 flex items-center gap-2 bg-white rounded-lg shadow-lg p-2 z-10">
+        <button className="p-2 hover:bg-gray-100 rounded-full">
+          <ZoomIn className="w-5 h-5" onClick={handleZoomIn}/>
         </button>
         <button
           className="p-2 hover:bg-gray-100 rounded-full"
@@ -79,15 +27,12 @@ const ResumePreview = ({ formData, selectedTemplate, scale = 1 }) => {
         >
           <ZoomOut className="w-5 h-5" />
         </button>
-        <button
-          className="p-2 hover:bg-gray-100 rounded-full"
-          onClick={handleRotate}
-        >
+        {/* <button className="p-2 hover:bg-gray-100 rounded-full">
           <RotateCw className="w-5 h-5" />
         </button>
         <button className="p-2 hover:bg-gray-100 rounded-full">
           <Search className="w-5 h-5" />
-        </button>
+        </button> */}
       </div>
 
       {/* Resume Preview Area */}

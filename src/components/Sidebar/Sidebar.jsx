@@ -1,16 +1,12 @@
-// import React from "react";
 import PropTypes from "prop-types";
-import { FaCheck } from "react-icons/fa";
-import { FaPerson, FaBookOpen, FaBriefcase, FaToolbox } from "react-icons/fa6";
+import { FaPerson, FaBookOpen, FaBriefcase, FaToolbox, FaPhone } from "react-icons/fa6";
 
 const Sidebar = ({ status }) => {
+
   const details = [
     { text: "Personal", icon: <FaPerson />, key: "personalDetails" },
     { text: "Objective", icon: <FaBookOpen />, key: "objectiveDetails" },
-    { text: "Experience", icon: <FaBookOpen />, key: "experienceDetails" },
-    { text: "Education", icon: <FaToolbox />, key: "educationDetails" },
-    { text: "Skills", icon: <FaToolbox />, key: "skillsDetails" },
-    { text: "Contact", icon: <FaBookOpen />, key: "contactDetails" },
+    { text: "Contact", icon: <FaPhone />, key: "contactDetails" },
     { text: "Work", icon: <FaBriefcase />, key: "workDetails" },
     { text: "Experience", icon: <FaToolbox />, key: "experienceDetails" },
   ];
@@ -22,19 +18,11 @@ const Sidebar = ({ status }) => {
       </h2>
       <div className="space-y-6 w-full">
         {details.map((item, index) => (
-          <div key={index} className="relative flex items-center">
-            {/* Status Indicator */}
-            <div
-              className={`flex-shrink-0 md:w-6 w-4 md:h-6 h-4 rounded-full flex items-center justify-center font-semibold ${
-                status[item.key] === "completed" ? "bg-green-500" : "bg-black"
-              }`}
-            >
-              {status[item.key] === "completed" && <FaCheck className="text-white text-xs md:text-base" />}
-            </div>
+          <div key={index} className="relative flex items-center mb-4 mt-24 ">
             {/* Icon and Text */}
-            <div className="ml-2 flex items-center">
-              {item.icon}
-              <span className="ml-2 text-xs md:text-sm font-poppins">{item.text}</span>
+            <div className={`ml-2 flex items-center ${status[item.key] === "completed" ? "text-green-500" : "text-black"}`}>
+              <div className="text-2xs md:text-xs font-poppins font-semibold text-gray-500">{item.icon}</div>
+              <span className="ml-2 text-sm md:text-xs font-poppins font-semibold">{item.text}</span>
             </div>
           </div>
         ))}

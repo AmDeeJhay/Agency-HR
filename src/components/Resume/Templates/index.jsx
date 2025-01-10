@@ -8,6 +8,8 @@ export const defaultData = {
     email: "email@example.com",
     phone: "(123) 456-7890",
     linkedin: "linkedin.com/in/yourprofile",
+    github: "github.com/yourprofile",
+    address: "youraddress"
   },
   objectiveDetails: {
     jobTitle: "Job Title",

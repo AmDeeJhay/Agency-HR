@@ -2,12 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ZoomIn, ZoomOut, RotateCw, Search } from 'lucide-react';
 
 const defaultData = {
-  personalDetails: {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    linkedin: ''
+  personalInfo: {
+    name: "Your Name",
+    email: "email@example.com",
+    phone: "(123) 456-7890",
+    linkedIn: "linkedin.com/in/yourprofile"
+   
   },
   experienceDetails: [],
   educationDetails: [],
@@ -60,57 +60,15 @@ const ProfessionalBlueTemplate = ({ formData, pageNumber }) => {
   const showHeader = pageNumber === 0;
   
   return (
-    <div className="resume-container text-xs space-y-6">
-      {showHeader && (
-        <>
-          {/* Header Section */}
-          <section className="resume-section page-section">
-            <div className="text-center">
-              <h1 className="text-xl text-blue-600 font-bold uppercase mb-2">
-                {personalDetails.firstName} {personalDetails.lastName}
-              </h1>
-              <div className="text-gray-600 flex justify-between border-b-2 border-black">
-                <div>{personalDetails.email}</div>
-                <div>{personalDetails.phone}</div>
-                <div>{personalDetails.linkedin}</div>
-              </div>
-            </div>
-          </section>
-
-          {/* Summary Section */}
-          <section className="resume-section page-section">
-            <h2 className="font-bold border-b-2 border-black mb-4 uppercase text-blue-600">
-              {objectiveDetails.jobTitle || 'Professional'} Summary
-            </h2>
-            <ul className="list-disc pl-6">
-              {objectiveDetails.bullets.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
-          </section>
-        </>
-      )}
-
-      {/* Experience Section */}
-      <section className="resume-section page-section">
-        <h2 className="font-bold border-b-2 border-black mb-4 uppercase text-blue-600">
-          Work Experience
-        </h2>
-        {experienceDetails.map((job, index) => (
-          <div key={index} className="mb-4 page-break-inside-avoid">
-            <div className="flex justify-between">
-              <div className="font-bold capitalize">{job.jobTitle}</div>
-              <div className="text-gray-600 italic">
-                {job.startDate} - {job.endDate}
-              </div>
-            </div>
-            <div className="font-bold">{job.companyName}</div>
-            <ul className="list-disc pl-6">
-              {job.responsibilities.map((resp, idx) => (
-                <li key={idx} className="mb-1">{resp}</li>
-              ))}
-            </ul>
-          </div>
+    <div>
+      <h1>{mergedData.personalInfo.name}</h1>
+      <p>{mergedData.personalInfo.email}</p>
+      <p>{mergedData.personalInfo.phone}</p>
+      <p>{mergedData.personalInfo.linkedIn}</p>
+      <h2></h2>
+      <ul>
+        {mergedData.summary.map((item, index) => (
+          <li key={index}>{item}</li>
         ))}
       </section>
 
