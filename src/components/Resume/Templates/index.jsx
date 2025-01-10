@@ -61,17 +61,17 @@ const ProfessionalBlueTemplate = ({ formData }) => {
   return (
     <div className="">
       <div className="text-center mb-8">
-        <h1 className="text-2xl text-blue-600 font-bold uppercase">
+        <h1 className="text-2xl text-black font-bold font-poppins text-medium uppercase">
           {personalDetails.firstName} {personalDetails.lastName}
         </h1>
-        <div className="text-gray-600 text-sm">
+        <div className="text-gray-600 font-poppins text-sm">
           {personalDetails.email} | {personalDetails.phone}
         </div>
-        <div className="text-gray-600 text-sm">{personalDetails.linkedin}</div>
+        <div className="text-gray-600  font-poppins text-sm">{personalDetails.linkedin}</div>
       </div>
 
       <div className="mb-6">
-        <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase">
+        <h2 className="text-lg font-bold border-b-2 border-gray-500 mb-4 uppercase">
           {objectiveDetails.jobTitle} Summary
         </h2>
         <ul className="list-disc pl-6">
@@ -84,7 +84,7 @@ const ProfessionalBlueTemplate = ({ formData }) => {
       </div>
 
       <div className="mb-6">
-        <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase">
+        <h2 className="text-lg font-bold border-b-2 border-gray-500 mb-4 uppercase">
           Experience
         </h2>
         {experience.map((job, index) => (
@@ -107,7 +107,7 @@ const ProfessionalBlueTemplate = ({ formData }) => {
 
       {education && education.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase">
+          <h2 className="text-lg font-bold border-b-2 border-gray-500 mb-4 uppercase">
             Education
           </h2>
           {education.map((edu, index) => (
@@ -123,7 +123,7 @@ const ProfessionalBlueTemplate = ({ formData }) => {
       )}
 
       <div className="mb-6">
-        <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase">
+        <h2 className="text-lg font-bold border-b-2 border-gray-500 mb-4 uppercase">
           Skills
         </h2>
         <div className="flex flex-wrap gap-2">
@@ -139,8 +139,8 @@ const ProfessionalBlueTemplate = ({ formData }) => {
       </div>
 
       <div className="mb-6">
-        <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase">
-          Interests
+        <h2 className="text-lg font-bold border-b-2 border-gray-500 mb-4 uppercase">
+          Declration
         </h2>
         <div className="text-gray-600">{interests}</div>
       </div>
