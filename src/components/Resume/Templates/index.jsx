@@ -1,5 +1,5 @@
 import React from "react";
-import { FaLinkedin, FaPhone } from "react-icons/fa6";
+import { FaEnvelope, FaLinkedin, FaPhone } from "react-icons/fa6";
 
 // Sample default formData
 export const defaultData = {
@@ -15,9 +15,8 @@ export const defaultData = {
   objectiveDetails: {
     jobTitle: "PARTNER MANAGER",
     bullets: [
-      "Bullet Text",
-      "Bullet Text",
-      "Bullet Text",
+      "Achievement 1",
+      "Achievement 2",
     ],
   },
   experienceDetails: [
@@ -66,7 +65,6 @@ const ProfessionalBlueTemplate = ({ formData }) => {
       : defaultData.skillsDetails,
   };
 
-  console.log({ formData, resumeData });
   const {
     personalDetails,
     objectiveDetails,
@@ -84,11 +82,11 @@ const ProfessionalBlueTemplate = ({ formData }) => {
           {personalDetails.firstName} {personalDetails.lastName}
         </h1>
         <div className="flex flex-wrap justify-center gap-4 text-[11px] text-gray-700">
-          <span>{personalDetails.email}</span>
+          <span className="flex items-center">{personalDetails.email}</span>
           <span> {personalDetails.phone}</span>
           <span>{personalDetails.linkedin}</span>
         </div>
-        <div className="flex flex-wrap justify-between gap-4 text-[11px] text-gray-700">
+        <div className="flex flex-wrap justify-center gap-4 text-[11px] text-gray-700">
           <span>{personalDetails.country.label}</span>
           <span> {personalDetails.address}</span>
         </div>

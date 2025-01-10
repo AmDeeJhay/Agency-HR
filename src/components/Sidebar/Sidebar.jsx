@@ -1,14 +1,15 @@
 import PropTypes from "prop-types";
-import { FaPerson, FaBookOpen, FaBriefcase, FaToolbox, FaPhone } from "react-icons/fa6";
+import { FaPerson, FaBookOpen, FaToolbox } from "react-icons/fa6";
 
 const Sidebar = ({ status }) => {
 
   const details = [
     { text: "Personal", icon: <FaPerson />, key: "personalDetails" },
     { text: "Objective", icon: <FaBookOpen />, key: "objectiveDetails" },
-    { text: "Contact", icon: <FaPhone />, key: "contactDetails" },
-    { text: "Work", icon: <FaBriefcase />, key: "workDetails" },
     { text: "Experience", icon: <FaToolbox />, key: "experienceDetails" },
+    { text: "Education", icon: <FaBookOpen />, key: "educationDetails" },
+    { text: "Skills", icon: <FaToolbox />, key: "skillsDetails" },
+    { text: "Interests", icon: <FaBookOpen />, key: "interests" },
   ];
 
   return (
