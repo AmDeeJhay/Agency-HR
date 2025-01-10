@@ -1,257 +1,222 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { ZoomIn, ZoomOut, RotateCw, Search } from 'lucide-react';
+// import React from "react";
+// import {
+//   Document,
+//   Page,
+//   Text,
+//   View,
+//   StyleSheet,
+//   Font,
+// } from "@react-pdf/renderer";
 
-const defaultData = {
-  personalInfo: {
-    name: "Your Name",
-    email: "email@example.com",
-    phone: "(123) 456-7890",
-    linkedIn: "linkedin.com/in/yourprofile"
-   
-  },
-  experienceDetails: [],
-  educationDetails: [],
-  skillsDetails: [],
-  objectiveDetails: {
-    jobTitle: '',
-    bullets: []
-  },
-  interests: ''
-};
+// // Registering fonts (optional)
+// Font.register({
+//   family: "Roboto",
+//   fonts: [
+//     { src: "https://fonts.gstatic.com/s/roboto/v29/KFOmCnqEu92Fr1Me5WZLCzYlKw.ttf" }, // Regular
+//     { src: "https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmEU9fBBc4AMP6lbBP.ttf", fontWeight: "bold" }, // Bold
+//   ],
+// });
 
-// Content height calculations for each section
-const calculateSectionHeight = (section) => {
-  if (!section) return 0;
-  const tempDiv = document.createElement('div');
-  tempDiv.style.visibility = 'hidden';
-  tempDiv.style.position = 'absolute';
-  tempDiv.style.width = '794px'; // A4 width
-  tempDiv.innerHTML = section.outerHTML;
-  document.body.appendChild(tempDiv);
-  const height = tempDiv.offsetHeight;
-  document.body.removeChild(tempDiv);
-  return height;
-};
+// const styles = StyleSheet.create({
+//   page: {
+//     padding: 30,
+//     fontSize: 10,
+//     fontFamily: "Roboto",
+//     lineHeight: 1.5,
+//   },
+//   header: {
+//     textAlign: "center",
+//     marginBottom: 10,
+//   },
+//   sectionTitle: {
+//     fontSize: 12,
+//     fontWeight: "bold",
+//     color: "#007BFF",
+//     marginBottom: 5,
+//     borderBottom: 1,
+//     borderBottomColor: "black",
+//   },
+//   detailsRow: {
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     marginBottom: 5,
+//   },
+//   listItem: {
+//     marginLeft: 10,
+//     marginBottom: 2,
+//   },
+//   skillBadge: {
+//     backgroundColor: "#E3F2FD",
+//     color: "#007BFF",
+//     padding: 5,
+//     borderRadius: 15,
+//     marginRight: 5,
+//     marginBottom: 5,
+//   },
+// });
 
-const ProfessionalBlueTemplate = ({ formData, pageNumber }) => {
-  const resumeData = {
-    ...defaultData,
-    ...formData,
-    personalDetails: {
-      ...defaultData.personalDetails,
-      ...(formData?.personalDetails || {})
-    },
-    objectiveDetails: {
-      ...defaultData.objectiveDetails,
-      ...(formData?.objectiveDetails || {})
-    }
-  };
+// const ResumePDF = ({ data }) => {
+//   const {
+//     personalDetails,
+//     objectiveDetails,
+//     experienceDetails,
+//     educationDetails,
+//     skillsDetails,
+//     interests,
+//   } = data;
 
-  const {
-    personalDetails,
-    objectiveDetails,
-    experienceDetails,
-    educationDetails,
-    skillsDetails,
-    interests
-  } = resumeData;
+//   return (
+//     <Document>
+//       <Page size="A4" style={styles.page}>
+//         {/* Header Section */}
+//         <View style={styles.header}>
+//           <Text style={{ fontSize: 16, fontWeight: "bold", color: "#007BFF" }}>
+//             {personalDetails.firstName} {personalDetails.lastName}
+//           </Text>
+//           <View style={styles.detailsRow}>
+//             <Text>{personalDetails.email}</Text>
+//             <Text>{personalDetails.phone}</Text>
+//             <Text>{personalDetails.linkedin}</Text>
+//           </View>
+//         </View>
 
-  // Only show header on first page
-  const showHeader = pageNumber === 0;
-  
-  return (
-    <div>
-      <h1>{mergedData.personalInfo.name}</h1>
-      <p>{mergedData.personalInfo.email}</p>
-      <p>{mergedData.personalInfo.phone}</p>
-      <p>{mergedData.personalInfo.linkedIn}</p>
-      <h2></h2>
-      <ul>
-        {mergedData.summary.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </section>
+//         {/* Objective Section */}
+//         <View style={{ marginBottom: 10 }}>
+//           <Text style={styles.sectionTitle}>
+//             {objectiveDetails.jobTitle} Summary
+//           </Text>
+//           <View>
+//             {objectiveDetails.bullets.map((item, index) => (
+//               <Text key={index} style={styles.listItem}>
+//                 • {item}
+//               </Text>
+//             ))}
+//           </View>
+//         </View>
 
-      {/* Education Section */}
-      {educationDetails && educationDetails.length > 0 && (
-        <section className="resume-section page-section">
-          <h2 className="text-blue-600 font-bold border-b-2 border-black mb-4 uppercase">
-            Education
-          </h2>
-          {educationDetails.map((edu, index) => (
-            <div key={index} className="mb-4 page-break-inside-avoid">
-              <div className="flex justify-between items-center">
-                <div className="font-bold">{edu.course}</div>
-                <div className="text-gray-600 italic">
-                  {edu.startDate} - {edu.endDate}
-                </div>
-              </div>
-              <div>{edu.schoolName}</div>
-              <ul className="list-disc italic pl-6">
-                {edu.desc.map((resp, idx) => (
-                  <li key={idx}>{resp}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </section>
-      )}
+//         {/* Work Experience Section */}
+//         <View style={{ marginBottom: 10 }}>
+//           <Text style={styles.sectionTitle}>Work Experience</Text>
+//           {experienceDetails.map((job, index) => (
+//             <View key={index} style={{ marginBottom: 5 }}>
+//               <View style={styles.detailsRow}>
+//                 <Text style={{ fontWeight: "bold" }}>{job.jobTitle}</Text>
+//                 <Text>{job.startDate} - {job.endDate}</Text>
+//               </View>
+//               <Text style={{ fontWeight: "bold" }}>{job.companyName}</Text>
+//               <View>
+//                 {job.responsibilities.map((resp, idx) => (
+//                   <Text key={idx} style={styles.listItem}>
+//                     • {resp}
+//                   </Text>
+//                 ))}
+//               </View>
+//             </View>
+//           ))}
+//         </View>
 
-      {/* Skills Section */}
-      {skillsDetails && skillsDetails.length > 0 && (
-        <section className="resume-section page-section">
-          <h2 className="text-blue-600 font-bold border-b-2 border-black mb-4 uppercase">
-            Skills
-          </h2>
-          <div className="flex flex-wrap gap-2">
-            {skillsDetails.map((skill, index) => (
-              skill && (
-                <div
-                  key={index}
-                  className="bg-blue-50 text-blue-600 px-4 py-1 rounded-full text-sm"
-                >
-                  {skill}
-                </div>
-              )
-            ))}
-          </div>
-        </section>
-      )}
+//         {/* Education Section */}
+//         {educationDetails && educationDetails.length > 0 && (
+//           <View style={{ marginBottom: 10 }}>
+//             <Text style={styles.sectionTitle}>Education</Text>
+//             {educationDetails.map((edu, index) => (
+//               <View key={index} style={{ marginBottom: 5 }}>
+//                 <View style={styles.detailsRow}>
+//                   <Text style={{ fontWeight: "bold" }}>{edu.course}</Text>
+//                   <Text>{edu.startDate} - {edu.endDate}</Text>
+//                 </View>
+//                 <Text>{edu.schoolName}</Text>
+//                 {edu.desc.map((desc, idx) => (
+//                   <Text key={idx} style={styles.listItem}>
+//                     • {desc}
+//                   </Text>
+//                 ))}
+//               </View>
+//             ))}
+//           </View>
+//         )}
 
-      {/* Interests Section */}
-      {interests && (
-        <section className="resume-section page-section">
-          <h2 className="text-blue-600 font-bold border-b-2 border-black mb-4 uppercase">
-            Interests
-          </h2>
-          <div className="text-gray-600">{interests}</div>
-        </section>
-      )}
-    </div>
-  );
-};
+//         {/* Skills Section */}
+//         <View style={{ marginBottom: 10 }}>
+//           <Text style={styles.sectionTitle}>Skills</Text>
+//           <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+//             {skillsDetails.map((skill, index) => (
+//               skill && (
+//                 <Text key={index} style={styles.skillBadge}>
+//                   {skill}
+//                 </Text>
+//               )
+//             ))}
+//           </View>
+//         </View>
 
-const ResumePreview = ({ formData = {}, selectedTemplate, scale = 1 }) => {
-  const A4_WIDTH = 794;
-  const A4_HEIGHT = 1123;
-  const CONTENT_PADDING = 48;
-  const EFFECTIVE_HEIGHT = A4_HEIGHT - (CONTENT_PADDING * 2);
+//         {/* Interests Section */}
+//         <View>
+//           <Text style={styles.sectionTitle}>Interests</Text>
+//           <Text>{interests}</Text>
+//         </View>
+//       </Page>
+//     </Document>
+//   );
+// };
 
-  const [previewScale, setPreviewScale] = useState(0.5);
-  const [previewRotation, setPreviewRotation] = useState(0);
-  const contentRef = useRef(null);
-  const [totalPages, setTotalPages] = useState(1);
+// import React from "react";
+// import ReactPDF, { PDFDownloadLink } from "@react-pdf/renderer";
 
-  const handleZoomIn = () => setPreviewScale(scale => Math.min(scale + 0.1, 1));
-  const handleZoomOut = () => setPreviewScale(scale => Math.max(scale - 0.1, 0.3));
-  const handleRotate = () => setPreviewRotation(rotation => (rotation + 90) % 360);
+// const data = {
+//   personalDetails: {
+//     firstName: "John",
+//     lastName: "Doe",
+//     email: "john.doe@example.com",
+//     phone: "123-456-7890",
+//     linkedin: "linkedin.com/in/johndoe",
+//   },
+//   objectiveDetails: {
+//     jobTitle: "Software Engineer",
+//     bullets: ["Innovative developer with 5+ years of experience.", "Expert in backend technologies."],
+//   },
+//   experienceDetails: [
+//     {
+//       jobTitle: "Senior Developer",
+//       companyName: "TechCorp",
+//       startDate: "Jan 2020",
+//       endDate: "Present",
+//       responsibilities: ["Developed scalable APIs.", "Led the team of 10 developers."],
+//     },
+//   ],
+//   educationDetails: [
+//     {
+//       course: "Bachelor's in Computer Science",
+//       schoolName: "University of Tech",
+//       startDate: "2015",
+//       endDate: "2019",
+//       desc: ["Graduated with honors.", "Active in tech communities."],
+//     },
+//   ],
+//   skillsDetails: ["JavaScript", "Node.js", "React", "Python"],
+//   interests: "Reading, Hiking, Gaming",
+// };
 
-  useEffect(() => {
-    if (contentRef.current) {
-      const height = contentRef.current.scrollHeight;
-      const pages = Math.ceil(height / EFFECTIVE_HEIGHT);
-      setTotalPages(pages);
-    }
-  }, [formData, EFFECTIVE_HEIGHT]);
+// function App() {
+//   return (
+//     <div>
+//       <h1>React Resume Generator</h1>
+//       <PDFDownloadLink
+//         document={<ResumePDF data={data} />}
+//         fileName="John-Doe-Resume.pdf"
+//         style={{
+//           textDecoration: "none",
+//           padding: "10px 20px",
+//           backgroundColor: "#007BFF",
+//           color: "#fff",
+//           borderRadius: "5px",
+//         }}
+//       >
+//         {({ loading }) => (loading ? "Loading document..." : "Download PDF")}
+//       </PDFDownloadLink>
+//     </div>
+//   );
+// }
 
-  return (
-    <div className="flex-1 relative bg-gray-100 overflow-hidden">
-      {/* Preview Controls */}
-      <div className="fixed right-1/4 bottom-3 transform -translate-x-1/2 flex items-center gap-2 bg-white rounded-lg shadow-lg p-2 z-10">
-        <button 
-          className="p-2 hover:bg-gray-100 rounded-full"
-          onClick={handleZoomIn}
-        >
-          <ZoomIn className="w-5 h-5" />
-        </button>
-        <button 
-          className="p-2 hover:bg-gray-100 rounded-full"
-          onClick={handleZoomOut}
-        >
-          <ZoomOut className="w-5 h-5" />
-        </button>
-        <button 
-          className="p-2 hover:bg-gray-100 rounded-full"
-          onClick={handleRotate}
-        >
-          <RotateCw className="w-5 h-5" />
-        </button>
-        <button className="p-2 hover:bg-gray-100 rounded-full">
-          <Search className="w-5 h-5" />
-        </button>
-      </div>
+// export default App;
 
-      {/* Resume Preview Area */}
-      <div className="w-full h-full overflow-auto p-8">
-        <div
-          style={{
-            transform: `scale(${previewScale}) rotate(${previewRotation}deg)`,
-            transformOrigin: 'center top',
-            transition: 'transform 0.2s ease'
-          }}
-        >
-          <style>
-            {`
-              @media print {
-                @page {
-                  size: A4;
-                  margin: 0;
-                }
-                body {
-                  margin: 0;
-                  padding: 0;
-                }
-                .page-break {
-                  break-after: page;
-                  page-break-after: always;
-                }
-                .page-break-inside-avoid {
-                  break-inside: avoid;
-                  page-break-inside: avoid;
-                }
-                .page-section {
-                  break-inside: avoid;
-                  page-break-inside: avoid;
-                }
-              }
-
-              .resume-content {
-                column-count: 1;
-                column-fill: auto;
-                column-gap: 0;
-              }
-            `}
-          </style>
-          
-          <div ref={contentRef}>
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <div
-                key={index}
-                className="bg-white shadow-lg mx-auto relative mb-8 last:mb-0"
-                style={{
-                  width: `${A4_WIDTH}px`,
-                  minHeight: `${A4_HEIGHT}px`,
-                  padding: `${CONTENT_PADDING}px`,
-                  breakAfter: 'page',
-                }}
-              >
-                <div 
-                  className="absolute top-4 right-4 text-gray-400 text-sm"
-                  style={{ userSelect: 'none' }}
-                >
-                  Page {index + 1} of {totalPages}
-                </div>
-                <ProfessionalBlueTemplate 
-                  formData={formData} 
-                  pageNumber={index}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default ResumePreview;

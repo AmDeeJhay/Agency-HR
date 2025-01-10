@@ -802,7 +802,7 @@ const ResumePage = () => {
         <ResumePreview
           formData={formData}
           // selectedTemplate={selectedTemplate}
-          scale={1} // Adjust scale to fit the preview window
+          scale={2} // Adjust scale to fit the preview window
         />
       </div>
     </div>
