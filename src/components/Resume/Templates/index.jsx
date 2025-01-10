@@ -31,11 +31,11 @@ export const defaultData = {
       desc: [""],
     },
   ],
-  skillDetails: ["Skill 1", "Skill 2", "Skill 3"],
+  skillsDetails: ["Skill 1", "Skill 2", "Skill 3"],
   interests: "Your interests and hobbies",
 };
 
-const ProfessionalBlueTemplate = ({ formData }) => {
+const ProfessionalBlueTemplate = ({ formData, pageNumber }) => {
   // Merge provided formData with default formData to ensure all fields exist
   const resumeData = {
     ...defaultData,
@@ -54,12 +54,11 @@ const ProfessionalBlueTemplate = ({ formData }) => {
     educationDetails: Array.isArray(formData?.educationDetails.educationDetails)
       ? formData.educationDetails.educationDetails
       : defaultData.educationDetails || [],
-      skillsDetails: Array.isArray(formData?.skillsDetails.skillsDetails)
+    skillsDetails: Array.isArray(formData?.skillsDetails.skillsDetails)
       ? formData.skillsDetails.skillsDetails
       : defaultData.skillsDetails || [],
   };
 
-  console.log("templates", formData);
   const {
     personalDetails,
     objectiveDetails,
@@ -69,38 +68,76 @@ const ProfessionalBlueTemplate = ({ formData }) => {
     interests,
   } = resumeData;
 
-  console.log("res", experienceDetails);
-  return (
-    <div className="">
-      <div className="text-center mb-8">
-        <h1 className="text-2xl text-blue-600 font-bold uppercase">
-          {personalDetails.firstName} {personalDetails.lastName}
-        </h1>
-        <div className="text-gray-600 text-sm">
-          {personalDetails.email} | {personalDetails.phone}
+  const showHeader = pageNumber === 0;
+  
+  const splitIntoPages = (content, totalPages) => {
+    const pages = [];
+    for (let i = 0; i < totalPages; i++) {
+      pages.push(
+        <div
+          key={i}
+          className="bg-white shadow-lg mx-auto relative"
+          style={{
+            width: `${A4_WIDTH}px`,
+            height: `${A4_HEIGHT}px`,
+            marginBottom: "2rem",
+            padding: "48px",
+            breakAfter: "page",
+          }}
+        >
+          <div
+            className="absolute top-4 right-4 text-gray-400 text-sm"
+            style={{ userSelect: "none" }}
+          >
+            Page {i + 1} of {totalPages}
+          </div>
+          <div
+            style={{
+              transform: `translateY(${-i * A4_HEIGHT}px)`,
+              transformOrigin: "top left",
+            }}
+          >
+            {content}
+          </div>
         </div>
-        <div className="text-gray-600 text-sm">{personalDetails.linkedin}</div>
-      </div>
+      );
+    }
+    return pages;
+  };
 
-      <div className="mb-6">
-        <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase text-blue-600">
+  return (
+    <div className="resume-container text-xs">
+      {/* Header Section */}
+      <section className="resume-section page-section">
+        <div className="text-center">
+          <h1 className="text-xl text-blue-600 font-bold uppercase mb-2">
+            {personalDetails.firstName} {personalDetails.lastName}
+          </h1>
+          <div className="text-gray-600 flex justify-between border-b-2 border-black">
+            <div>{personalDetails.email}</div>
+            <div>{personalDetails.phone}</div>
+            <div>{personalDetails.linkedin}</div>
+          </div>
+        </div>
+      </section>
+
+      <section className="resume-section mb-3 page-section">
+        <h2 className="font-bold border-b-2 border-black mb-4 uppercase text-blue-600">
           {objectiveDetails.jobTitle} Summary
         </h2>
         <ul className="list-disc pl-6">
           {objectiveDetails.bullets.map((item, index) => (
-            <li key={index} className="mb-2">
-              {item}
-            </li>
+            <li key={index}>{item}</li>
           ))}
         </ul>
-      </div>
+      </section>
 
-      <div className="mb-6">
-        <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase text-blue-600">
-          Employment & Experience
+      <section className="mb-6 resume-section page-section">
+        <h2 className="font-bold border-b-2 border-black mb-4 uppercase text-blue-600">
+          Work Experience
         </h2>
         {experienceDetails.map((job, index) => (
-          <div key={index} className="mb-4">
+          <div key={index} className="page-break-inside-avoid mb-4">
             <div className="flex justify-between">
               <div className="font-bold capitalize">{job.jobTitle}</div>
               <div className="text-gray-600 italic">
@@ -110,25 +147,22 @@ const ProfessionalBlueTemplate = ({ formData }) => {
             <div className="font-bold">{job.companyName}</div>
             <ul className="list-disc pl-6">
               {job.responsibilities.map((resp, idx) => (
-                <li key={idx}>{resp}</li>
-              ))}
-              {/* .map((resp, idx) => (
-                <li key={idx} className="mb-2">
+                <li key={idx} className="mb-1">
                   {resp}
                 </li>
-              ))} */}
+              ))}
             </ul>
           </div>
         ))}
-      </div>
+      </section>
 
       {educationDetails && educationDetails.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase">
+        <section className="mb-6 resume-section page-section">
+          <h2 className="text-blue-600 font-bold border-b-2 border-black mb-4 uppercase">
             Education
           </h2>
           {educationDetails.map((edu, index) => (
-            <div key={index} className="mb-4">
+            <div key={index} className="page-break-inside-avoid mb-4">
               <div className="flex justify-between items-center">
                 <div className="font-bold">{edu.course}</div>
                 <div className="text-gray-600 italic">
@@ -143,34 +177,34 @@ const ProfessionalBlueTemplate = ({ formData }) => {
               </ul>
             </div>
           ))}
-        </div>
+        </section>
       )}
 
-      <div className="mb-6">
-        <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase">
+      <section className="mb-6 resume-section page-section">
+        <h2 className="text-blue-600 font-bold border-b-2 border-black mb-4 uppercase">
           Skills
         </h2>
         <div className="flex flex-wrap gap-2">
           {skillsDetails.map((skill, index) => {
-            
-            if(skill !== "") return (
-            
-            <div
-              key={index}
-              className="bg-blue-50 text-blue-600 px-4 py-1 rounded-full text-sm"
-            >
-              {skill}
-            </div>
-          )})}
+            if (skill !== "")
+              return (
+                <div
+                  key={index}
+                  className="bg-blue-50 text-blue-600 px-4 py-1 rounded-full text-sm"
+                >
+                  {skill}
+                </div>
+              );
+          })}
         </div>
-      </div>
+      </section>
 
-      <div className="mb-6">
-        <h2 className="text-lg font-bold border-b-2 border-blue-600 mb-4 uppercase">
+      <section className="mb-6 resume-section page-section">
+        <h2 className="text-blue-600 font-bold border-b-2 border-black mb-4 uppercase">
           Interests
         </h2>
         <div className="text-gray-600">{interests}</div>
-      </div>
+      </section>
     </div>
   );
 };

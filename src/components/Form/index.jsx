@@ -59,9 +59,9 @@ export const formConfig = {
       icon: <FaLinkedin />,
       placeholder: "linkedin.com/in/yourprofile",
     },
-    //   { label: "Country", name: "country", type: "select", icon: <FaGlobe />, options: countryOptions, placeholder: "Country" },
-    //   { label: "State/Province", name: "state", type: "select", icon: <FaMapMarkerAlt />, options: stateOptions, placeholder: "State" },
-    //   { label: "Address", name: "address", type: "field", icon: <FaHome />, placeholder: "" },
+      { label: "Country", name: "country", type: "select", icon: <FaGlobe />, options: countryOptions, placeholder: "Country" },
+      { label: "State/Province", name: "state", type: "select", icon: <FaMapMarkerAlt />, options: stateOptions, placeholder: "State" },
+      { label: "Address", name: "address", type: "field", icon: <FaHome />, placeholder: "" },
   ],
   objectiveDetails: [
     {
@@ -713,8 +713,8 @@ const ObjectiveDetailsForm = ({
   );
 };
 
-const PersonalDetailsForm = ({ data, handleChange, handleNext }) => {
-  console.log(data);
+const PersonalDetailsForm = ({ data, handleChange, handleCountryChange, handleStateChange, handleNext }) => {
+  
   return (
     <div>
       <h3 className="text-sm font-semibold text-black font-poppins mb-4">

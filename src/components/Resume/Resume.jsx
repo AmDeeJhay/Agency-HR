@@ -15,7 +15,13 @@ import {
 } from "react-icons/fa";
 import Select from "react-select";
 import countryList from "react-select-country-list";
-import { EducationDetailsForm, ExperienceDetailsForm, ObjectiveDetailsForm, PersonalDetailsForm, SkillsForm } from "../Form";
+import {
+  EducationDetailsForm,
+  ExperienceDetailsForm,
+  ObjectiveDetailsForm,
+  PersonalDetailsForm,
+  SkillsForm,
+} from "../Form";
 
 const socialOptions = [
   { value: "twitter", label: "Twitter" },
@@ -72,7 +78,7 @@ const yearOptions = Array.from({ length: 50 }, (_, i) => {
 });
 const SECTIONS = [
   "personalDetails",
-  "objectiveDetails", 
+  "objectiveDetails",
   "experienceDetails",
   "educationDetails",
   "skillsDetails",
@@ -91,16 +97,17 @@ const ResumePage = () => {
   const [currentSection, setCurrentSection] = useState(SECTIONS[0]);
   const [formData, setFormData] = useState({
     personalDetails: {
-      firstName: '',
-      lastName: '',
-      country: '',
-      state: '',
-      address: '',
+      country: "",
+      state: "",
+      address: "",
     },
+    educationDetails: {},
+    experienceDetails: {},
+    skillsDetails: {},
     contactDetails: {
-      phonenumber: '',
-      email: '',
-      sociallinks: 'github linkedin twitter dribble behance',
+      phonenumber: "",
+      email: "",
+      sociallinks: "github linkedin twitter dribble behance",
     },
     objectiveDetails: {},
     workDetails: [{}],
@@ -133,7 +140,7 @@ const ResumePage = () => {
   const handleDeleteSkill = (index) => {
     setFormData((prev) => {
       const updatedSkills = prev.skills.filter((_, i) => i !== index);
-      return { 
+      return {
         ...prev,
         skills: updatedSkills,
       };
@@ -186,8 +193,7 @@ const ResumePage = () => {
         ...prev,
         experienceDetails: value, // Directly set the array
       }));
-    }
-    else {
+    } else {
       setFormData((prev) => ({
         ...prev,
         [currentSection]: {
@@ -207,7 +213,9 @@ const ResumePage = () => {
     if (isSectionCompleted(currentSection)) {
       setStatus((prev) => ({
         ...prev,
-        [currentSection]: isSectionCompleted(currentSection) ? "completed" : "pending",
+        [currentSection]: isSectionCompleted(currentSection)
+          ? "completed"
+          : "pending",
       }));
 
       if (currentIndex < SECTIONS.length - 1) {
@@ -289,6 +297,7 @@ const ResumePage = () => {
 
   const isSectionCompleted = (section) => {
     const sectionData = formData[section];
+    console.log("sectionData",sectionData)
     return Object.values(sectionData).every((value) => value !== "");
   };
 
@@ -316,7 +325,7 @@ const ResumePage = () => {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 ml-0 bg-gray-500 overflow-y-scroll max-h-[95vh]">
+      <main className="flex-1 pl-9 p-4 ml-0 overflow-y-scroll max-h-[95vh]">
         <header className="flex justify-between items-center mb-6">
           <h2 className="text-base font-bold font-poppins ml-6 mt-1">
             Create Your Resume
@@ -338,6 +347,8 @@ const ResumePage = () => {
             <PersonalDetailsForm
               data={formData.personalDetails}
               handleChange={handleChange}
+              handleCountryChange={handleCountryChange}
+              handleStateChange={handleStateChange}
               handleNext={handleNext}
             />
           )}
@@ -360,7 +371,7 @@ const ResumePage = () => {
             />
           )}
 
-{currentSection === "educationDetails" && (
+          {currentSection === "educationDetails" && (
             <EducationDetailsForm
               data={formData.educationDetails}
               handleChange={handleChange}
@@ -369,7 +380,7 @@ const ResumePage = () => {
             />
           )}
 
-{currentSection === "skillsDetails" && (
+          {currentSection === "skillsDetails" && (
             <SkillsForm
               data={formData.skillsDetails}
               handleChange={handleChange}
@@ -377,7 +388,7 @@ const ResumePage = () => {
               handlePrevious={handlePrevious}
             />
           )}
-          
+
           {/* {currentSection === "personalDetails" && (
             <div>
               <h3 className="text-sm font-semibold text-black font-poppins mb-4">
@@ -910,12 +921,12 @@ const ResumePage = () => {
         </div>
       )}
 
-{console.log('preview',formData)}
+      {console.log("preview", formData)}
       <div className="w-1/2 border-l-8 max-h-[95vh] overflow-scroll">
         <ResumePreview
           formData={formData}
           // selectedTemplate={selectedTemplate}
-          scale={0.8} // Adjust scale to fit the preview window
+          scale={1} // Adjust scale to fit the preview window
         />
       </div>
     </div>

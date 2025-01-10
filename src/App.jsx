@@ -6,6 +6,7 @@ import Resume from './components/Resume/Resume';
 import Cover from './components/Cover-Letter/Cover-Letter';
 import Chat from './components/Chats/Chat';
 import Footer from './components/Footer/Footer';
+import "./resume.css"
 
 function App() {
   return (
