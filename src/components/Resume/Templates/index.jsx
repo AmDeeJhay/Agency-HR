@@ -1,4 +1,5 @@
 import React from "react";
+import { FaLinkedin, FaPhone } from "react-icons/fa6";
 
 // Sample default formData
 export const defaultData = {
@@ -8,6 +9,8 @@ export const defaultData = {
     email: "email@example.com",
     phone: "(123) 456-7890",
     linkedin: "linkedin.com/in/yourprofile",
+    country: "Country",
+    address: "Address",
   },
   objectiveDetails: {
     jobTitle: "PARTNER MANAGER",
@@ -63,6 +66,7 @@ const ProfessionalBlueTemplate = ({ formData }) => {
       : defaultData.skillsDetails,
   };
 
+  console.log({ formData, resumeData });
   const {
     personalDetails,
     objectiveDetails,
@@ -71,26 +75,32 @@ const ProfessionalBlueTemplate = ({ formData }) => {
     skillsDetails,
     interests,
   } = resumeData;
-
+  // console.log(personalDetails),;
   return (
     <div className="text-[11px] leading-normal">
       {/* Header */}
       <div className="mb-6 text-center">
-        <h1 className="text-[20px] font-bold text-[#4169E1] mb-2">
+        <h1 className="text-[20px] font-bold text-[#4169E1] mb-2 uppercase">
           {personalDetails.firstName} {personalDetails.lastName}
         </h1>
         <div className="flex flex-wrap justify-center gap-4 text-[11px] text-gray-700">
           <span>{personalDetails.email}</span>
-          <span>{personalDetails.phone}</span>
+          <span> {personalDetails.phone}</span>
           <span>{personalDetails.linkedin}</span>
         </div>
+        <div className="flex flex-wrap justify-between gap-4 text-[11px] text-gray-700">
+          <span>{personalDetails.country.label}</span>
+          <span> {personalDetails.address}</span>
+        </div>
+        <div className="border-t-[2px] border-black w-full mt-2"></div>
       </div>
 
-      {/* Job Summary */}
+      {/* Objective */}
       <div className="mb-6">
-        <h2 className="text-[#4169E1] font-bold text-[14px] -border-b-[1.7px] border-black mb-2 uppercase tracking-wide">
+        <h2 className="text-[#4169E1] font-bold text-[14px] -border-b-[1.5px] border-black mb-2 uppercase tracking-wide">
           {objectiveDetails.jobTitle} SUMMARY
         </h2>
+        <div className="border-t-[1.5px] border-black w-full"></div>
         <ul className="list-disc pl-5 mt-3 text-[11px]">
           {objectiveDetails.bullets.map((bullet, index) => (
             <li key={index} className="mb-1 text-gray-800">{bullet}</li>
@@ -101,8 +111,9 @@ const ProfessionalBlueTemplate = ({ formData }) => {
       {/* Work Experience */}
       <div className="mb-6">
         <h2 className="text-[#4169E1] font-bold text-[14px] -border-b-[1.5px] border-black mb-2 uppercase tracking-wide">
-          EMPLOYMENT & EXPERIENCE
+          EMPLOYMENT & -XPERIENCE
         </h2>
+        <div className="border-t-[1.5px] border-black w-full"></div>
         {experienceDetails.map((exp, index) => (
           <div key={index} className="mb-4">
             <div className="flex justify-between items-baseline mt-3">
@@ -127,7 +138,8 @@ const ProfessionalBlueTemplate = ({ formData }) => {
       <div className="mb-6">
         <h2 className="text-[#4169E1] font-bold text-[14px] -border-b-[1.5px] border-black mb-2 uppercase tracking-wide">
           EDUCATION
-        </h2>
+          -    </h2>
+        <div className="border-t-[1.5px] border-black w-full"></div>
         {educationDetails.map((edu, index) => (
           <div key={index} className="mb-3 mt-3">
             <div className="flex justify-between items-baseline">
@@ -148,6 +160,7 @@ const ProfessionalBlueTemplate = ({ formData }) => {
         <h2 className="text-[#4169E1] font-bold text-[14px] -border-b-[1.5px] border-black mb-2 uppercase tracking-wide">
           SKILLS
         </h2>
+        <div className="border-t-[1.5px] border-black w-full"></div>
         <div className="flex flex-wrap gap-4 mt-3">
           {skillsDetails.map((skill, index) => (
             skill && <div key={index} className="text-[11px]">{skill}</div>
@@ -160,6 +173,7 @@ const ProfessionalBlueTemplate = ({ formData }) => {
         <h2 className="text-[#4169E1] font-bold text-[14px] -border-b-[1.5px] border-black mb-2 uppercase tracking-wide">
           INTERESTS
         </h2>
+        <div className="border-t-[1.5px] border-black w-full"></div>
         <div className="text-[11px] mt-3">{interests}</div>
       </div>
     </div>
