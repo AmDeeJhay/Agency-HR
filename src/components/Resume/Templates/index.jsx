@@ -73,7 +73,6 @@ const ProfessionalBlueTemplate = ({ formData }) => {
     skillsDetails,
     interests,
   } = resumeData;
-  // console.log(personalDetails),;
   return (
     <div className="text-[11px] leading-normal">
       {/* Header */}
