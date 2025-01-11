@@ -170,7 +170,7 @@ const ProfessionalBlueTemplate = ({ formData }) => {
         <div className="border-t-[1.5px] border-black w-full"></div>
         <div className="flex flex-wrap gap-4 mt-3">
           {skillsDetails.map((skill, index) => (
-            skill && <div key={index} className="">{skill}</div>
+            skill && <div key={index} className="capitalize">{skill}</div>
           ))}
         </div>
       </div>
@@ -182,7 +182,7 @@ const ProfessionalBlueTemplate = ({ formData }) => {
         </h2>
         <div className="border-t-[1.5px] border-black w-full"></div>
         <div className=" mt-3">
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 italic">
             {interestsDetails.map((interest, index) => (
               interest && <div key={index} className="">{interest}</div>
             ))}

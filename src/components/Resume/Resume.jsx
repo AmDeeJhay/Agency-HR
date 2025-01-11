@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 import Sidebar from "../Sidebar/Sidebar";
 import ResumePreview from "./ResumePreview";
 import {
@@ -22,7 +23,9 @@ import {
   PersonalDetailsForm,
   SkillsForm,
   InterestForm,
+  Button,
 } from "../Form";
+import { getChatResponse } from "../../utils/api/chatService";
 
 const socialOptions = [
   { value: "twitter", label: "Twitter" },
@@ -115,6 +118,8 @@ const ResumePage = () => {
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [professionalSummary, setProfessionalSummary] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
@@ -180,7 +185,6 @@ const ResumePage = () => {
     }
   };
 
-
   const handleCountryChange = (selectedOption) => {
     setFormData((prev) => ({
       ...prev,
@@ -207,29 +211,35 @@ const ResumePage = () => {
     return Object.values(sectionData).every((value) => value !== "");
   };
 
-  const handleSubmit = async () => {
-    if (isSectionCompleted('personalDetails')) {
-      try {
-        const response = await fetch('https://agentic-hr-api.onrender.com', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
+  const handleSubmit = async (data) => {
+    let experience = ""
+    let skills = ""
+    data?.experienceDetails?.map((item) =>{
+      item.responsibilities?.map((item) => {
+        return experience += ` ${item} `
+      })
+    })
 
-        if (response.ok) {
-          const result = await response.json();
-          console.log('Success:', result);
-          setShowModal(true);
-        } else {
-          console.error('Error:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    } else {
-      alert('Please fill in all fields.');
+    data?.objectiveDetails?.bullets?.map((item) =>{
+      return experience += ` ${item} `
+    })
+
+    data?.skillsDetails?.skillsDetails?.map((item) =>{
+      return skills += ` ${item} `
+    })
+
+    const formdata = JSON.stringify({ job_title: data.objectiveDetails.jobTitle, skills, experience})
+    try {
+      setIsSubmitting(true);
+      const response = await getChatResponse(formdata);
+      setProfessionalSummary(response.professional_summary);
+      setShowModal(true);
+      return response;
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while processing your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -248,7 +258,8 @@ const ResumePage = () => {
   ];
 
   return (
-    <div className="h-screen bg-gray-50 text-gray-900 flex flex-1">
+    <div className="flex h-screen">
+      <Toaster position="top-right" />
       {/* Sidebar */}
       <div className="w-36">
         <Sidebar status={status} />
@@ -310,47 +321,126 @@ const ResumePage = () => {
               handlePrevious={handlePrevious}
             />
           )}
+
+          {/* <div className="flex flex-col"> */}
           {currentSection === "interestsDetails" && (
             <InterestForm
               data={formData.interestsDetails}
               handleChange={handleChange}
-              handleSubmit={handleSubmit}
-              handlePrevious={handlePrevious}
               addMoreInterest={addMoreInterest}
             />
           )}
 
+          {SECTIONS.indexOf(currentSection) === SECTIONS.length - 1 && (
+            <div className="flex justify-between mt-4">
+              <Button onClick={handlePrevious} text={"Previous"} />
+              <Button 
+                onClick={() => handleSubmit(formData)} 
+                text={isSubmitting ? "Processing..." : "Submit"} 
+                disabled={isSubmitting}
+              />
+            </div>
+          )}
         </div>
       </main>
 
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <h2 className="text-lg font-bold mb-4">
-              We have received your request
-            </h2>
-            <p>
-              Your Resume will be sent to your mail as PDF for you to download.
-            </p>
-            <button
-              type="button"
-              onClick={() => setShowModal(false)}
-              className="mt-4 bg-black hover:bg-white border border-black hover:text-black text-white font-poppins px-6 py-3 rounded-3xl text-xs"
-            >
-              Close
-            </button>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50 backdrop-blur-sm">
+        {isSubmitting ? (
+          <div className="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p className="text-gray-700">Processing your resume...</p>
           </div>
-        </div>
+        ) : (
+          <div
+            className="bg-white w-[90%] max-w-3xl p-8 rounded-2xl shadow-2xl text-left overflow-y-auto max-h-[500px] custom-scrollbar relative"
+          >
+            <button
+              className="absolute right-6 top-6 text-gray-500 hover:text-black focus:outline-none text-2xl"
+              onClick={() => setShowModal(false)}
+              aria-label="Close modal"
+            >
+              &times;
+            </button>
+      
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              Your Resume is on its Way! 🚀
+            </h2>
+            <p className="text-gray-600 mb-6">
+              We’ve sent your resume to your email. Below is your current professional summary alongside a new AI-generated suggestion. You can choose to overwrite it if you’d like!
+            </p>
+      
+            {/* Current Professional Summary */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-gray-800">
+                Your Current Professional Summary:
+              </h3>
+              <ul className="bg-gray-100 text-gray-700 p-4 rounded-lg mt-2 list-disc pl-5">
+                {formData.objectiveDetails?.bullets?.length > 0 ? (
+                  formData.objectiveDetails.bullets.map((bullet, index) => (
+                    <li key={index}>{bullet}</li>
+                  ))
+                ) : (
+                  <li>No summary provided.</li>
+                )}
+              </ul>
+            </div>
+      
+            {/* AI-Generated Professional Summary */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-gray-800">
+                AI-Generated Professional Summary:
+              </h3>
+              <p className="bg-gray-100 text-gray-700 p-4 rounded-lg mt-2">
+                {professionalSummary || "AI could not generate a summary at this time."}
+              </p>
+            </div>
+      
+            <div className="flex flex-col sm:flex-row gap-4">
+              {/* Overwrite Button */}
+              <button
+                type="button"
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition duration-300"
+                onClick={() => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    objectiveDetails: {
+                      ...prev.objectiveDetails,
+                      bullets: [professionalSummary],
+                    },
+                  }));
+                  setShowModal(false);
+      
+                  console.log(formData.objectiveDetails);
+                }}
+              >
+                Use AI-Generated Summary
+              </button>
+      
+              {/* Close Button */}
+              <button
+                type="button"
+                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-6 py-3 rounded-lg transition duration-300"
+                onClick={() => setShowModal(false)}
+              >
+                Keep Current Summary
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+      
       )}
 
       <div className="w-1/2 border-l-8 max-h-[95vh] overflow-scroll">
         <ResumePreview
           formData={formData}
-          scale={1} 
+          scale={1}
         />
       </div>
     </div>
+
+    
   );
 };
-
 export default ResumePage;

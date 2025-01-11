@@ -639,7 +639,7 @@ const ObjectiveDetailsForm = ({
   handleNext,
   handlePrevious,
 }) => {
-  const [bullets, setBullets] = useState(data.bullets || ["", "", ""]); // Initialize with three bullets
+  const [bullets, setBullets] = useState(data.bullets || ["",]); // Initialize with three bullets
 
   // Add a new bullet field
   const handleAddBullet = () => {
@@ -786,7 +786,7 @@ const FormSelect = ({ label, name, value, options, onChange, icon }) => (
   </div>
 );
 
-const InterestForm = ({ data, handleChange, handleNext, handlePrevious }) => {
+const InterestForm = ({ data, handleChange }) => {
   const [interests, setInterests] = useState(
     data.interestsDetails || [""]
   );
@@ -819,7 +819,7 @@ const InterestForm = ({ data, handleChange, handleNext, handlePrevious }) => {
   return (
     <div>
       <h3 className="text-sm font-semibold text-black font-poppins mb-4">
-        Your Skills
+        Your Interests
       </h3>
       <form className="space-y-4">
         <div className="grid grid-cols-1 gap-2">
@@ -857,11 +857,6 @@ const InterestForm = ({ data, handleChange, handleNext, handlePrevious }) => {
             </div>
           </div>
         </div>
-
-        <div className="flex justify-between mt-4">
-          <Button onClick={handlePrevious} text="Previous" />
-          <Button onClick={handleNext} text="Next" />
-        </div>
       </form>
     </div>
   );
@@ -877,4 +872,4 @@ const Button = ({ text, onClick }) => (
   </button>
 );
 
-export { PersonalDetailsForm, ObjectiveDetailsForm, ExperienceDetailsForm, EducationDetailsForm, SkillsForm, InterestForm };
+export { Button, PersonalDetailsForm, ObjectiveDetailsForm, ExperienceDetailsForm, EducationDetailsForm, SkillsForm, InterestForm };
