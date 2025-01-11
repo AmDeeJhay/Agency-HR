@@ -13,7 +13,7 @@ const ResumePreview = ({ formData, selectedTemplate }) => {
   return (
     <div className="flex-1 relative bg-gray-100 overflow-auto">
       {/* Preview Controls */}
-      <div className="fixed right-9 bottom-3 flex items-center gap-2 bg-white rounded-lg shadow-lg p-2 z-10">
+      <div className="fixed  bottom-10 flex items-center gap-2 bg-white rounded-lg shadow-lg p-2 z-10">
         <button
           onClick={handleZoomIn}
           className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -59,25 +59,5 @@ const ResumePreview = ({ formData, selectedTemplate }) => {
   );
 };
 
-const ResumePage = ({ children, pageNumber, totalPages }) => {
-  return (
-    <div
-      className="bg-white shadow-lg mx-auto relative mb-8 last:mb-0"
-      style={{
-        width: "794px", // A4 width
-        minHeight: "1123px", // A4 height
-        padding: "48px",
-      }}
-    >
-      <div
-        className="absolute top-4 right-4 text-gray-400 text-sm"
-        style={{ userSelect: "none" }}
-      >
-        Page {pageNumber} of {totalPages}
-      </div>
-      <div className="h-full">{children}</div>
-    </div>
-  );
-};
 
 export default ResumePreview;
