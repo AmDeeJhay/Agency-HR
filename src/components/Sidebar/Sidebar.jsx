@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-import { FaPerson, FaBullseye, FaBriefcase, FaGraduationCap, FaTools, FaHeart } from "react-icons/fa6";
+import { FaTools } from "react-icons/fa";
+import { FaPerson, FaHeart, FaGraduationCap, FaBriefcase, FaBullseye } from "react-icons/fa6";
 
 const Sidebar = ({ status }) => {
 

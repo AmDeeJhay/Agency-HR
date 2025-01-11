@@ -28,12 +28,6 @@ const handleRotate = () => setPreviewRotation(rotation => (rotation + 90) % 360)
         >
           <ZoomOut className="w-5 h-5" />
         </button>
-        {/* <button className="p-2 hover:bg-gray-100 rounded-full">
-          <RotateCw className="w-5 h-5" />
-        </button>
-        <button className="p-2 hover:bg-gray-100 rounded-full">
-          <Search className="w-5 h-5" />
-        </button> */}
       </div>
 
       {/* Resume Preview Area */}
@@ -116,66 +110,5 @@ const ResumePage = ({ children, pageNumber, totalPages }) => {
     </div>
   );
 };
-// Example template component
-// const ProfessionalTemplate = ({ formData }) => {
-//   const { personalDetails, contactDetails, workDetails, skills } = formData;
-// console.log(personalDetails)
-//   return (
-//     <div className="h-full">
-//       {/* Header */}
-//       <div className="text-center mb-8">
-//         <h1 className="text-3xl font-bold text-gray-800">
-//           {personalDetails.firstName} {personalDetails.lastName}
-//         </h1>
-//         <div className="text-gray-600 mt-2 space-x-4">
-//           <span>{contactDetails.email}</span>
-//           <span>{contactDetails.phone}</span>
-//         </div>
-//       </div>
-
-//       {/* Professional Summary */}
-//       <div className="mb-6">
-//         <h2 className="text-xl font-bold border-b-2 border-gray-300 mb-3">
-//           Professional Summary
-//         </h2>
-//         <p className="text-gray-700">{personalDetails.summary}</p>
-//       </div>
-
-//       {/* Work Experience */}
-//       <div className="mb-6">
-//         <h2 className="text-xl font-bold border-b-2 border-gray-300 mb-3">
-//           Work Experience
-//         </h2>
-//         {workDetails.map((job, index) => (
-//           <div key={index} className="mb-4">
-//             <h3 className="font-bold">{job.jobTitle}</h3>
-//             <p className="text-gray-600">{job.employer}</p>
-//             <p className="text-gray-500">
-//               {job.startDate} - {job.endDate}
-//             </p>
-//             <p className="text-gray-700 mt-2">{job.description}</p>
-//           </div>
-//         ))}
-//       </div>
-
-//       {/* Skills */}
-//       <div>
-//         <h2 className="text-xl font-bold border-b-2 border-gray-300 mb-3">
-//           Skills
-//         </h2>
-//         <div className="flex flex-wrap gap-2">
-//           {skills.map((skill, index) => (
-//             <span
-//               key={index}
-//               className="bg-gray-100 px-3 py-1 rounded-full text-gray-700"
-//             >
-//               {skill.skill}
-//             </span>
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
 
 export default ResumePreview;

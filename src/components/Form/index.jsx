@@ -6,11 +6,6 @@ import {
   FaHome,
   FaPhone,
   FaEnvelope,
-  FaPlus,
-  FaTrash,
-  FaLink,
-  FaMinus,
-  FaLinkedinIn,
   FaLinkedin,
 } from "react-icons/fa";
 import Select from "react-select";
@@ -766,43 +761,73 @@ const PersonalDetailsForm = ({ data, handleChange, handleCountryChange, handleSt
   );
 };
 
-const FormField = ({
-  label,
-  name,
-  value,
-  onChange,
-  icon,
-  placeholder,
-  type,
-}) => (
-  <div>
-    <label className="flex place-items-center gap-2 font-medium font-poppins text-black text-xs">
-      {icon} {label}
-    </label>
+const FormField = ({ label, name, value, onChange, icon, placeholder }) => (
+  <div className="flex items-center space-x-2">
+    {icon}
     <input
-      type={type || "text"}
+      type="text"
       name={name}
       value={value}
       onChange={onChange}
-      required
       placeholder={placeholder}
-      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
     />
   </div>
 );
 
-const FormSelect = ({ label, value, options, onChange, icon }) => (
-  <div>
-    <label className="block font-medium font-poppins text-black text-xs">
-      {icon} {label}
-    </label>
+const FormSelect = ({ label, name, value, options, onChange, icon }) => (
+  <div className="flex items-center space-x-2">
+    {icon}
     <Select
-      options={options}
+      name={name}
       value={value}
+      options={options}
       onChange={onChange}
-      className="mt-1"
-      required
+      className="w-full"
     />
+  </div>
+);
+
+const InterestForm = ({ data, handleChange, handleSubmit, handlePrevious, addMoreInterest }) => (
+  <div>
+    <h3 className="text-sm font-semibold text-black font-poppins mb-4">
+      Interests
+    </h3>
+    <form className="space-y-4">
+      {data.map((interest, index) => (
+        <textarea
+          key={index}
+          name={`interest-${index}`}
+          value={interest}
+          onChange={(e) => handleChange(e, index)}
+          placeholder="Interests"
+          required
+        />
+      ))}
+      <button
+        type="button"
+        onClick={addMoreInterest}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-poppins px-4 py-2 rounded-3xl text-xs"
+      >
+        Add More Interest
+      </button>
+      <div className="flex justify-between mt-4">
+        <button
+          type="button"
+          onClick={handlePrevious}
+          className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins px-6 py-3 rounded-3xl text-xs"
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins px-6 py-3 rounded-3xl text-xs"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
   </div>
 );
 
@@ -816,4 +841,4 @@ const Button = ({ text, onClick }) => (
   </button>
 );
 
-export { PersonalDetailsForm, ObjectiveDetailsForm, ExperienceDetailsForm, EducationDetailsForm, SkillsForm };
+export { PersonalDetailsForm, ObjectiveDetailsForm, ExperienceDetailsForm, EducationDetailsForm, SkillsForm, InterestForm };
