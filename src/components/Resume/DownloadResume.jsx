@@ -57,7 +57,6 @@ const DownloadResume = ({ resumeRef }) => {
               }
             `;
             clonedDoc.head.appendChild(style);
-            
           }
         },
       });

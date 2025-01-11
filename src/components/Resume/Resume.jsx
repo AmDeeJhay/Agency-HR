@@ -211,7 +211,7 @@ const ResumePage = () => {
   const handleSubmit = async () => {
     if (isSectionCompleted('personalDetails')) {
       try {
-        const response = await fetch('https://your-backend-api-url.com/endpoint', {
+        const response = await fetch('https://agentic-hr-api.onrender.com', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
