@@ -21,6 +21,7 @@ import {
   ObjectiveDetailsForm,
   PersonalDetailsForm,
   SkillsForm,
+  InterestForm,
 } from "../Form";
 
 const socialOptions = [
@@ -82,9 +83,7 @@ const SECTIONS = [
   "experienceDetails",
   "educationDetails",
   "skillsDetails",
-  "contactDetails",
-  "workDetails",
-  "skills",
+  "interestsDetails",
 ];
 const ResumePage = () => {
   const [status, setStatus] = useState(
@@ -110,66 +109,12 @@ const ResumePage = () => {
     skills: [
 
     ],
+    interestsDetails: [
+
+    ],
   });
 
-  const handleAddSkill = (selectedOption) => {
-    setFormData((prev) => ({
-      ...prev,
-      skills: [...prev.skills, { skill: "", description: "", level: "" }],
-    }));
-    setShowSkillOptions(false);
-  };
-
-  const handleSkillChange = (e, index) => {
-    const { name, value } = e.target;
-    setFormData((prev) => {
-      const updatedSkills = [...prev.skills];
-      updatedSkills[index] = {
-        ...updatedSkills[index],
-        [name]: value,
-      };
-      return {
-        ...prev,
-        skills: updatedSkills,
-      };
-    });
-  };
-
-  const handleDeleteSkill = (index) => {
-    setFormData((prev) => {
-      const updatedSkills = prev.skills.filter((_, i) => i !== index);
-      return {
-        ...prev,
-        skills: updatedSkills,
-      };
-    });
-  };
-
-  const [showExperience, setShowExperience] = useState([true]);
-  const [showUrlInput, setShowUrlInput] = useState([false]);
-  const [showSkillOptions, setShowSkillOptions] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
-  const handleAddExperience = () => {
-    setFormData((prev) => ({
-      ...prev,
-      workDetails: [...prev.workDetails, {}],
-    }));
-    setShowExperience((prev) => [...prev, true]);
-    setShowUrlInput((prev) => [...prev, false]);
-  };
-
-  const toggleExperienceVisibility = (index) => {
-    setShowExperience((prev) =>
-      prev.map((show, i) => (i === index ? !show : show))
-    );
-  };
-
-  const toggleUrlInputVisibility = (index) => {
-    setShowUrlInput((prev) =>
-      prev.map((show, i) => (i === index ? !show : show))
-    );
-  };
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
@@ -263,14 +208,38 @@ const ResumePage = () => {
     return Object.values(sectionData).every((value) => value !== "");
   };
 
-  // const handleAddSocialLink = (selectedOption) => {
-  //   setSocialLinks((prev) => [...prev, selectedOption]);
-  //   setShowSocialOptions(false);
-  // };
+  const handleSubmit = async () => {
+    if (isSectionCompleted('personalDetails')) {
+      try {
+        const response = await fetch('https://agentic-hr-api.onrender.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
 
-  // const handleRemoveSocialLink = (index) => {
-  //   setSocialLinks((prev) => prev.filter((_, i) => i !== index));
-  // };
+        if (response.ok) {
+          const result = await response.json();
+          console.log('Success:', result);
+          setShowModal(true);
+        } else {
+          console.error('Error:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    } else {
+      alert('Please fill in all fields.');
+    }
+  };
+
+  const addMoreInterest = () => {
+    setFormData((prev) => ({
+      ...prev,
+      interestDetails: [...prev.interestDetails, ""],
+    }));
+  };
 
   const countryOptions = countryList().getData();
   const stateOptions = [
@@ -343,431 +312,16 @@ const ResumePage = () => {
             />
           )}
 
+          {currentSection === "interestsDetails" && (
+            <InterestForm
+              data={formData.interestsDetails}
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+              handlePrevious={handlePrevious}
+              addMoreInterest={addMoreInterest}
+            />
+          )}
 
-          {/* {currentSection === "contactDetails" && (
-            <div>
-              <h3 className="text-sm font-semibold text-black font-poppins mb-4">
-                Contact Details
-              </h3>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      <FaPhone className="inline mr-2" /> Phone
-                    </label>
-                    <input
-                      type="text"
-                      name="phone"
-                      value={formData.contactDetails.phone || ""}
-                      onChange={handleChange}
-                      required
-                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-medium font-poppins text-black text-xs">
-                      <FaEnvelope className="inline mr-2" /> Email
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.contactDetails.email || ""}
-                      onChange={handleChange}
-                      required
-                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                </div>
-                <div className="mt-6">
-                  <div className="flex items-center mb-4">
-                    <h3 className="text-sm font-semibold text-black font-poppins mb-4">
-                      Social Links
-                    </h3>
-                    <FaPlus
-                      className="ml-2 mb-4 text-black cursor-pointer"
-                      onClick={() => setShowSocialOptions(!showSocialOptions)}
-                    />
-                  </div>
-                  {showSocialOptions && (
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {socialOptions.map((option) => (
-                        <button
-                          key={option.value}
-                          type="button"
-                          onClick={() => handleAddSocialLink(option)}
-                          className="bg-gray-200 hover:bg-gray-300 text-black font-poppins px-3 py-1 rounded-md text-xs"
-                        >
-                          {option.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  {socialLinks.map((link, index) => (
-                    <div key={index} className="flex items-center mb-4">
-                      <input
-                        type="text"
-                        name={link.value}
-                        placeholder={`Enter your ${link.label} URL`}
-                        value={formData.contactDetails[link.value] || ""}
-                        onChange={handleChange}
-                        required
-                        className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      />
-                      <FaTrash
-                        className="ml-2 text-red-500 cursor-pointer"
-                        onClick={() => handleRemoveSocialLink(index)}
-                      />
-                    </div>
-                  ))}
-                </div>
-                <div className="flex justify-between mt-4">
-                  <button
-                    type="button"
-                    onClick={() => handlePrevious("contactDetails")}
-                    className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-5 py-2 rounded-3xl text-xs"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleNext("contactDetails")}
-                    className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs"
-                  >
-                    Next
-                  </button>
-                </div>
-              </form>
-            </div>
-          )} */}
-
-          {/* Form Section */}
-          {/* {currentSection === "workDetails" && (
-            <div>
-              <h3 className="text-xl font-bold text-gray-800 mb-4">
-                Professional Experience
-              </h3>
-              {formData.workDetails.map((experience, index) => (
-                <div key={index}>
-                  <div className="flex justify-between items-center mb-4">
-                    <h4 className="text-lg font-semibold">
-                      Experience {index + 1}
-                    </h4>
-                    <button
-                      type="button"
-                      onClick={() => toggleExperienceVisibility(index)}
-                      className="text-black"
-                    >
-                      {showExperience[index] ? <FaMinus /> : <FaPlus />}
-                    </button>
-                  </div>
-                  {showExperience[index] && (
-                    <form className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <label className="block font-medium font-poppins text-black text-xs">
-                            Job Title
-                          </label>
-                          <input
-                            type="text"
-                            name="jobTitle"
-                            value={experience.jobTitle || ""}
-                            onChange={(e) => handleChange(e, index)}
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="block font-medium font-poppins text-black text-xs">
-                            Employer
-                          </label>
-                          <input
-                            type="text"
-                            name="employer"
-                            value={experience.employer || ""}
-                            onChange={(e) => handleChange(e, index)}
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                          />
-                        </div>
-                        <div className="flex items-center">
-                          <button
-                            type="button"
-                            onClick={() => toggleUrlInputVisibility(index)}
-                            className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins px-3 py-2 rounded-2xl text-xs flex items-center"
-                          >
-                            <FaLink className="mr-1 font-poppins font-bold text-sm " />{" "}
-                            Link
-                          </button>
-                          {showUrlInput[index] && (
-                            <input
-                              type="text"
-                              name="companyUrl"
-                              value={experience.companyUrl || ""}
-                              onChange={(e) => handleChange(e, index)}
-                              required
-                              className="mt-1 ml-1 block w-full px-2 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            />
-                          )}
-                        </div>
-                        <div>
-                          <label className="block font-medium font-poppins text-black text-xs">
-                            City
-                          </label>
-                          <input
-                            type="text"
-                            name="city"
-                            value={experience.city || ""}
-                            onChange={(e) => handleChange(e, index)}
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="block font-medium font-poppins text-black text-xs">
-                            Country
-                          </label>
-                          <Select
-                            options={countryOptions}
-                            value={experience.country}
-                            onChange={(selectedOption) =>
-                              handleChange(
-                                {
-                                  target: {
-                                    name: "country",
-                                    value: selectedOption,
-                                  },
-                                },
-                                index
-                              )
-                            }
-                            className="mt-1"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                        <div>
-                          <label className="block font-medium font-poppins text-black text-xs">
-                            Start Date
-                          </label>
-                          <div className="flex gap-2">
-                            <Select
-                              options={monthOptions}
-                              value={experience.startMonth}
-                              onChange={(selectedOption) =>
-                                handleChange(
-                                  {
-                                    target: {
-                                      name: "startMonth",
-                                      value: selectedOption,
-                                    },
-                                  },
-                                  index
-                                )
-                              }
-                              className="mt-1"
-                              placeholder="Month"
-                              required
-                            />
-                            <Select
-                              options={yearOptions}
-                              value={experience.startYear}
-                              onChange={(selectedOption) =>
-                                handleChange(
-                                  {
-                                    target: {
-                                      name: "startYear",
-                                      value: selectedOption,
-                                    },
-                                  },
-                                  index
-                                )
-                              }
-                              className="mt-1"
-                              placeholder="Year"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <label className="block font-medium font-poppins text-black text-xs">
-                            End Date
-                          </label>
-                          <div className="flex gap-2">
-                            <Select
-                              options={monthOptions}
-                              value={experience.endMonth}
-                              onChange={(selectedOption) =>
-                                handleChange(
-                                  {
-                                    target: {
-                                      name: "endMonth",
-                                      value: selectedOption,
-                                    },
-                                  },
-                                  index
-                                )
-                              }
-                              className="mt-1"
-                              placeholder="Month"
-                              required
-                            />
-                            <Select
-                              options={yearOptions}
-                              value={experience.endYear}
-                              onChange={(selectedOption) =>
-                                handleChange(
-                                  {
-                                    target: {
-                                      name: "endYear",
-                                      value: selectedOption,
-                                    },
-                                  },
-                                  index
-                                )
-                              }
-                              className="mt-1"
-                              placeholder="Year"
-                              required
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-4">
-                        <div className="flex items-center mb-2">
-                          <h3 className="text-sm font-semibold text-black font-poppins mb-4">
-                            Description
-                          </h3>
-                        </div>
-                        <textarea
-                          name="description"
-                          value={experience.description || ""}
-                          onChange={(e) => handleChange(e, index)}
-                          required
-                          className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                      </div>
-                    </form>
-                  )}
-                </div>
-              ))}
-              <div className="flex justify-between mt-4">
-                <button
-                  type="button"
-                  onClick={() => handlePrevious("workDetails")}
-                  className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs"
-                >
-                  Previous
-                </button>
-                <button
-                  type="button"
-                  onClick={handleAddExperience}
-                  className="bg-white hover:bg-gray-50 border border-black hover:text-black text-black font-poppins  px-6 py-3 rounded-3xl text-xs flex items-center"
-                >
-                  <FaPlus className="mr-2" /> Professional Experience
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleNext("workDetails")}
-                  className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins  px-6 py-3 rounded-3xl text-xs"
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-          )} */}
-
-          {/* {currentSection === "skills" && (
-            <div>
-              <h3 className="text-xl font-bold text-gray-800 mb-4">
-                Create Skills
-              </h3>
-              <div className="mt-6">
-                <div className="flex items-center mb-4">
-                  <h3 className="text-sm font-semibold text-black font-poppins mb-4">
-                    Add Skills
-                  </h3>
-                  <FaPlus
-                    className="ml-2 mb-4 text-black cursor-pointer"
-                    onClick={() => setShowSkillOptions(!showSkillOptions)}
-                  />
-                </div>
-                {showSkillOptions && (
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {skillOptions.map((option) => (
-                      <button
-                        key={option.value}
-                        type="button"
-                        onClick={() => handleAddSkill(option)}
-                        className="bg-gray-200 hover:bg-gray-300 text-black font-poppins px-3 py-1 rounded-md text-xs"
-                      >
-                        {option.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-                {formData.skills.map((skill, index) => (
-                  <div key={index} className="mb-4">
-                    <div className="flex justify-between items-center">
-                      <h4 className="text-lg font-semibold">
-                        Skill {index + 1}
-                      </h4>
-                      <FaTrash
-                        className="text-red-500 cursor-pointer"
-                        onClick={() => handleDeleteSkill(index)}
-                      />
-                    </div>
-                    <input
-                      type="text"
-                      name="skill"
-                      placeholder="Enter skill"
-                      value={skill.skill}
-                      onChange={(e) => handleSkillChange(e, index)}
-                      required
-                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                    <textarea
-                      name="description"
-                      placeholder="Description"
-                      value={skill.description}
-                      onChange={(e) => handleSkillChange(e, index)}
-                      required
-                      className="mt-1 block w-full px-3 py-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                    <Select
-                      options={skillLevelOptions}
-                      value={skill.level}
-                      onChange={(selectedOption) =>
-                        handleSkillChange(
-                          { target: { name: "level", value: selectedOption } },
-                          index
-                        )
-                      }
-                      className="mt-1"
-                      placeholder="Select skill level"
-                      required
-                    />
-                  </div>
-                ))}
-                <div className="flex justify-between mt-4">
-                  <button
-                    type="button"
-                    onClick={() => handlePrevious("skillsDetails")}
-                    className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins px-6 py-3 rounded-3xl text-xs"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleNext("skills")}
-                    className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins px-6 py-3 rounded-3xl text-xs"
-                  >
-                    Submit
-                  </button>
-                </div>
-              </div>
-            </div>
-          )} */}
         </div>
       </main>
 
@@ -795,8 +349,7 @@ const ResumePage = () => {
       <div className="w-1/2 border-l-8 max-h-[95vh] overflow-scroll">
         <ResumePreview
           formData={formData}
-          // selectedTemplate={selectedTemplate}
-          scale={2} // Adjust scale to fit the preview window
+          scale={1} 
         />
       </div>
     </div>

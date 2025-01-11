@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ZoomIn, ZoomOut } from "lucide-react";
 import ProfessionalBlueTemplate from "./Templates";
 import DownloadResume from "./DownloadResume";
@@ -55,6 +55,27 @@ const ResumePreview = ({ formData, selectedTemplate }) => {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+const ResumePage = ({ children, pageNumber, totalPages }) => {
+  return (
+    <div
+      className="bg-white shadow-lg mx-auto relative mb-8 last:mb-0"
+      style={{
+        width: "794px", // A4 width
+        minHeight: "1123px", // A4 height
+        padding: "48px",
+      }}
+    >
+      <div
+        className="absolute top-4 right-4 text-gray-400 text-sm"
+        style={{ userSelect: "none" }}
+      >
+        Page {pageNumber} of {totalPages}
+      </div>
+      <div className="h-full">{children}</div>
     </div>
   );
 };

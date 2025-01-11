@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-import { FaPerson, FaBullseye, FaBriefcase, FaGraduationCap, FaToolbox, FaHeart } from "react-icons/fa6";
+import { FaTools } from "react-icons/fa";
+import { FaPerson, FaHeart, FaGraduationCap, FaBriefcase, FaBullseye } from "react-icons/fa6";
 
 const Sidebar = ({ status }) => {
 
@@ -8,7 +9,7 @@ const Sidebar = ({ status }) => {
     { text: "Objective", icon: <FaBullseye />, key: "objectiveDetails" },
     { text: "Experience", icon: <FaBriefcase />, key: "experienceDetails" },
     { text: "Education", icon: <FaGraduationCap />, key: "educationDetails" },
-    { text: "Skills", icon: <FaToolbox />, key: "skillsDetails" },
+    { text: "Skills", icon: <FaTools />, key: "skillsDetails" },
     { text: "Interests", icon: <FaHeart />, key: "interests" },
   ];
 
