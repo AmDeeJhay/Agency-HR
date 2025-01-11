@@ -674,7 +674,7 @@ const ObjectiveDetailsForm = ({
 
           {/* Dynamic Bullets */}
           {bullets.map((bullet, index) => (
-            <FormField
+            <FormTextArea
               key={index}
               label={`Bullet ${index + 1}`}
               name={`bullet-${index}`}
@@ -769,6 +769,20 @@ const FormField = ({ type, name, value, onChange, icon, placeholder }) => (
       onChange={onChange}
       placeholder={placeholder}
       className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+    />
+  </div>
+);
+
+const FormTextArea = ({ type, name, value, onChange, icon, placeholder, className }) => (
+  <div className="flex items-center space-x-2">
+    {icon}
+    <textarea
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm max-h-[60px]"
     />
   </div>
 );
