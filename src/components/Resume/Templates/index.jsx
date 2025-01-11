@@ -34,10 +34,11 @@ export const defaultData = {
       schoolName: "School Name",
       startDate: "",
       endDate: "",
+      desc: [""]
     },
   ],
   skillsDetails: ["Skill 1", "Skill 2", "Skill 3"],
-  interests: "Your interests and hobbies",
+  interestsDetails: ["Your interests and hobbies"],
 };
 
 const ProfessionalBlueTemplate = ({ formData }) => {
@@ -57,12 +58,15 @@ const ProfessionalBlueTemplate = ({ formData }) => {
       ? formData.experienceDetails
       : defaultData.experienceDetails,
     // Ensure educationDetails is always an array
-    educationDetails: Array.isArray(formData?.educationDetails)
-      ? formData.educationDetails
+    educationDetails: Array.isArray(formData?.educationDetails.educationDetails)
+      ? formData.educationDetails.educationDetails
       : defaultData.educationDetails,
-    skillsDetails: Array.isArray(formData?.skillsDetails)
-      ? formData.skillsDetails
+    skillsDetails: Array.isArray(formData?.skillsDetails.skillsDetails)
+      ? formData.skillsDetails.skillsDetails
       : defaultData.skillsDetails,
+    interestsDetails: Array.isArray(formData?.interestsDetails.interestsDetails)
+      ? formData.interestsDetails.interestsDetails
+      : defaultData.interestsDetails,
   };
 
   const {
@@ -71,21 +75,24 @@ const ProfessionalBlueTemplate = ({ formData }) => {
     experienceDetails,
     educationDetails,
     skillsDetails,
-    interests,
+    interestsDetails,
   } = resumeData;
+  console.log("🚀 ~ file: index.jsx:76 ~ resumeData:", { formData })
+
+
   return (
-    <div className="text-[11px] leading-normal">
+    <div className="text-sm leading-normal">
       {/* Header */}
       <div className="mb-6 text-center">
         <h1 className="text-[20px] font-bold text-[#4169E1] mb-2 uppercase">
           {personalDetails.firstName} {personalDetails.lastName}
         </h1>
-        <div className="flex flex-wrap justify-center gap-4 text-[11px] text-gray-700">
+        <div className="flex flex-wrap justify-center gap-4  text-gray-700">
           <span className="flex items-center">{personalDetails.email}</span>
           <span> {personalDetails.phone}</span>
           <span>{personalDetails.linkedin}</span>
         </div>
-        <div className="flex flex-wrap justify-center gap-4 text-[11px] text-gray-700">
+        <div className="flex flex-wrap justify-center gap-4  text-gray-700">
           <span>{personalDetails.country.label}</span>
           <span> {personalDetails.address}</span>
         </div>
@@ -98,7 +105,7 @@ const ProfessionalBlueTemplate = ({ formData }) => {
           {objectiveDetails.jobTitle} SUMMARY
         </h2>
         <div className="border-t-[1.5px] border-black w-full"></div>
-        <ul className="list-disc pl-5 mt-3 text-[11px]">
+        <ul className="list-disc pl-5 mt-3 ">
           {objectiveDetails.bullets.map((bullet, index) => (
             <li key={index} className="mb-1 text-gray-800">{bullet}</li>
           ))}
@@ -108,23 +115,23 @@ const ProfessionalBlueTemplate = ({ formData }) => {
       {/* Work Experience */}
       <div className="mb-6">
         <h2 className="text-[#4169E1] font-bold text-[14px] -border-b-[1.5px] border-black mb-2 uppercase tracking-wide">
-          EMPLOYMENT & -XPERIENCE
+          EMPLOYMENT & EXPERIENCE
         </h2>
         <div className="border-t-[1.5px] border-black w-full"></div>
         {experienceDetails.map((exp, index) => (
           <div key={index} className="mb-4">
             <div className="flex justify-between items-baseline mt-3">
               <div>
-                <h3 className="font-bold text-[11px]">{exp.jobTitle}</h3>
-                <div className="text-[11px]">{exp.companyName}</div>
+                <h3 className="font-bold ">{exp.jobTitle}</h3>
+                <div className="">{exp.companyName}</div>
               </div>
-              <span className="text-[11px] text-gray-600">
+              <span className=" text-gray-600">
                 {exp.startDate} - {exp.endDate}
               </span>
             </div>
             <ul className="list-disc pl-5 mt-1">
               {exp.responsibilities.map((resp, idx) => (
-                <li key={idx} className="mb-1 text-[11px] text-gray-800">{resp}</li>
+                <li key={idx} className="mb-1  text-gray-800">{resp}</li>
               ))}
             </ul>
           </div>
@@ -141,13 +148,16 @@ const ProfessionalBlueTemplate = ({ formData }) => {
           <div key={index} className="mb-3 mt-3">
             <div className="flex justify-between items-baseline">
               <div>
-                <div className="font-bold text-[11px]">{edu.course}</div>
-                <div className="text-[11px]">{edu.schoolName}</div>
+                <div className="font-bold ">{edu.course}</div>
+                <div className="">{edu.schoolName}</div>
               </div>
-              <span className="text-[11px] text-gray-600">
+              <span className=" text-gray-600">
                 {edu.startDate} - {edu.endDate}
               </span>
             </div>
+            {edu.desc.map((desc, idx) => (
+              <p key={idx} className="mb-1  text-gray-800 italic">{desc}</p>
+            ))}
           </div>
         ))}
       </div>
@@ -160,7 +170,7 @@ const ProfessionalBlueTemplate = ({ formData }) => {
         <div className="border-t-[1.5px] border-black w-full"></div>
         <div className="flex flex-wrap gap-4 mt-3">
           {skillsDetails.map((skill, index) => (
-            skill && <div key={index} className="text-[11px]">{skill}</div>
+            skill && <div key={index} className="">{skill}</div>
           ))}
         </div>
       </div>
@@ -171,7 +181,13 @@ const ProfessionalBlueTemplate = ({ formData }) => {
           INTERESTS
         </h2>
         <div className="border-t-[1.5px] border-black w-full"></div>
-        <div className="text-[11px] mt-3">{interests}</div>
+        <div className=" mt-3">
+          <div className="flex flex-wrap gap-4">
+            {interestsDetails.map((interest, index) => (
+              interest && <div key={index} className="">{interest}</div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

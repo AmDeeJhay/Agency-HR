@@ -204,7 +204,6 @@ const ResumePage = () => {
 
   const isSectionCompleted = (section) => {
     const sectionData = formData[section];
-    console.log("sectionData", sectionData)
     return Object.values(sectionData).every((value) => value !== "");
   };
 
@@ -237,7 +236,7 @@ const ResumePage = () => {
   const addMoreInterest = () => {
     setFormData((prev) => ({
       ...prev,
-      interestDetails: [...prev.interestDetails, ""],
+      interestsDetails: [...prev.interestsDetails, ""],
     }));
   };
 
@@ -311,7 +310,6 @@ const ResumePage = () => {
               handlePrevious={handlePrevious}
             />
           )}
-
           {currentSection === "interestsDetails" && (
             <InterestForm
               data={formData.interestsDetails}
@@ -345,7 +343,6 @@ const ResumePage = () => {
         </div>
       )}
 
-      {console.log("preview", formData)}
       <div className="w-1/2 border-l-8 max-h-[95vh] overflow-scroll">
         <ResumePreview
           formData={formData}
