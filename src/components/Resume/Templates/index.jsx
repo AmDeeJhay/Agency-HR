@@ -1,3 +1,6 @@
+import React from "react";
+import { FaEnvelope, FaLinkedin, FaPhone } from "react-icons/fa6";
+
 // Sample default formData
 export const defaultData = {
   personalDetails: {
@@ -5,15 +8,16 @@ export const defaultData = {
     lastName: "LastName",
     email: "email@example.com",
     phone: "(123) 456-7890",
-    country: "",
-    state: "",
-    address: "",
-    linkedin: "linkedin.com/in/yourprofile"
-    
-  }, 
+    linkedin: "linkedin.com/in/yourprofile",
+    country: "Country",
+    address: "Address",
+  },
   objectiveDetails: {
-    jobTitle: "Job Title",
-    bullets: ["Bullet Text", "Bullet Text", "Bullet Text"],
+    jobTitle: "PARTNER MANAGER",
+    bullets: [
+      "Achievement 1",
+      "Achievement 2",
+    ],
   },
   experienceDetails: [
     {
@@ -30,15 +34,13 @@ export const defaultData = {
       schoolName: "School Name",
       startDate: "",
       endDate: "",
-      desc: [""],
     },
   ],
   skillsDetails: ["Skill 1", "Skill 2", "Skill 3"],
   interests: "Your interests and hobbies",
 };
 
-const ProfessionalBlueTemplate = ({ formData, pageNumber }) => {
-  // Merge provided formData with default formData to ensure all fields exist
+const ProfessionalBlueTemplate = ({ formData }) => {
   const resumeData = {
     ...defaultData,
     ...formData,
@@ -50,15 +52,17 @@ const ProfessionalBlueTemplate = ({ formData, pageNumber }) => {
       ...defaultData.objectiveDetails,
       ...(formData?.objectiveDetails || {}),
     },
+    // Ensure experienceDetails is always an array
     experienceDetails: Array.isArray(formData?.experienceDetails)
       ? formData.experienceDetails
-      : defaultData.experienceDetails || [],
-    educationDetails: Array.isArray(formData?.educationDetails.educationDetails)
-      ? formData.educationDetails.educationDetails
-      : defaultData.educationDetails || [],
-    skillsDetails: Array.isArray(formData?.skillsDetails.skillsDetails)
-      ? formData.skillsDetails.skillsDetails
-      : defaultData.skillsDetails || [],
+      : defaultData.experienceDetails,
+    // Ensure educationDetails is always an array
+    educationDetails: Array.isArray(formData?.educationDetails)
+      ? formData.educationDetails
+      : defaultData.educationDetails,
+    skillsDetails: Array.isArray(formData?.skillsDetails)
+      ? formData.skillsDetails
+      : defaultData.skillsDetails,
   };
 
   const {
@@ -69,145 +73,108 @@ const ProfessionalBlueTemplate = ({ formData, pageNumber }) => {
     skillsDetails,
     interests,
   } = resumeData;
-
-  const showHeader = pageNumber === 0;
-  
-  const splitIntoPages = (content, totalPages) => {
-    const pages = [];
-    for (let i = 0; i < totalPages; i++) {
-      pages.push(
-        <div
-          key={i}
-          className="bg-white shadow-lg mx-auto relative"
-          style={{
-            width: `${A4_WIDTH}px`,
-            height: `${A4_HEIGHT}px`,
-            marginBottom: "2rem",
-            padding: "48px",
-            breakAfter: "page",
-          }}
-        >
-          <div
-            className="absolute top-4 right-4 text-gray-400 text-sm"
-            style={{ userSelect: "none" }}
-          >
-            Page {i + 1} of {totalPages}
-          </div>
-          <div
-            style={{
-              transform: `translateY(${-i * A4_HEIGHT}px)`,
-              transformOrigin: "top left",
-            }}
-          >
-            {content}
-          </div>
-        </div>
-      );
-    }
-    return pages;
-  };
-
   return (
-    <div className="resume-container text-base">
-      {/* Header Section */}
-      <section className="resume-section page-section">
-        <div className="text-center mb-10">
-          <h1 className="text-2xl text-black font-poppins font-semibold uppercase mb-2">
-            {personalDetails.firstName} {personalDetails.lastName}
-          </h1>
-          <div className="text-gray-600 flex justify-between border-b-2 border-black">
-            <div>{personalDetails.email}</div>
-            <div>{personalDetails.phone}</div>
-            <div>{personalDetails.linkedin}</div>
-          </div>
+    <div className="text-[11px] leading-normal">
+      {/* Header */}
+      <div className="mb-6 text-center">
+        <h1 className="text-[20px] font-bold text-[#4169E1] mb-2 uppercase">
+          {personalDetails.firstName} {personalDetails.lastName}
+        </h1>
+        <div className="flex flex-wrap justify-center gap-4 text-[11px] text-gray-700">
+          <span className="flex items-center">{personalDetails.email}</span>
+          <span> {personalDetails.phone}</span>
+          <span>{personalDetails.linkedin}</span>
         </div>
-      </section>
+        <div className="flex flex-wrap justify-center gap-4 text-[11px] text-gray-700">
+          <span>{personalDetails.country.label}</span>
+          <span> {personalDetails.address}</span>
+        </div>
+        <div className="border-t-[2px] border-black w-full mt-2"></div>
+      </div>
 
-      <section className="resume-section mb-3 page-section">
-        <h2 className="font-bold border-b-2 border-black mb-4 uppercase text-blue-600">
-          {objectiveDetails.jobTitle} Summary
+      {/* Objective */}
+      <div className="mb-6">
+        <h2 className="text-[#4169E1] font-bold text-[14px] -border-b-[1.5px] border-black mb-2 uppercase tracking-wide">
+          {objectiveDetails.jobTitle} SUMMARY
         </h2>
-        <ul className="list-disc pl-6">
-          {objectiveDetails.bullets.map((item, index) => (
-            <li key={index}>{item}</li>
+        <div className="border-t-[1.5px] border-black w-full"></div>
+        <ul className="list-disc pl-5 mt-3 text-[11px]">
+          {objectiveDetails.bullets.map((bullet, index) => (
+            <li key={index} className="mb-1 text-gray-800">{bullet}</li>
           ))}
         </ul>
-      </section>
+      </div>
 
-      <section className="mb-6 resume-section page-section">
-        <h2 className="font-bold border-b-2 border-black mb-4 uppercase text-blue-600">
-          Work Experience
+      {/* Work Experience */}
+      <div className="mb-6">
+        <h2 className="text-[#4169E1] font-bold text-[14px] -border-b-[1.5px] border-black mb-2 uppercase tracking-wide">
+          EMPLOYMENT & -XPERIENCE
         </h2>
-        {experienceDetails.map((job, index) => (
-          <div key={index} className="page-break-inside-avoid mb-4">
-            <div className="flex justify-between">
-              <div className="font-bold capitalize">{job.jobTitle}</div>
-              <div className="text-gray-600 italic">
-                {job.startDate} - {job.endDate}
+        <div className="border-t-[1.5px] border-black w-full"></div>
+        {experienceDetails.map((exp, index) => (
+          <div key={index} className="mb-4">
+            <div className="flex justify-between items-baseline mt-3">
+              <div>
+                <h3 className="font-bold text-[11px]">{exp.jobTitle}</h3>
+                <div className="text-[11px]">{exp.companyName}</div>
               </div>
+              <span className="text-[11px] text-gray-600">
+                {exp.startDate} - {exp.endDate}
+              </span>
             </div>
-            <div className="font-bold">{job.companyName}</div>
-            <ul className="list-disc pl-6">
-              {job.responsibilities.map((resp, idx) => (
-                <li key={idx} className="mb-1">
-                  {resp}
-                </li>
+            <ul className="list-disc pl-5 mt-1">
+              {exp.responsibilities.map((resp, idx) => (
+                <li key={idx} className="mb-1 text-[11px] text-gray-800">{resp}</li>
               ))}
             </ul>
           </div>
         ))}
-      </section>
+      </div>
 
-      {educationDetails && educationDetails.length > 0 && (
-        <section className="mb-6 resume-section page-section">
-          <h2 className="text-blue-600 font-bold border-b-2 border-black mb-4 uppercase">
-            Education
-          </h2>
-          {educationDetails.map((edu, index) => (
-            <div key={index} className="page-break-inside-avoid mb-4">
-              <div className="flex justify-between items-center">
-                <div className="font-bold">{edu.course}</div>
-                <div className="text-gray-600 italic">
-                  {edu.startDate} - {edu.endDate}
-                </div>
+      {/* Education */}
+      <div className="mb-6">
+        <h2 className="text-[#4169E1] font-bold text-[14px] -border-b-[1.5px] border-black mb-2 uppercase tracking-wide">
+          EDUCATION
+          -    </h2>
+        <div className="border-t-[1.5px] border-black w-full"></div>
+        {educationDetails.map((edu, index) => (
+          <div key={index} className="mb-3 mt-3">
+            <div className="flex justify-between items-baseline">
+              <div>
+                <div className="font-bold text-[11px]">{edu.course}</div>
+                <div className="text-[11px]">{edu.schoolName}</div>
               </div>
-              <div>{edu.schoolName}</div>
-              <ul className="list-disc italic">
-                {edu.desc.map((resp, idx) => (
-                  <p key={idx}>{resp}</p>
-                ))}
-              </ul>
+              <span className="text-[11px] text-gray-600">
+                {edu.startDate} - {edu.endDate}
+              </span>
             </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Skills */}
+      <div className="mb-6">
+        <h2 className="text-[#4169E1] font-bold text-[14px] -border-b-[1.5px] border-black mb-2 uppercase tracking-wide">
+          SKILLS
+        </h2>
+        <div className="border-t-[1.5px] border-black w-full"></div>
+        <div className="flex flex-wrap gap-4 mt-3">
+          {skillsDetails.map((skill, index) => (
+            skill && <div key={index} className="text-[11px]">{skill}</div>
           ))}
-        </section>
-      )}
-
-      <section className="mb-6 resume-section page-section">
-        <h2 className="text-blue-600 font-bold border-b-2 border-black mb-4 uppercase">
-          Skills
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          {skillsDetails.map((skill, index) => {
-            if (skill !== "")
-              return (
-                <div
-                  key={index}
-                  className="bg-blue-50 text-blue-600 px-4 py-1 rounded-full text-sm"
-                >
-                  {skill}
-                </div>
-              );
-          })}
         </div>
-      </section>
+      </div>
 
-      <section className="mb-6 resume-section page-section">
-        <h2 className="text-blue-600 font-bold border-b-2 border-black mb-4 uppercase">
-          Interests
+      {/* Interests */}
+      <div className="mb-6">
+        <h2 className="text-[#4169E1] font-bold text-[14px] -border-b-[1.5px] border-black mb-2 uppercase tracking-wide">
+          INTERESTS
         </h2>
-        <div className="text-gray-600">{interests}</div>
-      </section>
+        <div className="border-t-[1.5px] border-black w-full"></div>
+        <div className="text-[11px] mt-3">{interests}</div>
+      </div>
     </div>
   );
 };
-export { ProfessionalBlueTemplate }; // ModernPinkTemplate, ClassicBlackTemplate
+
+export default ProfessionalBlueTemplate;

@@ -1,89 +1,58 @@
 import { useRef, useState } from "react";
 import { ZoomIn, ZoomOut } from "lucide-react";
-import { ProfessionalBlueTemplate } from "./Templates";
+import ProfessionalBlueTemplate from "./Templates";
+import DownloadResume from "./DownloadResume";
 
-const ResumePreview = ({ formData, selectedTemplate, scale = 1 }) => {
-  const A4_WIDTH = 794;
-  const A4_HEIGHT = 1123;
+const ResumePreview = ({ formData, selectedTemplate }) => {
+  const contentRef = useRef();
+  const [previewScale, setPreviewScale] = useState(0.7);
 
-  const contentRef = useRef(null)
-//   Zoom
-const [previewScale, setPreviewScale] = useState(0.5);
-const [previewRotation, setPreviewRotation] = useState(0);
-
-const handleZoomIn = () => setPreviewScale(scale => Math.min(scale + 0.1, 1));
-const handleZoomOut = () => setPreviewScale(scale => Math.max(scale - 0.1, 0.3));
-const handleRotate = () => setPreviewRotation(rotation => (rotation + 90) % 360);
+  const handleZoomIn = () => setPreviewScale(scale => Math.min(scale + 0.1, 1));
+  const handleZoomOut = () => setPreviewScale(scale => Math.max(scale - 0.1, 0.3));
 
   return (
-    <div className="flex-1 relative bg-gray-50 overflow-hidden">
+    <div className="flex-1 relative bg-gray-100 overflow-auto">
       {/* Preview Controls */}
-      <div className="fixed right-9 bottom-3 transform -translate-x-1/2 flex items-center gap-2 bg-white rounded-lg shadow-lg p-2 z-10">
-        <button className="p-2 hover:bg-gray-100 rounded-full">
-          <ZoomIn className="w-5 h-5" onClick={handleZoomIn}/>
+      <div className="fixed right-9 bottom-3 flex items-center gap-2 bg-white rounded-lg shadow-lg p-2 z-10">
+        <button
+          onClick={handleZoomIn}
+          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          title="Zoom In"
+        >
+          <ZoomIn className="w-5 h-5" />
         </button>
         <button
-          className="p-2 hover:bg-gray-100 rounded-full"
           onClick={handleZoomOut}
+          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          title="Zoom Out"
         >
           <ZoomOut className="w-5 h-5" />
         </button>
+        <DownloadResume resumeRef={contentRef} />
       </div>
 
       {/* Resume Preview Area */}
-      <div className="w-full h-full overflow-auto p-8">
+      <div className="min-h-screen flex justify-center">
         <div
           style={{
-            transform: `scale(${previewScale}) rotate(${previewRotation}deg)`,
-            transformOrigin: "center top",
+            transform: `scale(${previewScale})`,
+            transformOrigin: "top center",
             transition: "transform 0.2s ease",
           }}
-          ref={contentRef}
         >
-          <style>
-            {`
-              @media print {
-                @page {
-                  size: A4;
-                  margin: 0;
-                }
-                body {
-                  margin: 0;
-                  padding: 0;
-                }
-                .page-break {
-                  break-after: page;
-                  page-break-after: always;
-                }
-                .no-break {
-                  break-inside: avoid;
-                  page-break-inside: avoid;
-                }
-              }
-
-              .resume-content {
-                column-count: 1;
-                column-fill: auto;
-                column-gap: 0;
-              }
-
-              .section {
-                break-inside: avoid;
-                page-break-inside: avoid;
-              }
-            `}
-          </style>
-
-          {/* <div className="resume-content" ref={contentRef}> */}
-          {/* {splitIntoPages( */}
-          <ResumePage pageNumber={1} totalPages={1}>
-            {/* <div className="w-full h-full"> */}
+          <div
+            ref={contentRef}
+            className="bg-white shadow-lg mx-auto"
+            style={{
+              width: "210mm",
+              minHeight: "297mm",
+              padding: "10mm",
+              boxSizing: "border-box",
+              margin: "0 auto",
+            }}
+          >
             <ProfessionalBlueTemplate formData={formData} />
-
-            {/* </div> */}
-          </ResumePage>
-          {/* )} */}
-          {/* </div> */}
+          </div>
         </div>
       </div>
     </div>
