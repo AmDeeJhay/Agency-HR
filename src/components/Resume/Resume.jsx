@@ -440,10 +440,7 @@ const ResumePage = () => {
         />
       </div>
 
-      <div className="fixed bottom-0 right-0 m-4 w-1/2 h-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
-        <Chats botLink="https://t.me/hr_agentic_bot" />
-      </div>
-
+      <Chats botLink="https://t.me/hr_agentic_bot" />
     </div>
     
   );
