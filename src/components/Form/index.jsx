@@ -420,7 +420,6 @@ const ExperienceDetailsForm = ({
       },
     ]
   );
-  console.log("exper", data.experienceDetails);
 
   const handleExperienceChange = (index, field, value) => {
     const updatedExperiences = [...experiences];
@@ -640,7 +639,7 @@ const ObjectiveDetailsForm = ({
   handleNext,
   handlePrevious,
 }) => {
-  const [bullets, setBullets] = useState(data.bullets || ["", "", ""]); // Initialize with three bullets
+  const [bullets, setBullets] = useState(data.bullets || ["",]); // Initialize with three bullets
 
   // Add a new bullet field
   const handleAddBullet = () => {
@@ -664,7 +663,6 @@ const ObjectiveDetailsForm = ({
       </h3>
       <form className="space-y-4">
         <div className="grid grid-cols-1 gap-6">
-          {console.log({ data })}
           {/* Target Job Title */}
           <FormField
             label="Target Job Title"
@@ -676,7 +674,7 @@ const ObjectiveDetailsForm = ({
 
           {/* Dynamic Bullets */}
           {bullets.map((bullet, index) => (
-            <FormField
+            <FormTextArea
               key={index}
               label={`Bullet ${index + 1}`}
               name={`bullet-${index}`}
@@ -761,16 +759,30 @@ const PersonalDetailsForm = ({ data, handleChange, handleCountryChange, handleSt
   );
 };
 
-const FormField = ({ label, name, value, onChange, icon, placeholder }) => (
+const FormField = ({ type, name, value, onChange, icon, placeholder }) => (
   <div className="flex items-center space-x-2">
     {icon}
     <input
-      type="text"
+      type={type}
       name={name}
       value={value}
       onChange={onChange}
       placeholder={placeholder}
       className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+    />
+  </div>
+);
+
+const FormTextArea = ({ type, name, value, onChange, icon, placeholder, className }) => (
+  <div className="flex items-center space-x-2">
+    {icon}
+    <textarea
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm max-h-[60px]"
     />
   </div>
 );
@@ -788,48 +800,81 @@ const FormSelect = ({ label, name, value, options, onChange, icon }) => (
   </div>
 );
 
-const InterestForm = ({ data, handleChange, handleSubmit, handlePrevious, addMoreInterest }) => (
-  <div>
-    <h3 className="text-sm font-semibold text-black font-poppins mb-4">
-      Interests
-    </h3>
-    <form className="space-y-4">
-      {data.map((interest, index) => (
-        <textarea
-          key={index}
-          name={`interest-${index}`}
-          value={interest}
-          onChange={(e) => handleChange(e, index)}
-          placeholder="Interests"
-          required
-        />
-      ))}
-      <button
-        type="button"
-        onClick={addMoreInterest}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-poppins px-4 py-2 rounded-3xl text-xs"
-      >
-        Add More Interest
-      </button>
-      <div className="flex justify-between mt-4">
-        <button
-          type="button"
-          onClick={handlePrevious}
-          className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins px-6 py-3 rounded-3xl text-xs"
-        >
-          Previous
-        </button>
-        <button
-          type="button"
-          onClick={handleSubmit}
-          className="bg-black hover:bg-white border border-black hover:text-black text-white font-poppins px-6 py-3 rounded-3xl text-xs"
-        >
-          Submit
-        </button>
-      </div>
-    </form>
-  </div>
-);
+const InterestForm = ({ data, handleChange }) => {
+  const [interests, setInterests] = useState(
+    data.interestsDetails || [""]
+  );
+
+  const handleDescChange = (index, value) => {
+    const updatedInterests = [...interests];
+    updatedInterests[index] = value;
+    setInterests(updatedInterests);
+    handleChange({
+      target: { name: "interestsDetails", value: updatedInterests },
+    });
+  };
+
+  const addDesc = () => {
+    const updatedInterests = [...interests, ""];
+    setInterests(updatedInterests);
+    handleChange({
+      target: { name: "interestsDetails", value: updatedInterests },
+    });
+  };
+
+  const removeDesc = (index) => {
+    const updatedInterests = interests.filter((_, i) => i !== index);
+    setInterests(updatedInterests);
+    handleChange({
+      target: { name: "interestsDetails", value: updatedInterests },
+    });
+  };
+
+  return (
+    <div>
+      <h3 className="text-sm font-semibold text-black font-poppins mb-4">
+        Your Interests
+      </h3>
+      <form className="space-y-4">
+        <div className="grid grid-cols-1 gap-2">
+          <div className="border p-4 rounded-lg shadow-sm relative">
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Add Interests
+              </label>
+              {interests.map((skill, index) => (
+                <div key={index} className="flex items-start gap-2 mb-2">
+                  <input
+                    value={skill}
+                    onChange={(e) => handleDescChange(index, e.target.value)}
+                    className="w-full p-2 border rounded-lg min-h-[40px]"
+                    placeholder="What are your interests..."
+                  />
+                  {interests.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeDesc(index)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addDesc}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg"
+              >
+                Add Interests
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+};
 
 const Button = ({ text, onClick }) => (
   <button
@@ -841,4 +886,4 @@ const Button = ({ text, onClick }) => (
   </button>
 );
 
-export { PersonalDetailsForm, ObjectiveDetailsForm, ExperienceDetailsForm, EducationDetailsForm, SkillsForm, InterestForm };
+export { Button, PersonalDetailsForm, ObjectiveDetailsForm, ExperienceDetailsForm, EducationDetailsForm, SkillsForm, InterestForm };
