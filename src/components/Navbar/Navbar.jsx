@@ -38,7 +38,7 @@ const Navbar = () => {
       }`}
     >
       <div className="text-base cursor-pointer font-poppins font-bold ml-5 flex justify-start">
-        <Link to='/'>Agency HR</Link>
+        <Link to='/'>Agentic HR</Link>
       </div>
       <div className="flex-1 flex items-center justify-end">
         {/* <Hamburger /> */}
