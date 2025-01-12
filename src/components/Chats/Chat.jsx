@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { FaPaperPlane, FaPaperclip } from 'react-icons/fa';
+import { FaPaperPlane, FaPaperclip, FaTelegramPlane } from 'react-icons/fa';
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -7,6 +7,7 @@ const Chat = () => {
   const [headerText, setHeaderText] = useState('');
   const fullHeaderText = 'What can I help you with?';
   const fileInputRef = useRef(null);
+  const botLink = "https://t.me/hr_agentic_bot";
 
   useEffect(() => {
     let index = 0;
@@ -23,6 +24,10 @@ const Chat = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleOpenTelegram = () => {
+    window.open(botLink, "_blank");
+  };
+
   const handleSendMessage = () => {
     if (input.trim()) {
       setMessages([...messages, { text: input, sender: 'user' }]);
@@ -31,7 +36,7 @@ const Chat = () => {
       setTimeout(() => {
         setMessages((prevMessages) => [
           ...prevMessages,
-          { text: 'This is a simulated response from the AI.', sender: 'ai' },
+          { text: 'Click the button below to chat with our bot on Telegram.', sender: 'ai' },
         ]);
       }, 1000);
     }
@@ -67,7 +72,7 @@ const Chat = () => {
             <div
               key={index}
               className={`mb-2 p-2 rounded-md ${
-                message.sender === 'user' ? 'bg-blue-500 text-white self-end' : 'bg-gray-300 text-black self-start'
+                message.sender === 'user' ? 'bg-black font-poppins font-medium text-sm text-white self-end' : 'bg-gray-300 text-black self-start'
               }`}
             >
               {message.text}
@@ -77,7 +82,7 @@ const Chat = () => {
         <div className="relative flex items-center">
           <FaPaperclip
             onClick={handlePaperclipClick}
-            className="absolute left-3 bottom-3 text-gray-400 cursor-pointer"
+            className="absolute left-3 bottom-3 text-black cursor-pointer"
           />
           <input
             type="file"
@@ -95,8 +100,18 @@ const Chat = () => {
           />
           <FaPaperPlane
             onClick={handleSendMessage}
-            className="absolute right-3 bottom-3 text-gray-400 cursor-pointer"
+            className="absolute right-3 bottom-3 text-black cursor-pointer"
           />
+        </div>
+
+        <div className="chat-container p-4">
+          <button
+            onClick={handleOpenTelegram}
+            className="flex items-center justify-center bg-black border border-black hover:bg-white shadow-lg hover:text-black text-white font-bold font-poppins text-sm py-2 px-4 rounded-full"
+          >
+            <FaTelegramPlane className="mr-2" />
+            Open Telegram
+          </button>
         </div>
       </div>
     </div>

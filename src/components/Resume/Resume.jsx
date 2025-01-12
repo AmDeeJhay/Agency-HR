@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import { FaRobot } from "react-icons/fa";
 import Sidebar from "../Sidebar/Sidebar";
 import ResumePreview from "./ResumePreview";
 
@@ -251,6 +252,10 @@ const ResumePage = () => {
     }));
   };
 
+  const handleOpenTelegram = () => {
+    window.open("https://t.me/hr_agentic_bot", "_blank");
+  };
+
   const countryOptions = countryList().getData();
   const stateOptions = [
     { value: "state1", label: "State 1" },
@@ -439,11 +444,14 @@ const ResumePage = () => {
           scale={1}
         />
       </div>
-      
-      {/* <Chats botLink="https://t.me/hr_agentic_bot" /> */}
-      
+      <button
+            onClick={handleOpenTelegram}
+            className="fixed bottom-4 right-4 flex items-center justify-center bg-black border border-black hover:bg-white shadow-lg hover:text-black text-white  font-bold py-2 px-4 rounded-full"
+          >
+            <FaRobot className="mr-2 font-poppins font-medium" />
+            <p className="font-poppins font-medium text-sm">Message Bot</p>
+      </button>
     </div>
-    
   );
 };
 export default ResumePage;

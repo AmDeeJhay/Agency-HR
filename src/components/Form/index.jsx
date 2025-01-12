@@ -156,7 +156,7 @@ const SkillsForm = ({ data, handleChange, handleNext, handlePrevious }) => {
               <button
                 type="button"
                 onClick={addDesc}
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg"
+                className="w-full bg-black hover:bg-black-600 text-white font-poppins font-medium py-2 px-4 rounded-lg"
               >
                 Add Skill
               </button>
@@ -367,7 +367,7 @@ const EducationDetailsForm = ({
                 <button
                   type="button"
                   onClick={() => addDesc(index)}
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center gap-2"
+                  className="w-full bg-black hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center gap-2"
                 >
                   <span>Add</span>
                 </button>
