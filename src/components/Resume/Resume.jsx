@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import Sidebar from "../Sidebar/Sidebar";
 import ResumePreview from "./ResumePreview";
-import Chats from "../Chats/Chat";
+
 import {
   // FaUser,
   // FaGlobe,
@@ -439,8 +439,9 @@ const ResumePage = () => {
           scale={1}
         />
       </div>
-
-      <Chats botLink="https://t.me/hr_agentic_bot" />
+      
+      {/* <Chats botLink="https://t.me/hr_agentic_bot" /> */}
+      
     </div>
     
   );

@@ -1,104 +1,104 @@
-import React, { useState } from "react";
-import { FaPaperPlane, FaTelegramPlane, FaRobot, FaTimes } from "react-icons/fa";
+import { useState, useEffect, useRef } from 'react';
+import { FaPaperPlane, FaPaperclip } from 'react-icons/fa';
 
-const Chat = ({ botLink }) => {
-  const [input, setInput] = useState("");
-  const [chatHistory, setChatHistory] = useState([]);
-  const [isChatOpen, setIsChatOpen] = useState(false);
+const Chat = () => {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
+  const [headerText, setHeaderText] = useState('');
+  const fullHeaderText = 'What can I help you with?';
+  const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      setHeaderText((prev) => {
+        if (index < fullHeaderText.length) {
+          return prev + fullHeaderText[index];
+        }
+        clearInterval(interval);
+        return prev;
+      });
+      index++;
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleSendMessage = () => {
+    if (input.trim()) {
+      setMessages([...messages, { text: input, sender: 'user' }]);
+      setInput('');
+      // Simulate a response from the AI
+      setTimeout(() => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { text: 'This is a simulated response from the AI.', sender: 'ai' },
+        ]);
+      }, 1000);
+    }
+  };
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
   };
 
-  const handleSendMessage = async () => {
-    if (input.trim() === "") return;
-
-    const newMessage = { sender: "user", text: input };
-    setChatHistory([...chatHistory, newMessage]);
-    setInput("");
-
-    try {
-      // Here you can add any local chat handling if needed
-      const botMessage = { sender: "bot", text: "Please continue the chat on Telegram." };
-      setChatHistory((prevHistory) => [...prevHistory, botMessage]);
-    } catch (error) {
-      console.error("Error sending message:", error);
-      const errorMessage = { sender: "bot", text: "Failed to send message. Please try again." };
-      setChatHistory((prevHistory) => [...prevHistory, errorMessage]);
-    }
-  };
-
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       handleSendMessage();
     }
   };
 
-  const handleOpenTelegram = () => {
-    window.open(botLink, "_blank");
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setMessages([...messages, { text: `Uploaded file: ${file.name}`, sender: 'user' }]);
+    }
   };
 
-  const toggleChat = () => {
-    setIsChatOpen(!isChatOpen);
+  const handlePaperclipClick = () => {
+    fileInputRef.current.click();
   };
 
   return (
-    <div className="chat-container fixed bottom-0 right-0 m-4">
-      {!isChatOpen && (
-        <button
-          onClick={toggleChat}
-          className="flex items-center justify-center z-1000 bg-black hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-full"
-        >
-          <FaRobot className="mr-2"  />
-          Message Bot
-        </button>
-      )}
-      {isChatOpen && (
-        <div className="chat-box bg-white shadow-lg rounded-lg overflow-hidden mt-2 p-4 w-80">
-          <div className="flex justify-between items-center mb-4">
-            <FaTimes className="cursor-pointer" onClick={toggleChat} />
-          </div>
-          <div className="chat-history mb-4">
-            {chatHistory.map((msg, index) => (
-              <div
-                key={index}
-                className={`chat-message ${msg.sender === "user" ? "text-right" : "text-left"} mb-2`}
-              >
-                <div
-                  className={`inline-block p-2 rounded-lg ${
-                    msg.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"
-                  }`}
-                >
-                  {msg.text}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="chat-input relative flex items-center">
-            <input
-              type="text"
-              value={input}
-              onChange={handleInputChange}
-              onKeyPress={handleKeyPress}
-              placeholder="Message Agency HR"
-              className="flex-1 p-2 pl-10 pr-10 border border-gray-300 rounded-md"
-            />
-            <FaPaperPlane
-              onClick={handleSendMessage}
-              className="absolute right-3 bottom-3 text-gray-400 cursor-pointer"
-            />
-          </div>
-          <div className="mt-4">
-            <button
-              onClick={handleOpenTelegram}
-              className="flex items-center justify-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
+      <div className="bg-white w-full max-w-2xl rounded-lg shadow-lg p-6 flex flex-col">
+        <h2 className="text-2xl font-bold mb-4">{headerText}</h2>
+        <div className="flex-1 overflow-y-auto mb-4">
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={`mb-2 p-2 rounded-md ${
+                message.sender === 'user' ? 'bg-blue-500 text-white self-end' : 'bg-gray-300 text-black self-start'
+              }`}
             >
-              <FaTelegramPlane className="mr-2" />
-              Open Telegram
-            </button>
-          </div>
+              {message.text}
+            </div>
+          ))}
         </div>
-      )}
+        <div className="relative flex items-center">
+          <FaPaperclip
+            onClick={handlePaperclipClick}
+            className="absolute left-3 bottom-3 text-gray-400 cursor-pointer"
+          />
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleFileUpload}
+          />
+          <input
+            type="text"
+            value={input}
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
+            placeholder="Message Agency HR"
+            className="flex-1 p-2 pl-10 pr-10 border border-gray-300 rounded-md"
+          />
+          <FaPaperPlane
+            onClick={handleSendMessage}
+            className="absolute right-3 bottom-3 text-gray-400 cursor-pointer"
+          />
+        </div>
+      </div>
     </div>
   );
 };
