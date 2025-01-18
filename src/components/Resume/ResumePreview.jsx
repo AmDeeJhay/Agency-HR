@@ -32,7 +32,7 @@ const ResumePreview = ({ formData, selectedTemplate }) => {
       </div>
 
       {/* Resume Preview Area */}
-      <div className="min-h-screen flex justify-center">
+      <div className="min-h-screen flex justify-center items-center h-full w-full">
         <div
           style={{
             transform: `scale(${previewScale})`,

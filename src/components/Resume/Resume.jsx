@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
-import { FaRobot } from "react-icons/fa";
+import { FaRobot, FaTimes } from "react-icons/fa";
 import Sidebar from "../Sidebar/Sidebar";
 import ResumePreview from "./ResumePreview";
 
@@ -122,6 +122,7 @@ const ResumePage = () => {
   const [showModal, setShowModal] = useState(false);
   const [professionalSummary, setProfessionalSummary] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
@@ -256,6 +257,10 @@ const ResumePage = () => {
     window.open("https://t.me/hr_agentic_bot", "_blank");
   };
 
+  const togglePreview = () => {
+    setIsPreviewVisible(!isPreviewVisible);
+  };
+
   const countryOptions = countryList().getData();
   const stateOptions = [
     { value: "state1", label: "State 1" },
@@ -264,23 +269,27 @@ const ResumePage = () => {
   ];
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen flex-col md:flex-row">
       <Toaster position="top-right" />
       {/* Sidebar */}
-      <div className="w-36">
+      <div className="w-full md:w-36 hidden md:block fixed h-screen border-r-2 bg-gray-50">
         <Sidebar status={status} />
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 ml-0 bg-gray-50 overflow-y-scroll max-h-[95vh]">
+      <main className="flex-1 p-4 md:p-8 ml-0 md:ml-40 bg-gray-50 overflow-y-scroll max-h-[95vh]">
         <header className="flex justify-between items-center mb-6">
           <h2 className="text-sm font-semibold font-poppins ml-6 mt-1">
             Create Your Resume
           </h2>
-
+          
         </header>
+        
+        {/* <div className="md:hidden flex flex-col justify-center mb-4">
+          <Sidebar status={status} />
+        </div> */}
 
-        <div className="bg-white shadow-md rounded-lg w-full p-8 overflow-auto">
+        <div className="bg-white shadow-md rounded-lg w-full p-4 md:p-8 overflow-auto">
           {/* Form Section */}
           {currentSection === "personalDetails" && (
             <PersonalDetailsForm
@@ -438,19 +447,31 @@ const ResumePage = () => {
       
       )}
 
-      <div className="w-1/2 border-l-8 max-h-[95vh] overflow-scroll">
+      <div className={`w-full md:w-1/2 border-l-8 max-h-[95vh] overflow-scroll ${isPreviewVisible ? 'block inset-0 z-50' : 'hidden'} md:block`}>
         <ResumePreview
           formData={formData}
           scale={1}
         />
       </div>
-      <button
-            onClick={handleOpenTelegram}
-            className="fixed bottom-4 right-4 flex items-center justify-center bg-black border border-black hover:bg-white shadow-lg hover:text-black text-white  font-bold py-2 px-4 rounded-full"
-          >
-            <FaRobot className="mr-2 font-poppins font-medium" />
-            <p className="font-poppins font-medium text-sm">Message Bot</p>
-      </button>
+      <div className="fixed bottom-4 left-4 flex space-x-2">
+        <button
+          onClick={togglePreview}
+          className="flex items-center justify-center bg-black border border-black hover:bg-white shadow-lg hover:text-black text-white text-sm font-bold py-2 px-4 rounded-full"
+        >
+          {isPreviewVisible ? <FaTimes className="mr-2" /> : <FaRobot className="mr-2" />}
+          {isPreviewVisible ? "Close Preview" : "Preview"}
+        </button>
+      </div>
+
+      <div className="fixed bottom-4 right-4 flex space-x-2">
+        <button
+          onClick={handleOpenTelegram}
+          className="flex items-center justify-center bg-black border border-black hover:bg-white shadow-lg hover:text-black text-white font-bold py-2 px-4 rounded-full"
+        >
+          <FaRobot className="mr-2 font-poppins font-medium" />
+          <p className="font-poppins font-medium text-sm">Message Bot</p>
+        </button>
+      </div>
     </div>
   );
 };

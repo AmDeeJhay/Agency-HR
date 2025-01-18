@@ -131,7 +131,7 @@ const SkillsForm = ({ data, handleChange, handleNext, handlePrevious }) => {
         <div className="grid grid-cols-1 gap-2">
           <div className="border p-4 rounded-lg shadow-sm relative">
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium font-poppins text-white">
                 Add New Skill
               </label>
               {education.map((skill, index) => (
@@ -156,7 +156,7 @@ const SkillsForm = ({ data, handleChange, handleNext, handlePrevious }) => {
               <button
                 type="button"
                 onClick={addDesc}
-                className="w-full bg-black hover:bg-black-600 text-white font-poppins font-medium py-2 px-4 rounded-lg"
+                className="w-50 mt-8 item-center justify-center flex bg-black hover:bg-black-600 text-white font-poppins font-medium py-2 px-4 rounded-full"
               >
                 Add Skill
               </button>
@@ -388,9 +388,9 @@ const EducationDetailsForm = ({
           <button
             type="button"
             onClick={handleAddSchool}
-            className="bg-gray-200 hover:bg-gray-300 border border-gray-400 text-black font-poppins px-4 py-2 rounded-lg text-xs"
+            className="border-black hover:bg-white shadow-lg hover:text-black font-bold py-2 px-4 rounded-full  border text-black font-poppins text-xs"
           >
-            Add New School
+            Add School
           </button>
         </div>
 
@@ -618,9 +618,9 @@ const ExperienceDetailsForm = ({
           <button
             type="button"
             onClick={handleAddExperience}
-            className="bg-gray-200 hover:bg-gray-300 border border-gray-400 text-black font-poppins px-4 py-2 rounded-lg text-xs"
+            className="border-black hover:bg-white shadow-lg hover:text-black font-bold py-2 px-4 rounded-full  border text-black font-poppins text-xs"
           >
-            Add New Experience
+            Add Experience
           </button>
         </div>
 
@@ -690,9 +690,9 @@ const ObjectiveDetailsForm = ({
           <button
             type="button"
             onClick={handleAddBullet}
-            className="bg-gray-200 hover:bg-gray-300 border border-gray-400 text-black font-poppins px-4 py-2 rounded-lg text-xs"
+            className="bg-gray-200 border-black hover:bg-white shadow-lg hover:text-black font-bold py-2 px-4 rounded-full  border text-black font-poppins text-xs"
           >
-            Add New Bullet
+            Add Bullet
           </button>
         </div>
 

@@ -1,6 +1,3 @@
-import React from "react";
-import { FaEnvelope, FaLinkedin, FaPhone } from "react-icons/fa6";
-
 // Sample default formData
 export const defaultData = {
   personalDetails: {
