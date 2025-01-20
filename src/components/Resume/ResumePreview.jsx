@@ -4,7 +4,7 @@ import ProfessionalBlueTemplate from "./Templates";
 import DownloadResume from "./DownloadResume";
 
 const ResumePreview = ({ formData, selectedTemplate }) => {
-  const contentRef = useRef();
+  const contentRef = useRef(null);
   const [previewScale, setPreviewScale] = useState(0.7);
 
   const handleZoomIn = () => setPreviewScale(scale => Math.min(scale + 0.1, 1));
@@ -32,7 +32,7 @@ const ResumePreview = ({ formData, selectedTemplate }) => {
       </div>
 
       {/* Resume Preview Area */}
-      <div className="min-h-screen flex justify-center items-center h-full w-full">
+      <div className="flex justify-center items-center h-full w-full">
         <div
           style={{
             transform: `scale(${previewScale})`,

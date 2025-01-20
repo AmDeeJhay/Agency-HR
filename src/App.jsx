@@ -6,6 +6,7 @@ import Resume from './components/Resume/Resume';
 import Cover from './components/Cover-Letter/Cover-Letter';
 import Chat from './components/Chats/Chat';
 import Footer from './components/Footer/Footer';
+import Landing from './components/Landing/Landing';
 import "./resume.css"
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/resume" element={<Resume />} />
             <Route path="/cover-letter" element={<Cover />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/landing" element={<Landing />} />
           </Routes>
         </main>
         <Footer />

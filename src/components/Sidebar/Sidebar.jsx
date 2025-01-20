@@ -15,7 +15,7 @@ const Sidebar = ({ status }) => {
 
   return (
     <div className="text-black h-screen p-3 flex flex-col items-center fixed w-40 mr-5 border-r-2 bg-gray-50">
-      <div className="space-y-4 w-full  md:space-x-6 md:justify-center">
+      <div className="space-y-4 w-full md:space-y-4 md:space-x-6 md:justify-center">
         {details.map((item, index) => (
           <div key={index} className="relative flex items-center mb-4 mt-24 md:mb-0">
             {/* Icon and Text */}
