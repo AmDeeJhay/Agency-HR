@@ -22,16 +22,10 @@ const Landing = () => {
           </div>
         </div>
 
-        {/* Right Content
-        <div className="relative mt-8 md:mt-0">
-          {/* Background Layers */}
-          {/* <div className="absolute -top-8 -left-8 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full filter blur-lg z-0"></div>
-          <div className="absolute top-4 left-4 w-60 h-60 md:w-88 md:h-88 bg-gradient-to-tr from-white to-gray-100 rounded-full shadow-lg z-10"></div> */}
-        {/* </div> */} 
       </section>
 
       {/* Metrics Section */}
-      <section className="bg-gray-50 py-12">
+      <section className="bg-white shadow-md border  py-8">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
           <div>
             <p className="text-2xl font-bold text-black">+50%</p>
@@ -58,17 +52,18 @@ const Landing = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-black mb-8">
             Get hired 36% faster with our feature-packed and easy-to-use resume builder app
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
             {/* Feature 1 */}
-            <div className="p-6 bg-gray-100 rounded-lg shadow-md text-left">
+            <div className="p-6 bg-white shadow-md border border-black rounded-md text-center">
               <p className="text-pink-500 text-2xl mb-4">🎯</p>
               <h3 className="text-lg font-bold text-black mb-2">Powerful resume builder</h3>
-              <p className="text-gray-600 text-sm">
+              <p className="text-black font-poppins text-sm">
                 Use our potent creation tools and expert guidance to create the perfect resume for your next job application.
               </p>
             </div>
             {/* Feature 2 */}
-            <div className="p-6 bg-gray-100 rounded-lg shadow-md text-left">
+            
+            <div className="p-6 bg-white shadow-md border border-black rounded-md text-center">
               <p className="text-purple-500 text-2xl mb-4">📄</p>
               <h3 className="text-lg font-bold text-black mb-2">Professional templates</h3>
               <p className="text-gray-600 text-sm">
@@ -76,7 +71,7 @@ const Landing = () => {
               </p> 
             </div>
             {/* Feature 3 */}
-            <div className="p-6 bg-gray-100 rounded-lg shadow-md text-left">
+            <div className="p-6 bg-white shadow-md border border-black rounded-md text-center">
               <p className="text-pink-500 text-2xl mb-4">🎨</p>
               <h3 className="text-lg font-bold text-black mb-2">Customize fonts and colors</h3>
               <p className="text-gray-600 text-sm">
@@ -84,7 +79,7 @@ const Landing = () => {
               </p>
             </div>
             {/* Feature 4 */}
-            <div className="p-6 bg-gray-100 rounded-lg shadow-md text-left">
+            <div className="p-6 bg-white shadow-md border border-black rounded-md text-center">
               <p className="text-pink-500 text-2xl mb-4">📚</p>
               <h3 className="text-lg font-bold text-black mb-2">Free resume examples</h3>
               <p className="text-gray-600 text-sm">
@@ -92,7 +87,7 @@ const Landing = () => {
               </p>
             </div>
             {/* Feature 5 */}
-            <div className="p-6 bg-gray-100 rounded-lg shadow-md text-left">
+            <div className="p-6 bg-white shadow-md border border-black rounded-md text-center">
               <p className="text-purple-500 text-2xl mb-4">🖥️</p>
               <h3 className="text-lg font-bold text-black mb-2">ATS-friendly templates</h3>
               <p className="text-gray-600 text-sm">
@@ -100,19 +95,16 @@ const Landing = () => {
               </p>
             </div>
             {/* Feature 6 */}
-            <div className="p-6 bg-gray-100 rounded-lg shadow-md text-left">
+            <div className="p-6 bg-white shadow-md border border-black rounded-md text-center">
               <p className="text-pink-500 text-2xl mb-4">💡</p>
               <h3 className="text-lg font-bold text-black mb-2">Expert tips and guidance</h3>
               <p className="text-gray-600 text-sm">
                 Get help every step of the way as you build your resume with expert tips and suggested phrases.
               </p>
             </div>
+            
           </div>
-          {/* <div className="mt-10">
-            <button className="bg-gradient-to-r from-orange-400 to-pink-500 text-white py-3 px-8 rounded-lg font-medium shadow-md hover:shadow-lg transition">
-              Get Started Now
-            </button>
-          </div> */}
+          
         </div>
       </section>
     </div>
