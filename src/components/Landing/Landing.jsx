@@ -14,20 +14,20 @@ const Landing = () => {
           </p>
           <div className="flex space-x-4">
             <button className="bg-black text-white font-medium py-2 px-6 rounded hover:bg-gray-800 transition">
-              Get Started
-            </button>
-            <button className="bg-white border border-black text-black font-medium py-2 px-6 rounded hover:bg-gray-100 transition">
               Learn More
             </button>
+            {/* <button className="bg-white border border-black text-black font-medium py-2 px-6 rounded hover:bg-gray-100 transition">
+              Learn More
+            </button> */}
           </div>
         </div>
 
-        {/* Right Content */}
+        {/* Right Content
         <div className="relative mt-8 md:mt-0">
           {/* Background Layers */}
-          <div className="absolute -top-8 -left-8 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full filter blur-lg z-0"></div>
-          <div className="absolute top-4 left-4 w-60 h-60 md:w-88 md:h-88 bg-gradient-to-tr from-white to-gray-100 rounded-full shadow-lg z-10"></div>
-        </div>
+          {/* <div className="absolute -top-8 -left-8 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full filter blur-lg z-0"></div>
+          <div className="absolute top-4 left-4 w-60 h-60 md:w-88 md:h-88 bg-gradient-to-tr from-white to-gray-100 rounded-full shadow-lg z-10"></div> */}
+        {/* </div> */} 
       </section>
 
       {/* Metrics Section */}
