@@ -1,100 +1,120 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FaRobot, FaTimes } from "react-icons/fa";
-import { FaBars } from "react-icons/fa6";
-
 const Landing = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
   return (
-    <div className="font-poppins">
-      {/* Mobile Navbar */}
-      <div className="md:hidden fixed top-0 left-0 w-full bg-white shadow-lg z-50">
-        <div className="flex justify-between items-center p-4">
-          <div className="text-2xl font-bold">Agentic HR</div> {/* Text Logo */}
-          <button onClick={toggleMobileMenu} className="text-black focus:outline-none">
-            {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-          </button>
-        </div>
-        {isMobileMenuOpen && (
-          <div className="flex flex-col items-center space-y-4 p-4">
-            <Link to="/about" className="text-black">About</Link>
-            <Link to="/faq" className="text-black">Frequently Asked Questions</Link>
-            <button
-              onClick={() => window.open("https://t.me/hr_agentic_bot", "_blank")}
-              className="flex items-center justify-center bg-black text-white font-bold py-2 px-4 rounded-full"
-            >
-              <FaRobot className="mr-2" />
-              Message Bot
+    <div className="min-h-screen bg-white font-poppins">
+      {/* Hero Section */}
+      <section className="flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-12 md:py-20">
+        {/* Left Content */}
+        <div className="max-w-lg">
+          <h1 className="text-3xl md:text-4xl font-bold text-black mb-4">
+            Create Your Professional Resume Effortlessly
+          </h1>
+          <p className="text-gray-600 text-base md:text-lg mb-6">
+            Build a resume that stands out with our easy-to-use templates and get
+            closer to your dream job.
+          </p>
+          <div className="flex space-x-4">
+            <button className="bg-black text-white font-medium py-2 px-6 rounded hover:bg-gray-800 transition">
+              Get Started
+            </button>
+            <button className="bg-white border border-black text-black font-medium py-2 px-6 rounded hover:bg-gray-100 transition">
+              Learn More
             </button>
           </div>
-        )}
-      </div>
+        </div>
 
-      {/* Hero Section */}
-      <section className="h-screen flex flex-col justify-center items-center bg-gradient-to-r from-blue-500 to-purple-600 text-center text-white px-4">
-        <h1 className="text-5xl md:text-7xl font-bold mb-4">Welcome to Agentic HR</h1>
-        <p className="text-xl md:text-2xl mb-8">Revolutionizing the way you manage your human resources.</p>
-        <Link to="/get-started" className="bg-white text-black font-bold py-2 px-4 rounded-full">
-          Get Started
-        </Link>
+        {/* Right Content */}
+        <div className="relative mt-8 md:mt-0">
+          {/* Background Layers */}
+          <div className="absolute -top-8 -left-8 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full filter blur-lg z-0"></div>
+          <div className="absolute top-4 left-4 w-60 h-60 md:w-88 md:h-88 bg-gradient-to-tr from-white to-gray-100 rounded-full shadow-lg z-10"></div>
+        </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-16 bg-white text-center px-4">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">About Us</h2>
-        <p className="text-lg md:text-xl max-w-3xl mx-auto">
-          At Agentic HR, we are dedicated to providing cutting-edge technology solutions to streamline your HR processes. Our tools are designed to make your job easier and more efficient.
-        </p>
+      {/* Metrics Section */}
+      <section className="bg-gray-50 py-12">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+          <div>
+            <p className="text-2xl font-bold text-black">+50%</p>
+            <p className="text-gray-600 text-sm">Faster Job Offers</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-black">+40%</p>
+            <p className="text-gray-600 text-sm">More Interviews</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-black">+35%</p>
+            <p className="text-gray-600 text-sm">Higher Success Rate</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-black">24/7</p>
+            <p className="text-gray-600 text-sm">Support Available</p>
+          </div>
+        </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-gray-100 text-center px-4">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Features</h2>
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="p-6 bg-white shadow-md border border-gray-200 rounded-md">
-            <h3 className="text-xl font-bold mb-2">AI-Powered Resume Creation</h3>
-            <p className="text-lg">Create professional resumes in minutes using our AI-driven technology.</p>
+      <section className="bg-white py-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-black mb-8">
+            Get hired 36% faster with our feature-packed and easy-to-use resume builder app
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Feature 1 */}
+            <div className="p-6 bg-gray-100 rounded-lg shadow-md text-left">
+              <p className="text-pink-500 text-2xl mb-4">🎯</p>
+              <h3 className="text-lg font-bold text-black mb-2">Powerful resume builder</h3>
+              <p className="text-gray-600 text-sm">
+                Use our potent creation tools and expert guidance to create the perfect resume for your next job application.
+              </p>
+            </div>
+            {/* Feature 2 */}
+            <div className="p-6 bg-gray-100 rounded-lg shadow-md text-left">
+              <p className="text-purple-500 text-2xl mb-4">📄</p>
+              <h3 className="text-lg font-bold text-black mb-2">Professional templates</h3>
+              <p className="text-gray-600 text-sm">
+                Choose from 25+ applicant tracking systems (ATS)-friendly modern and professional templates.
+              </p> 
+            </div>
+            {/* Feature 3 */}
+            <div className="p-6 bg-gray-100 rounded-lg shadow-md text-left">
+              <p className="text-pink-500 text-2xl mb-4">🎨</p>
+              <h3 className="text-lg font-bold text-black mb-2">Customize fonts and colors</h3>
+              <p className="text-gray-600 text-sm">
+                Select custom fonts and colors on any resume template.
+              </p>
+            </div>
+            {/* Feature 4 */}
+            <div className="p-6 bg-gray-100 rounded-lg shadow-md text-left">
+              <p className="text-pink-500 text-2xl mb-4">📚</p>
+              <h3 className="text-lg font-bold text-black mb-2">Free resume examples</h3>
+              <p className="text-gray-600 text-sm">
+                Use our more than 500 resume examples and templates to see what a great resume looks like in your field.
+              </p>
+            </div>
+            {/* Feature 5 */}
+            <div className="p-6 bg-gray-100 rounded-lg shadow-md text-left">
+              <p className="text-purple-500 text-2xl mb-4">🖥️</p>
+              <h3 className="text-lg font-bold text-black mb-2">ATS-friendly templates</h3>
+              <p className="text-gray-600 text-sm">
+                Sail through applicant tracking systems with resume templates that appeal to both machines and humans.
+              </p>
+            </div>
+            {/* Feature 6 */}
+            <div className="p-6 bg-gray-100 rounded-lg shadow-md text-left">
+              <p className="text-pink-500 text-2xl mb-4">💡</p>
+              <h3 className="text-lg font-bold text-black mb-2">Expert tips and guidance</h3>
+              <p className="text-gray-600 text-sm">
+                Get help every step of the way as you build your resume with expert tips and suggested phrases.
+              </p>
+            </div>
           </div>
-          <div className="p-6 bg-white shadow-md border border-gray-200 rounded-md">
-            <h3 className="text-xl font-bold mb-2">Custom Cover Letters</h3>
-            <p className="text-lg">Generate tailored cover letters that stand out to recruiters.</p>
-          </div>
-          <div className="p-6 bg-white shadow-md border border-gray-200 rounded-md">
-            <h3 className="text-xl font-bold mb-2">Interactive Chat Support</h3>
-            <p className="text-lg">Get instant support and feedback through our interactive chat.</p>
+          <div className="mt-10">
+            <button className="bg-gradient-to-r from-orange-400 to-pink-500 text-white py-3 px-8 rounded-lg font-medium shadow-md hover:shadow-lg transition">
+              Get Started Now
+            </button>
           </div>
         </div>
       </section>
-
-      {/* Testimonials Section */}
-      <section className="py-16 bg-white text-center px-4">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Users Say</h2>
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="p-6 bg-gray-100 shadow-md rounded-md">
-            <p className="text-lg italic">"Agentic HR has transformed the way we manage our HR processes. The AI-powered tools are incredibly efficient."</p>
-            <p className="text-lg font-bold mt-4">- John Doe, HR Manager</p>
-          </div>
-          <div className="p-6 bg-gray-100 shadow-md rounded-md">
-            <p className="text-lg italic">"The custom cover letters feature is a game-changer. It has helped me land multiple job interviews."</p>
-            <p className="text-lg font-bold mt-4">- Jane Smith, Job Seeker</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-500 to-purple-600 text-center text-white px-4">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
-        <p className="text-lg md:text-xl mb-8">Join thousands of users who have transformed their HR processes with Agentic HR.</p>
-        <Link to="/get-started" className="bg-white text-black font-bold py-2 px-4 rounded-full">
-          Get Started
-        </Link>
-      </section>
-
     </div>
   );
 };
