@@ -108,11 +108,11 @@ const Landing = () => {
               </p>
             </div>
           </div>
-          <div className="mt-10">
+          {/* <div className="mt-10">
             <button className="bg-gradient-to-r from-orange-400 to-pink-500 text-white py-3 px-8 rounded-lg font-medium shadow-md hover:shadow-lg transition">
               Get Started Now
             </button>
-          </div>
+          </div> */}
         </div>
       </section>
     </div>
