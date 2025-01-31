@@ -45,6 +45,27 @@ const featuresData = [
   // },
 ];
 
+const reviewsData = [
+  {
+    id: 1,
+    name: 'John Doe',
+    review: 'Agentic-HR has transformed my job search process. The AI tools are incredibly helpful and easy to use.',
+    position: 'Software Engineer',
+  },
+  {
+    id: 2,
+    name: 'Jane Smith',
+    review: 'I landed my dream job thanks to the professional resume and cover letter I created with Agentic-HR.',
+    position: 'Marketing Specialist',
+  },
+  {
+    id: 3,
+    name: 'Michael Johnson',
+    review: 'The AI chatbot provided real-time assistance and feedback, making my job applications stand out.',
+    position: 'Product Manager',
+  },
+];
+
 const Landing = () => {
   return (
     <div className="min-h-screen bg-white font-poppins">
@@ -136,7 +157,7 @@ const Landing = () => {
       </section>
 
       {/* Call to Action Section */}
-      <section className="py-12 px-6 md:px-16 bg-white">
+      <section className="py-12 px-6 md:px-16 bg-white border">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           <Link to="/resume" className="flex flex-col items-center text-center border border-black bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow duration-300">
             <h3 className="text-medium font-poppins font-semibold text-black mb-2">Create a Resume</h3>
@@ -150,6 +171,23 @@ const Landing = () => {
             <h3 className="text-medium font-poppins font-semibold text-black mb-2">Chat with Our AI</h3>
             <p className="text-black font-poppins font-sm text-sm">Get real-time assistance and feedback from our AI chatbot.</p>
           </Link>
+        </div>
+      </section>
+
+      
+      {/* Review Section */}
+      <section className="py-12 px-6 md:px-16 bg-white">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl text-black font-poppins font-medium mb-8">What Our Users Say</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {reviewsData.map((review) => (
+              <div key={review.id} className="bg-white shadow-md rounded-lg p-6 border border-black">
+                <p className="text-black font-poppins font-sm text-sm mb-4">{review.review}</p>
+                <p className="text-black font-poppins font-semibold text-sm">{review.name}</p>
+                <p className="text-black font-poppins font-sm text-xs">{review.position}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>
