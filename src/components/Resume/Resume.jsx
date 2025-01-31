@@ -3,6 +3,7 @@ import { toast, Toaster } from "react-hot-toast";
 import { FaRobot, FaTimes } from "react-icons/fa";
 import Sidebar from "../Sidebar/Sidebar";
 import ResumePreview from "./ResumePreview";
+import chatBotGif from "../../assets/gif/chat-bot.gif";
 
 import {
   // FaUser,
@@ -466,9 +467,9 @@ const ResumePage = () => {
       <div className="fixed bottom-4 right-4 flex space-x-2">
         <button
           onClick={handleOpenTelegram}
-          className="flex items-center justify-center bg-black border border-black hover:bg-white shadow-lg hover:text-black text-white font-bold py-2 px-4 rounded-full"
+          className="flex items-center justify-center border border-black hover:bg-white shadow-lg hover:text-black text-black font-bold py-2 px-4 rounded-full"
         >
-          <FaRobot className="mr-2 font-poppins font-medium" />
+          <img src={chatBotGif} alt="Chat Bot" className="mr-2 w-7 h-7" />
           <p className="font-poppins font-medium text-sm">Message Bot</p>
         </button>
       </div>
